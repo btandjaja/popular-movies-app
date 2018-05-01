@@ -2,8 +2,12 @@ package com.btandjaja.www.popular_movies_app;
 
 import android.net.Uri;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Scanner;
 
 /**
  * These utilities will be used to communicate with the network.
@@ -29,10 +33,7 @@ public class NetworkUtils {
      * @return The URL to use to query the movie server.
      */
     public static URL buildUrl(String movieSearchQuery) {
-        // TODO (1) Fill in this method to build the proper Github query URL
         Uri builtUri = Uri.parse(POPULAR_MOVIES_BASE_URL+POPULAR_MOVIES_KEY).buildUpon()
-                .appendQueryParameter(PARAM_QUERY, movieSearchQuery)
-                .appendQueryParameter(PARAM_SORT, sortByPopularity)
                 .build();
         URL url = null;
         try {
@@ -42,5 +43,31 @@ public class NetworkUtils {
             e.printStackTrace();
         }
         return url;
+    }
+
+    /**
+     * This method returns the entire result from the HTTP response.
+     *
+     * @param url The URL to fetch the HTTP response from.
+     * @return The contents of the HTTP response.
+     * @throws IOException Related to network and stream reading
+     */
+    public static String getResponseFromHttpUrl(URL url) throws IOException {
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        try {
+            InputStream in = urlConnection.getInputStream();
+
+            Scanner scanner = new Scanner(in);
+            scanner.useDelimiter("\\A");
+
+            boolean hasInput = scanner.hasNext();
+            if (hasInput) {
+                return scanner.next();
+            } else {
+                return null;
+            }
+        } finally {
+            urlConnection.disconnect();
+        }
     }
 }
