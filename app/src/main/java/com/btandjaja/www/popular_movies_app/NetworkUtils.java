@@ -12,5 +12,9 @@ public class NetworkUtils {
     //TODO remove key prior submitting
     final static String POPULAR_MOVIES_KEY = "20893aae2a9da0098c89e73e1dcad948";
 
+    final static String PARAM_SORT = "sort";
+    final static String sortByRating = "ratings";
+    final static String sortByPopularity = "popular";
+
 
 }
