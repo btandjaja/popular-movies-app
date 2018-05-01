@@ -11,5 +11,6 @@ public class NetworkUtils {
     final static String POPULAR_MOVIES_BASE_URL = "http://api.themoviedb.org/3/movie/popular?api_key=";
     //TODO remove key prior submitting
     final static String POPULAR_MOVIES_KEY = "20893aae2a9da0098c89e73e1dcad948";
-    
+
+
 }
