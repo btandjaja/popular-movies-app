@@ -17,26 +17,17 @@ public class NetworkUtils {
     final static String MOVIES_BASE_URL = "http://image.tmdb.org/t/p/";
     final static String PHONE_BASE_SIZE = "w185";
 
-    final static String POPULAR_MOVIES_BASE_URL = "http://api.themoviedb.org/3/movie/popular";
-    final static String API_KEY = "api_key=";
-    //TODO remove key prior submitting
-    final static String POPULAR_MOVIES_KEY = "20893aae2a9da0098c89e73e1dcad948";
-
-    final static String PARAM_SORT = "sort";
-    final static String PARAM_QUERY = "q";
-    final static String sortByRating = "vote_average";
-    final static String sortByPopularity = "popularity";
+    final static String POPULAR_MOVIES_BASE_URL = "http://api.themoviedb.org/3/movie/popular?api_key=";
+    //TODO Please provide API key
+    final static String API_KEY = "20893aae2a9da0098c89e73e1dcad948";
 
     /**
      * Builds the URL used to query movie.
      *
-     * @param movieSearchQuery The keyword that will be queried for.
      * @return The URL to use to query the movie server.
      */
-    public static URL buildUrl(String movieSearchQuery) {
-        Uri builtUri = Uri.parse(POPULAR_MOVIES_BASE_URL).buildUpon()
-                .appendQueryParameter(API_KEY, POPULAR_MOVIES_KEY)
-                .appendQueryParameter(PARAM_QUERY, movieSearchQuery)
+    public static URL buildUrl() {
+        Uri builtUri = Uri.parse(POPULAR_MOVIES_BASE_URL+API_KEY).buildUpon()
                 .build();
         URL url = null;
         try {
