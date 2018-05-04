@@ -61,9 +61,9 @@ public class MainActivity extends AppCompatActivity {
 
     /* get movies data */
     private void loadMoviesData() {
+        showMoviesDataView();
         URL movieSearchUrl = NetworkUtils.buildUrl();
         new Movies().execute(movieSearchUrl);
-        showMoviesDataView();
     }
 
     /* show movie data */
