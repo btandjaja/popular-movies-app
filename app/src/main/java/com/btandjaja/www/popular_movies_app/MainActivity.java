@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private class Movies extends AsyncTask<URL, Void, String> {
         @Override
         protected void onPreExecute() {
-//            super.onPreExecute();
+            super.onPreExecute();
             mProgressBar.setVisibility(View.VISIBLE);
         }
 
