@@ -12,18 +12,22 @@ import java.io.IOException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
-    TextView mTestText;
+//
+//    final static String PARAM_SORT = "sort";
+//    final static String PARAM_QUERY = "q";
+//    final static String sortByRating = "vote_average";
+//    final static String sortByPopularity = "popularity";
+    private TextView mTestText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mTestText = findViewById(R.id.tv_display_movie);
-        URL movieSearchUrl = NetworkUtils.buildUrl("Avenger");
-        new MovieQueryTask().execute(movieSearchUrl);
-
+        /* get movie data */
+        queryMovies();
     }
 
-    public class MovieQueryTask extends AsyncTask<URL, Void, String> {
+    private class Movies extends AsyncTask<URL, Void, String> {
 
         @Override
         protected String doInBackground(URL... urls) {
@@ -42,6 +46,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /* get movies data */
+    private void queryMovies() {
+        URL movieSearchUrl = NetworkUtils.buildUrl();
+        new Movies().execute(movieSearchUrl);
+    }
+
+    /* show movie data */
+    private void showMoviesDataView() {
+        /* show the movie data */
+        /* hide the error message */
+    }
+
+    /* show error message */
+    private void showErrorMessage() {
+        /* hide movie data */
+        /* show error message */
+    }
     /* Menu */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -57,4 +78,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
