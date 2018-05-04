@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -17,17 +19,26 @@ public class MainActivity extends AppCompatActivity {
 //    final static String PARAM_QUERY = "q";
 //    final static String sortByRating = "vote_average";
 //    final static String sortByPopularity = "popularity";
-    private TextView mTestText;
+    private TextView mTestText, mError;
+    private ProgressBar mProgressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mTestText = findViewById(R.id.tv_display_movie);
+        /* initialize variables */
+        initializedDisplayVariables();
+
+
         /* get movie data */
-        queryMovies();
+        loadMoviesData();
     }
 
     private class Movies extends AsyncTask<URL, Void, String> {
+        @Override
+        protected void onPreExecute() {
+//            super.onPreExecute();
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
 
         @Override
         protected String doInBackground(URL... urls) {
@@ -42,26 +53,36 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
+            mProgressBar.setVisibility(View.INVISIBLE);
             if(s!=null && !s.equals("")) mTestText.setText(s);
+            else showErrorMessage();
         }
     }
 
     /* get movies data */
-    private void queryMovies() {
+    private void loadMoviesData() {
         URL movieSearchUrl = NetworkUtils.buildUrl();
         new Movies().execute(movieSearchUrl);
+        showMoviesDataView();
     }
 
     /* show movie data */
     private void showMoviesDataView() {
-        /* show the movie data */
-        /* hide the error message */
+        mError.setVisibility(View.INVISIBLE);
+        mTestText.setVisibility(View.VISIBLE);
     }
 
     /* show error message */
     private void showErrorMessage() {
-        /* hide movie data */
-        /* show error message */
+        mTestText.setVisibility(View.INVISIBLE);
+        mError.setVisibility(View.VISIBLE);
+    }
+
+    private void initializedDisplayVariables() {
+        mTestText = findViewById(R.id.tv_display_movie);
+        mError = findViewById(R.id.tv_error);
+        mProgressBar = findViewById(R.id.pb_view);
+
     }
     /* Menu */
     @Override

@@ -3,4 +3,7 @@
 
     <!-- Menu Strings -->
     <string name="settings">Settings</string>
+
+    <!-- Fail to load -->
+    <string name="error">Failed to load data!\n Please try again!</string>
 </resources>
