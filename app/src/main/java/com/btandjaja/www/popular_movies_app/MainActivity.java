@@ -1,6 +1,5 @@
 package com.btandjaja.www.popular_movies_app;
 
-import android.net.Network;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
