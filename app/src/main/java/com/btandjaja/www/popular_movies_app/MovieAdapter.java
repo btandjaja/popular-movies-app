@@ -30,17 +30,18 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
     }
 
     class MovieViewHolder extends RecyclerView.ViewHolder {
-        /* image fill in gridview layout */
+        /* constants */
+        private final String LINK_ADDRESS = "http://image.tmdb.org/t/p/w185/";
+        /* variable declarations */
         private ImageView mImageView;
-        private String LINK_ADDRESS = "http://image.tmdb.org/t/p/w185/";
+
         public MovieViewHolder(View itemView) {
             super(itemView);
             /* get the view from image layout */
-
-            //mImageView = (ImageView) itemView.findViewById(R.id.iv_movie);
+            mImageView = (ImageView) itemView.findViewById(R.id.single_movie);
         }
         /* bind the image layout with the provided image */
         void bind(String image) {
-            Picasso.with().load(LINK_ADDRESS + image).into(mImageView);}
+            Picasso.with(this).load(LINK_ADDRESS + image).into(mImageView);}
     }
 }
