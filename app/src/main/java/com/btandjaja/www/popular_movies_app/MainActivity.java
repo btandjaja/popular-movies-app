@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 //    final static String PARAM_QUERY = "q";
 //    final static String sortByRating = "vote_average";
 //    final static String sortByPopularity = "popularity";
+    private String mJsonMovieData;
     private TextView mTestText, mError;
     private ProgressBar mProgressBar;
     @Override
@@ -51,9 +52,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(String movieJsonString) {
             mProgressBar.setVisibility(View.INVISIBLE);
-            if(s!=null && !s.equals("")) mTestText.setText(s);
+            if(movieJsonString!=null && !movieJsonString.equals("")) {
+                mJsonMovieData = movieJsonString;
+                mTestText.setText(movieJsonString);
+            }
             else showErrorMessage();
         }
     }

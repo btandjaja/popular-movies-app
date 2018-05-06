@@ -1,5 +1,6 @@
 package com.btandjaja.www.popular_movies_app;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -34,14 +35,18 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
         private final String LINK_ADDRESS = "http://image.tmdb.org/t/p/w185/";
         /* variable declarations */
         private ImageView mImageView;
+        private Context mContext;
 
         public MovieViewHolder(View itemView) {
             super(itemView);
             /* get the view from image layout */
             mImageView = (ImageView) itemView.findViewById(R.id.single_movie);
+            mContext = itemView.getContext();
         }
+
         /* bind the image layout with the provided image */
         void bind(String image) {
-            Picasso.with(this).load(LINK_ADDRESS + image).into(mImageView);}
+            Picasso.with(mContext).load(LINK_ADDRESS + image).into(mImageView);
+        }
     }
 }
