@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:numColumns="auto_fit" />
+        android:numColumns="2"
+        android:stretchMode="spacingWidth"/>
 
     <ScrollView
         android:layout_width="match_parent"

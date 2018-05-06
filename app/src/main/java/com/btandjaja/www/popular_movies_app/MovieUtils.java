@@ -17,12 +17,9 @@ public class MovieUtils {
     private final static String POSTER_PATH = "poster_path";
     private final static String OVERVIEW = "overview";
     private final static String RELEASE_DATE = "release_date";
-    private static ArrayList<Movie> mMovies;
+    private static ArrayList<Movie> mMovies = new ArrayList<Movie>();
 
-//    private double mVoteAvg, mPopularity;
-//    private String mTitle, mPosterPath, mOverView, mReleaseDate;
-
-    public ArrayList<Movie> movies(String jsonMovies) {
+    public ArrayList<Movie> movieList(String jsonMovies) {
         try {
             JSONObject movieJsonObj = new JSONObject(jsonMovies);
             JSONArray movieJsonArr = movieJsonObj.getJSONArray(RESULTS);
@@ -42,4 +39,6 @@ public class MovieUtils {
         }
         return mMovies;
     }
+
+
 }

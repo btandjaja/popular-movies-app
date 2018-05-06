@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -21,13 +22,13 @@ public class MainActivity extends AppCompatActivity {
     private String mJsonMovieData;
     private TextView mTestText, mError;
     private ProgressBar mProgressBar;
+    private GridView mGrid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         /* initialize variables */
         initializedDisplayVariables();
-
 
         /* get movie data */
         loadMoviesData();
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         mTestText = findViewById(R.id.tv_display_movie);
         mError = findViewById(R.id.tv_error);
         mProgressBar = findViewById(R.id.pb_view);
-
+        mGrid = findViewById(R.id.grid_view);
     }
     /* Menu */
     @Override

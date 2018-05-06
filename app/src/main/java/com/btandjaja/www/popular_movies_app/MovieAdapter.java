@@ -1,52 +1,46 @@
 package com.btandjaja.www.popular_movies_app;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHolder>{
-    private int mNumbersOfMovies;
-    /* constructor */
-    public MovieAdapter (int numOfMovies) { mNumbersOfMovies = numOfMovies; }
+import java.util.ArrayList;
 
-    @NonNull
-    @Override
-    public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+public class MovieAdapter extends  BaseAdapter {
+    private static final String IMAGE_URL = "http://image.tmdb.org/t/p/w185/";
+    private final Context mContext;
+    private final ArrayList<Movie> mMovieList;
+
+    public MovieAdapter(Context context, ArrayList<Movie> movieList) {
+        mContext = context;
+        mMovieList = movieList;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
+    public int getCount() { return mMovieList.size(); }
 
-    }
-
+    /* do we need this? */
     @Override
-    public int getItemCount() {
-        return 0;
-    }
+    public Object getItem(int position) { return mMovieList.get(position); }
 
-    class MovieViewHolder extends RecyclerView.ViewHolder {
-        /* constants */
-        private final String LINK_ADDRESS = "http://image.tmdb.org/t/p/w185/";
-        /* variable declarations */
-        private ImageView mImageView;
-        private Context mContext;
+    /* don't know what this is for */
+    @Override
+    public long getItemId(int position) { return 0; }
 
-        public MovieViewHolder(View itemView) {
-            super(itemView);
-            /* get the view from image layout */
-            mImageView = (ImageView) itemView.findViewById(R.id.single_movie);
-            mContext = itemView.getContext();
-        }
+    /* check implementation */
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ImageView imageView = convertView == null ?
+                new ImageView(mContext) : (ImageView) convertView;
 
-        /* bind the image layout with the provided image */
-        void bind(String image) {
-            Picasso.with(mContext).load(LINK_ADDRESS + image).into(mImageView);
-        }
+        String imagePath = IMAGE_URL + mMovieList.get(position).getPosterPath();
+
+        Picasso.with(mContext).load(imagePath).into(imageView);
+
+        return imageView;
     }
 }
