@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -60,12 +61,18 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String movieJsonString) {
             mProgressBar.setVisibility(View.INVISIBLE);
             mJsonMovieData = movieJsonString;
-
+            ArrayList<Movie> temp = new ArrayList<>();
             if(movieJsonString!=null && !movieJsonString.equals("")) {
-                mMovieList.addAll(new ArrayList<Movie> (MovieUtils.getMovieList(movieJsonString)));
+//                mMovieList.addAll(new ArrayList<Movie> (MovieUtils.getMovieList(movieJsonString)));
+                temp = MovieUtils.getMovieList(movieJsonString);
+                mMovieList = (ArrayList<Movie>) (temp.clone());
+//                mMovieList = temp;
+//                mMovieList = (ArrayList<Movie>)
+//                        (MovieUtils.getMovieList(movieJsonString).clone());
             }
             else showErrorMessage();
             //TODO remove
+            Log.v("**check equal", String.valueOf(temp==mMovieList));
             Log.v("****ADDED size:", String.valueOf(mMovieList.size()));
         }
     }

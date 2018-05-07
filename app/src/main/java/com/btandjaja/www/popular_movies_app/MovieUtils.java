@@ -1,15 +1,9 @@
 package com.btandjaja.www.popular_movies_app;
 
-import android.os.AsyncTask;
-import android.util.Log;
-import android.view.View;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class MovieUtils {
