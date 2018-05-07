@@ -3,6 +3,7 @@ package com.btandjaja.www.popular_movies_app;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,26 +13,29 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-//
-//    final static String PARAM_SORT = "sort";
-//    final static String PARAM_QUERY = "q";
-//    final static String sortByRating = "vote_average";
-//    final static String sortByPopularity = "popularity";
+
+    protected ArrayList<Movie> mMovieList = new ArrayList<Movie>();
     private String mJsonMovieData;
     private TextView mTestText, mError;
     private ProgressBar mProgressBar;
     private GridView mGrid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         /* initialize variables */
         initializedDisplayVariables();
-
         /* get movie data */
         loadMoviesData();
+//        Log.v("MainActivity", "Orange");
+//        Log.v("MainActivity", mMovieList.toString());
+//        Log.v("MainActivity", "Orange");
+        /* create and set movie adapter */
+//        mGrid.setAdapter(new MovieAdapter(this, mMovieList));
     }
 
     private class Movies extends AsyncTask<URL, Void, String> {
@@ -55,11 +59,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String movieJsonString) {
             mProgressBar.setVisibility(View.INVISIBLE);
+            mJsonMovieData = movieJsonString;
+
             if(movieJsonString!=null && !movieJsonString.equals("")) {
-                mJsonMovieData = movieJsonString;
-                mTestText.setText(movieJsonString);
+                mMovieList.addAll(new ArrayList<Movie> (MovieUtils.getMovieList(movieJsonString)));
             }
             else showErrorMessage();
+            //TODO remove
+            Log.v("****ADDED size:", String.valueOf(mMovieList.size()));
         }
     }
 

@@ -1,6 +1,7 @@
 package com.btandjaja.www.popular_movies_app;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 public class MovieAdapter extends  BaseAdapter {
     private static final String IMAGE_URL = "http://image.tmdb.org/t/p/w185/";
     private final Context mContext;
-    private final ArrayList<Movie> mMovieList;
+    private static ArrayList<Movie> mMovieList = new ArrayList<Movie>();
 
     public MovieAdapter(Context context, ArrayList<Movie> movieList) {
         mContext = context;
@@ -21,7 +22,8 @@ public class MovieAdapter extends  BaseAdapter {
     }
 
     @Override
-    public int getCount() { return mMovieList.size(); }
+    public int getCount() {
+        Log.v("***", "trying to get size");return mMovieList.size(); }
 
     /* do we need this? */
     @Override

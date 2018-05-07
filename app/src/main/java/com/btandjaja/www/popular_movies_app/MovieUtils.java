@@ -1,11 +1,15 @@
 package com.btandjaja.www.popular_movies_app;
 
+import android.os.AsyncTask;
+import android.util.Log;
+import android.view.View;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.btandjaja.www.popular_movies_app.Movie;
-
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MovieUtils {
@@ -19,7 +23,7 @@ public class MovieUtils {
     private final static String RELEASE_DATE = "release_date";
     private static ArrayList<Movie> mMovies = new ArrayList<Movie>();
 
-    public ArrayList<Movie> movieList(String jsonMovies) {
+    public static ArrayList<Movie> getMovieList(String jsonMovies) {
         try {
             JSONObject movieJsonObj = new JSONObject(jsonMovies);
             JSONArray movieJsonArr = movieJsonObj.getJSONArray(RESULTS);
@@ -39,6 +43,4 @@ public class MovieUtils {
         }
         return mMovies;
     }
-
-
 }
