@@ -37,4 +37,19 @@ public class MovieUtils {
         }
         return mMovies;
     }
+
+    public static ArrayList<Movie> copy(ArrayList<Movie> movieList) {
+        ArrayList<Movie> newMovieList = new ArrayList<>();
+        for (Movie movie : movieList) {
+            Double voteAvg = movie.getVoteAvg();
+            Double popularity = movie.getPopularity();
+            String originalTitle = movie.getTitle();
+            String posterPath = movie.getPosterPath();
+            String overView = movie.getOverView();
+            String releaseDate = movie.getReleaseDate();
+            newMovieList.add(new Movie(voteAvg, popularity, originalTitle, posterPath, overView,
+                    releaseDate));
+        }
+        return newMovieList;
+    }
 }

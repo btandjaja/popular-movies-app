@@ -3,6 +3,8 @@ package com.btandjaja.www.popular_movies_app;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,17 +14,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    protected ArrayList<Movie> mMovieList = new ArrayList<Movie>();
+    ArrayList<Movie> mMovieList;
     private String mJsonMovieData;
     private TextView mTestText, mError;
     private ProgressBar mProgressBar;
     private GridView mGrid;
+    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +34,38 @@ public class MainActivity extends AppCompatActivity {
         initializedDisplayVariables();
         /* get movie data */
         loadMoviesData();
-//        Log.v("MainActivity", "Orange");
-//        Log.v("MainActivity", mMovieList.toString());
-//        Log.v("MainActivity", "Orange");
+        String retreive = (String) mTestText.getText();
+        Log.v("***extracted String: ", retreive);
         /* create and set movie adapter */
 //        mGrid.setAdapter(new MovieAdapter(this, mMovieList));
+//        mRecyclerView.setAdapter(new MovieAdapter(this, mMovieList));
+    }
+
+    /* initialize variables */
+    private void initializedDisplayVariables() {
+        mTestText = findViewById(R.id.tv_display_movie);
+        mError = findViewById(R.id.tv_error);
+        mProgressBar = findViewById(R.id.pb_view);
+        mRecyclerView = findViewById(R.id.recycler_view);
+    }
+
+    /* get movies data */
+    private void loadMoviesData() {
+        showMoviesDataView();
+        URL movieSearchUrl = NetworkUtils.buildUrl();
+        new Movies().execute(movieSearchUrl);
+    }
+
+    /* show movie data */
+    private void showMoviesDataView() {
+        mError.setVisibility(View.INVISIBLE);
+        mTestText.setVisibility(View.VISIBLE);
+    }
+
+    /* show error message */
+    private void showErrorMessage() {
+        mTestText.setVisibility(View.INVISIBLE);
+        mError.setVisibility(View.VISIBLE);
     }
 
     private class Movies extends AsyncTask<URL, Void, String> {
@@ -63,12 +92,11 @@ public class MainActivity extends AppCompatActivity {
             mJsonMovieData = movieJsonString;
             ArrayList<Movie> temp = new ArrayList<>();
             if(movieJsonString!=null && !movieJsonString.equals("")) {
-//                mMovieList.addAll(new ArrayList<Movie> (MovieUtils.getMovieList(movieJsonString)));
-                temp = MovieUtils.getMovieList(movieJsonString);
-                mMovieList = (ArrayList<Movie>) (temp.clone());
+                mMovieList = new ArrayList<> (MovieUtils.getMovieList(movieJsonString));
 //                mMovieList = temp;
 //                mMovieList = (ArrayList<Movie>)
 //                        (MovieUtils.getMovieList(movieJsonString).clone());
+                mTestText.setText(mMovieList.toString());
             }
             else showErrorMessage();
             //TODO remove
@@ -77,31 +105,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /* get movies data */
-    private void loadMoviesData() {
-        showMoviesDataView();
-        URL movieSearchUrl = NetworkUtils.buildUrl();
-        new Movies().execute(movieSearchUrl);
-    }
-
-    /* show movie data */
-    private void showMoviesDataView() {
-        mError.setVisibility(View.INVISIBLE);
-        mTestText.setVisibility(View.VISIBLE);
-    }
-
-    /* show error message */
-    private void showErrorMessage() {
-        mTestText.setVisibility(View.INVISIBLE);
-        mError.setVisibility(View.VISIBLE);
-    }
-
-    private void initializedDisplayVariables() {
-        mTestText = findViewById(R.id.tv_display_movie);
-        mError = findViewById(R.id.tv_error);
-        mProgressBar = findViewById(R.id.pb_view);
-        mGrid = findViewById(R.id.grid_view);
-    }
     /* Menu */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -117,5 +120,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }
