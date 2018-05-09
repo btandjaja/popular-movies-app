@@ -3,22 +3,17 @@ package com.btandjaja.www.popular_movies_app;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
+    /* image url link front portion */
     private static final String IMAGE_URL = "http://image.tmdb.org/t/p/w185/";
+    /* declarations */
     private final Context mContext;
     private static ArrayList<Movie> mMovieList;
     private final MovieAdapterOnClickHandler mClickHandler;
@@ -32,7 +27,6 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
     public MovieAdapter(MovieAdapterOnClickHandler clickHandler, ArrayList<Movie> movieList) {
         mContext = (Context) clickHandler;
         mClickHandler = clickHandler;
-//        MovieUtils.copy(movieList, mMovieList);
         mMovieList = movieList;
     }
 
@@ -105,43 +99,11 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int position) {
         Movie movie = mMovieList.get(position);
         String path = IMAGE_URL + movie.getPosterPath();
-//        ImageView imageView = movieViewHolder.mImageView;
         Picasso.with(mContext).load(path).into(movieViewHolder.mImageView);
-//        mContext.
     }
 
     @Override
     public int getItemCount() {
         return mMovieList.size() == 0 ? 0 : mMovieList.size();
     }
-
-//    public MovieAdapter(Context context, ArrayList<Movie> movieList) {
-//        mContext = context;
-//        mMovieList = movieList;
-//    }
-//
-//    @Override
-//    public int getCount() {
-//        Log.v("***", "trying to get size");return mMovieList.size(); }
-//
-//    /* do we need this? */
-//    @Override
-//    public Object getItem(int position) { return mMovieList.get(position); }
-//
-//    /* don't know what this is for */
-//    @Override
-//    public long getItemId(int position) { return 0; }
-//
-//    /* check implementation */
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//        ImageView imageView = convertView == null ?
-//                new ImageView(mContext) : (ImageView) convertView;
-//
-//        String imagePath = IMAGE_URL + mMovieList.get(position).getPosterPath();
-//
-//        Picasso.with(mContext).load(imagePath).into(imageView);
-//
-//        return imageView;
-//    }
 }

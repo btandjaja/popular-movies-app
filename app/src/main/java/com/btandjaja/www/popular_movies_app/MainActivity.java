@@ -3,12 +3,11 @@ package com.btandjaja.www.popular_movies_app;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -84,11 +83,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         @Override
         protected void onPostExecute(String movieJsonString) {
             mProgressBar.setVisibility(View.INVISIBLE);
-            //TODO remove
-//            mJsonMovieData = movieJsonString;
             if(movieJsonString!=null && !movieJsonString.equals("")) {
                 MovieUtils.getMovieList(movieJsonString, mMovieList);
-//                mRecyclerView.setAdapter(new MovieAdapter(MainActivity.this, mMovieList));
                 createAndSetAdapter();
             }
             else showErrorMessage();
@@ -96,8 +92,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     private void createAndSetAdapter(){
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL,
-                false));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mRecyclerView.setAdapter(new MovieAdapter(MainActivity.this, mMovieList));
     }
 

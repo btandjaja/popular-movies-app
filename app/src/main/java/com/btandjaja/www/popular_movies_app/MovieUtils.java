@@ -36,17 +36,17 @@ public class MovieUtils {
         }
     }
 
-    public static void copy(ArrayList<Movie> movieList, ArrayList<Movie> newList) {
-        if (movieList.size() == 0) return;
-        for (Movie movie : movieList) {
-            Double voteAvg = movie.getVoteAvg();
-            Double popularity = movie.getPopularity();
-            String originalTitle = movie.getTitle();
-            String posterPath = movie.getPosterPath();
-            String overView = movie.getOverView();
-            String releaseDate = movie.getReleaseDate();
-            newList.add(new Movie(voteAvg, popularity, originalTitle, posterPath, overView,
-                    releaseDate));
-        }
-    }
+//    public static void copy(ArrayList<Movie> movieList, ArrayList<Movie> newList) {
+//        if (movieList.size() == 0) return;
+//        for (Movie movie : movieList) {
+//            Double voteAvg = movie.getVoteAvg();
+//            Double popularity = movie.getPopularity();
+//            String originalTitle = movie.getTitle();
+//            String posterPath = movie.getPosterPath();
+//            String overView = movie.getOverView();
+//            String releaseDate = movie.getReleaseDate();
+//            newList.add(new Movie(voteAvg, popularity, originalTitle, posterPath, overView,
+//                    releaseDate));
+//        }
+//    }
 }
