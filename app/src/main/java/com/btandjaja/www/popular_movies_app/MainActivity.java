@@ -69,7 +69,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public void onClick(Movie movie) {
         Toast.makeText(MainActivity.this, movie.getTitle(), Toast.LENGTH_LONG).show();
         Intent detailIntent = new Intent();
-        detailIntent.putExtra()
+        detailIntent.putExtra(ORIGINAL_TITLE, movie.getTitle());
+        detailIntent.putExtra(IMAGE_THUMBNAIL, movie.getPosterPath());
+        detailIntent.putExtra(OVER_VIEW, movie.getOverView());
+        detailIntent.putExtra(RATING, movie.getVoteAvg());
+        detailIntent.putExtra(RELEASE_DATE, movie.getReleaseDate());
+        startActivity(detailIntent);
     }
 
     private class Movies extends AsyncTask<URL, Void, String> {
