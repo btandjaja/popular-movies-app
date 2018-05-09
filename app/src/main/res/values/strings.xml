@@ -6,4 +6,11 @@
 
     <!-- Fail to load -->
     <string name="error">Failed to load data!\n Please try again!</string>
+
+    <!-- Constant Strings to retreive data -->
+    <string name="original_title">ORIGINAL_TITLE</string>
+    <string name="image_thumbnail">IMAGE_THUMBNAIL</string>
+    <string name="over_view">OVER_VIEW</string>
+    <string name="vote_average">RATING</string>
+    <string name="release_date">RELEASE_DATE</string>
 </resources>
