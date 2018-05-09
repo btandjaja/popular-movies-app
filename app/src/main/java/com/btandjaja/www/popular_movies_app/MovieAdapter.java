@@ -20,7 +20,7 @@ import java.util.List;
 public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
     private static final String IMAGE_URL = "http://image.tmdb.org/t/p/w185/";
     private final Context mContext;
-    private static ArrayList<Movie> mMovieList = new ArrayList<Movie>();
+    private static ArrayList<Movie> mMovieList;
     private final MovieAdapterOnClickHandler mClickHandler;
 
     /**
@@ -32,7 +32,8 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
     public MovieAdapter(MovieAdapterOnClickHandler clickHandler, ArrayList<Movie> movieList) {
         mContext = (Context) clickHandler;
         mClickHandler = clickHandler;
-        MovieUtils.copy(movieList, mMovieList);
+//        MovieUtils.copy(movieList, mMovieList);
+        mMovieList = movieList;
     }
 
     //TODO change
@@ -58,7 +59,6 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
         public MovieViewHolder(View itemView) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.single_movie);
-
             itemView.setOnClickListener(this);
         }
 
@@ -105,8 +105,9 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int position) {
         Movie movie = mMovieList.get(position);
         String path = IMAGE_URL + movie.getPosterPath();
-        ImageView imageView = movieViewHolder.mImageView;
-        Picasso.with(mContext).load(path).into(imageView);
+//        ImageView imageView = movieViewHolder.mImageView;
+        Picasso.with(mContext).load(path).into(movieViewHolder.mImageView);
+//        mContext.
     }
 
     @Override

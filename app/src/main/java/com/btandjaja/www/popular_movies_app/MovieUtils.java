@@ -17,7 +17,6 @@ public class MovieUtils {
     private final static String RELEASE_DATE = "release_date";
 
     public static void getMovieList(String jsonMovies, ArrayList<Movie> movieList) {
-        if(movieList == null) movieList = new ArrayList<>();
         try {
             JSONObject movieJsonObj = new JSONObject(jsonMovies);
             JSONArray movieJsonArr = movieJsonObj.getJSONArray(RESULTS);
@@ -39,7 +38,6 @@ public class MovieUtils {
 
     public static void copy(ArrayList<Movie> movieList, ArrayList<Movie> newList) {
         if (movieList.size() == 0) return;
-        if (newList == null) newList = new ArrayList<>();
         for (Movie movie : movieList) {
             Double voteAvg = movie.getVoteAvg();
             Double popularity = movie.getPopularity();

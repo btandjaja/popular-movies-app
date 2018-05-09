@@ -5,25 +5,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler{
 
-    ArrayList<Movie> mMovieList;
-    private String mJsonMovieData;
-    private TextView mTestText, mError;
+    private ArrayList<Movie> mMovieList = new ArrayList<>();
+    private TextView mError;
     private ProgressBar mProgressBar;
-    private GridView mGrid;
     private RecyclerView mRecyclerView;
 
     @Override
@@ -34,16 +32,10 @@ public class MainActivity extends AppCompatActivity {
         initializedDisplayVariables();
         /* get movie data */
         loadMoviesData();
-//        String retreive = (String) mTestText.getText();
-//        Log.v("***extracted String: ", retreive);
-        /* create and set movie adapter */
-//        mGrid.setAdapter(new MovieAdapter(this, mMovieList));
-//        mRecyclerView.setAdapter(new MovieAdapter(this, mMovieList));
     }
 
     /* initialize variables */
     private void initializedDisplayVariables() {
-        mTestText = findViewById(R.id.tv_display_movie);
         mError = findViewById(R.id.tv_error);
         mProgressBar = findViewById(R.id.pb_view);
         mRecyclerView = findViewById(R.id.recycler_view);
@@ -59,13 +51,16 @@ public class MainActivity extends AppCompatActivity {
     /* show movie data */
     private void showMoviesDataView() {
         mError.setVisibility(View.INVISIBLE);
-        mTestText.setVisibility(View.VISIBLE);
     }
 
     /* show error message */
     private void showErrorMessage() {
-        mTestText.setVisibility(View.INVISIBLE);
         mError.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onClick(Movie movie) {
+        Toast.makeText(MainActivity.this, movie.getTitle(), Toast.LENGTH_LONG).show();
     }
 
     private class Movies extends AsyncTask<URL, Void, String> {
@@ -89,17 +84,21 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String movieJsonString) {
             mProgressBar.setVisibility(View.INVISIBLE);
-            mJsonMovieData = movieJsonString;
+            //TODO remove
+//            mJsonMovieData = movieJsonString;
             if(movieJsonString!=null && !movieJsonString.equals("")) {
-//                mMovieList = new ArrayList<> (MovieUtils.getMovieList(movieJsonString));
-//                MovieUtils.copy(MovieUtils.getMovieList(movieJsonString), mMovieList);
                 MovieUtils.getMovieList(movieJsonString, mMovieList);
-                mTestText.setText(mMovieList.get(0).getTitle());
+//                mRecyclerView.setAdapter(new MovieAdapter(MainActivity.this, mMovieList));
+                createAndSetAdapter();
             }
             else showErrorMessage();
-            //TODO remove
-            Log.v("****ADDED size:", String.valueOf(mMovieList.size()));
         }
+    }
+
+    private void createAndSetAdapter(){
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL,
+                false));
+        mRecyclerView.setAdapter(new MovieAdapter(MainActivity.this, mMovieList));
     }
 
     /* Menu */
