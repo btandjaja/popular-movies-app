@@ -15,9 +15,9 @@ public class MovieUtils {
     private final static String POSTER_PATH = "poster_path";
     private final static String OVERVIEW = "overview";
     private final static String RELEASE_DATE = "release_date";
-    private static ArrayList<Movie> mMovies = new ArrayList<Movie>();
 
-    public static ArrayList<Movie> getMovieList(String jsonMovies) {
+    public static void getMovieList(String jsonMovies, ArrayList<Movie> movieList) {
+        if(movieList == null) movieList = new ArrayList<>();
         try {
             JSONObject movieJsonObj = new JSONObject(jsonMovies);
             JSONArray movieJsonArr = movieJsonObj.getJSONArray(RESULTS);
@@ -29,17 +29,17 @@ public class MovieUtils {
                 String posterPath = singleMovie.getString(POSTER_PATH);
                 String overView = singleMovie.getString(OVERVIEW);
                 String releaseDate = singleMovie.getString(RELEASE_DATE);
-                mMovies.add(new Movie(voteAvg, popularity, originalTitle, posterPath, overView,
+                movieList.add(new Movie(voteAvg, popularity, originalTitle, posterPath, overView,
                         releaseDate));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return mMovies;
     }
 
-    public static ArrayList<Movie> copy(ArrayList<Movie> movieList) {
-        ArrayList<Movie> newMovieList = new ArrayList<>();
+    public static void copy(ArrayList<Movie> movieList, ArrayList<Movie> newList) {
+        if (movieList.size() == 0) return;
+        if (newList == null) newList = new ArrayList<>();
         for (Movie movie : movieList) {
             Double voteAvg = movie.getVoteAvg();
             Double popularity = movie.getPopularity();
@@ -47,9 +47,8 @@ public class MovieUtils {
             String posterPath = movie.getPosterPath();
             String overView = movie.getOverView();
             String releaseDate = movie.getReleaseDate();
-            newMovieList.add(new Movie(voteAvg, popularity, originalTitle, posterPath, overView,
+            newList.add(new Movie(voteAvg, popularity, originalTitle, posterPath, overView,
                     releaseDate));
         }
-        return newMovieList;
     }
 }

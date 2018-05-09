@@ -32,7 +32,7 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
     public MovieAdapter(MovieAdapterOnClickHandler clickHandler, ArrayList<Movie> movieList) {
         mContext = (Context) clickHandler;
         mClickHandler = clickHandler;
-        mMovieList = movieList;
+        MovieUtils.copy(movieList, mMovieList);
     }
 
     //TODO change

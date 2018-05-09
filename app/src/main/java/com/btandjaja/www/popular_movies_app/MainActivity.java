@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         initializedDisplayVariables();
         /* get movie data */
         loadMoviesData();
-        String retreive = (String) mTestText.getText();
-        Log.v("***extracted String: ", retreive);
+//        String retreive = (String) mTestText.getText();
+//        Log.v("***extracted String: ", retreive);
         /* create and set movie adapter */
 //        mGrid.setAdapter(new MovieAdapter(this, mMovieList));
 //        mRecyclerView.setAdapter(new MovieAdapter(this, mMovieList));
@@ -90,17 +90,14 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String movieJsonString) {
             mProgressBar.setVisibility(View.INVISIBLE);
             mJsonMovieData = movieJsonString;
-            ArrayList<Movie> temp = new ArrayList<>();
             if(movieJsonString!=null && !movieJsonString.equals("")) {
-                mMovieList = new ArrayList<> (MovieUtils.getMovieList(movieJsonString));
-//                mMovieList = temp;
-//                mMovieList = (ArrayList<Movie>)
-//                        (MovieUtils.getMovieList(movieJsonString).clone());
-                mTestText.setText(mMovieList.toString());
+//                mMovieList = new ArrayList<> (MovieUtils.getMovieList(movieJsonString));
+//                MovieUtils.copy(MovieUtils.getMovieList(movieJsonString), mMovieList);
+                MovieUtils.getMovieList(movieJsonString, mMovieList);
+                mTestText.setText(mMovieList.get(0).getTitle());
             }
             else showErrorMessage();
             //TODO remove
-            Log.v("**check equal", String.valueOf(temp==mMovieList));
             Log.v("****ADDED size:", String.valueOf(mMovieList.size()));
         }
     }
