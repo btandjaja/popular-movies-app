@@ -11,8 +11,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
-    /* image url link front portion */
-    private static final String IMAGE_URL = "http://image.tmdb.org/t/p/w185/";
     /* declarations */
     private final Context mContext;
     private static ArrayList<Movie> mMovieList;
@@ -98,7 +96,7 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int position) {
         Movie movie = mMovieList.get(position);
-        String path = IMAGE_URL + movie.getPosterPath();
+        String path = movie.getPosterPath();
         Picasso.with(mContext).load(path).into(movieViewHolder.mImageView);
     }
 

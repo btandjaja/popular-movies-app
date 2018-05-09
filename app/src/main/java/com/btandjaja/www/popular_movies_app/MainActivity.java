@@ -1,5 +1,6 @@
 package com.btandjaja.www.popular_movies_app;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +23,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private TextView mError;
     private ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;
+
+    
+//    original title
+//    movie poster image thumbnail
+//    A plot synopsis (called overview in the api)
+//    user rating (called vote_average in the api)
+//    release date
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     public void onClick(Movie movie) {
         Toast.makeText(MainActivity.this, movie.getTitle(), Toast.LENGTH_LONG).show();
+        Intent detailIntent = new Intent();
+        detailIntent.putExtra()
     }
 
     private class Movies extends AsyncTask<URL, Void, String> {

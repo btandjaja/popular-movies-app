@@ -1,6 +1,9 @@
 package com.btandjaja.www.popular_movies_app;
 
 public class Movie {
+    /* image url link front portion */
+    private static final String IMAGE_URL = "http://image.tmdb.org/t/p/w185/";
+
     /* variable declarations */
     private double mVoteAvg, mPopularity;
     private String mOriginalTitle, mPosterPath, mOverView, mReleaseDate;
@@ -9,7 +12,7 @@ public class Movie {
     public Movie(double voteAvg, double popularity, String title, String posterPath,
                  String overView, String releaseDate) {
         mVoteAvg = voteAvg;  mPopularity = popularity;
-        mOriginalTitle = title; mPosterPath = posterPath;
+        mOriginalTitle = title; mPosterPath = IMAGE_URL + posterPath;
         mOverView = overView; mReleaseDate = releaseDate;
     }
 
