@@ -24,12 +24,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;
 
-    
-//    original title
-//    movie poster image thumbnail
-//    A plot synopsis (called overview in the api)
-//    user rating (called vote_average in the api)
-//    release date
+    /* detail activity constants */
+    protected String ORIGINAL_TITLE = "original_title";
+    protected String IMAGE_THUMBNAIL = "image_thumbnail";
+    protected String OVER_VIEW = "over_view";
+    protected String RATING = "vote_average";
+    protected String RELEASE_DATE = "release_date";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
