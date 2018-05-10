@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private TextView mError;
     private ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;
+    private boolean mSort;
 
     /* detail activity constants */
     protected String ORIGINAL_TITLE = "original_title";
@@ -39,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         initializedDisplayVariables();
         /* get movie data */
         loadMoviesData();
+        /* we don't want to sort when activity started */
+        mSort = false;
     }
 
     /* initialize variables */
@@ -51,6 +54,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     /* get movies data */
     private void loadMoviesData() {
         showMoviesDataView();
+        getDataFromNetwork();
+    }
+
+    /* connect to network retrieve data */
+    private void getDataFromNetwork() {
         URL movieSearchUrl = NetworkUtils.buildUrl();
         new Movies().execute(movieSearchUrl);
     }
@@ -99,7 +107,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         protected void onPostExecute(String movieJsonString) {
             mProgressBar.setVisibility(View.INVISIBLE);
             if(movieJsonString!=null && !movieJsonString.equals("")) {
-                MovieUtils.getMovieList(movieJsonString, mMovieList);
+                if(mSort) {
+
+                } else {
+                    MovieUtils.getMovieList(movieJsonString, mMovieList);
+                }
                 createAndSetAdapter();
             }
             else showErrorMessage();

@@ -13,4 +13,5 @@
     <string name="over_view">OVER_VIEW</string>
     <string name="vote_average">RATING</string>
     <string name="release_date">RELEASE_DATE</string>
+    <string name="play_time">PLAY_TIME</string>
 </resources>
