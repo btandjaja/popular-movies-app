@@ -13,6 +13,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
+import com.btandjaja.www.popular_movies_app.MovieAdapters.MovieAdapter;
+import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
+import com.btandjaja.www.popular_movies_app.utilities.NetworkUtils;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
