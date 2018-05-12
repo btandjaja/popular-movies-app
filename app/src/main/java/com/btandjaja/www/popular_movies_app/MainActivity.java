@@ -1,6 +1,7 @@
 package com.btandjaja.www.popular_movies_app;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;
     private boolean mSort;
+    private SQLiteDatabase mDb;
 
     /* detail activity constants */
     protected String ORIGINAL_TITLE = "original_title";
