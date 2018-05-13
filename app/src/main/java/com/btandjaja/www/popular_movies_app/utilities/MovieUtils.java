@@ -1,10 +1,15 @@
 package com.btandjaja.www.popular_movies_app.utilities;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
 import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
@@ -31,6 +36,42 @@ public class MovieUtils {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void initializedDb(SQLiteDatabase sqLiteDatabase, ArrayList<Movie> movieList) {
+        if(sqLiteDatabase == null) return;
+
+        /* create movie list from the web */
+        List<ContentValues> movieContentValueList = new ArrayList<ContentValues>();
+        for(Movie m : movieList) {
+            ContentValues singleMovie = new ContentValues();
+            singleMovie.put(MovieEntry.COLUMN_NAME_TITLE, m.getTitle());
+            singleMovie.put(MovieEntry.COLUM_NAME_OVER_VIEW, m.getOverView());
+            singleMovie.put(MovieEntry.COLUMN_NAME_RELEASE_DATE, m.getReleaseDate());
+            singleMovie.put(MovieEntry.COLUMN_NAME_POSTER_PATH, m.getPosterPath());
+            singleMovie.put(MovieEntry.COLUMN_NAME_POPULARITY, m.getPopularity());
+            singleMovie.put(MovieEntry.COLUMN_NAME_VOTE_AVERAGE, m.getVoteAvg());
+            movieContentValueList.add(singleMovie);
+        }
+
+        /* attempt to insert movie to sqlite table */
+        try {
+            sqLiteDatabase.beginTransaction();
+            /* clear table */
+            sqLiteDatabase.delete(MovieEntry.TABLE_NAME, null, null);
+            /* add list to table */
+            for (ContentValues singleMovie : movieContentValueList) {
+                sqLiteDatabase.insert(MovieEntry.TABLE_NAME, null, singleMovie);
+            }
+            sqLiteDatabase.setTransactionSuccessful();
+        } catch (SQLiteException e){
+            /* something went terribly wrong */
+            e.printStackTrace();
+        } finally {
+            /* once successful, end transaction */
+            sqLiteDatabase.endTransaction();
+        }
+
     }
 
     /** This method will take the movies base on user input (popularity or rating)

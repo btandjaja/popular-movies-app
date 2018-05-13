@@ -17,6 +17,7 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
     private final Context mContext;
     private static ArrayList<Movie> mMovieList;
     private final MovieAdapterOnClickHandler mClickHandler;
+    private final int mCount;
 
     /**
      * Creates a MovieAdapter.
@@ -28,9 +29,9 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
         mContext = (Context) clickHandler;
         mClickHandler = clickHandler;
         mMovieList = movieList;
+        mCount = mMovieList.size();
     }
 
-    //TODO change
     /**
      * This method is used to set the movies on a MovieAdapter if we've already
      * created one. This is handy when we get new data from the web but don't want to create a
@@ -38,7 +39,7 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
      *
      * @param newMovieList The new movie data to be displayed.
      */
-    public void setWeatherData(ArrayList<Movie> newMovieList) {
+    public void setMovieList(ArrayList<Movie> newMovieList) {
         mMovieList = newMovieList;
         notifyDataSetChanged();
     }
@@ -104,6 +105,6 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
 
     @Override
     public int getItemCount() {
-        return mMovieList.size() == 0 ? 0 : mMovieList.size();
+        return mCount;
     }
 }

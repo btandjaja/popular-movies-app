@@ -1,6 +1,7 @@
 package com.btandjaja.www.popular_movies_app;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
 import com.btandjaja.www.popular_movies_app.MovieAdapters.MovieAdapter;
+import com.btandjaja.www.popular_movies_app.data.MovieDbHelper;
 import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
 import com.btandjaja.www.popular_movies_app.utilities.NetworkUtils;
 
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private RecyclerView mRecyclerView;
     private boolean mSort;
     private SQLiteDatabase mDb;
+    private Cursor mCursor;
 
     /* detail activity constants */
     protected String ORIGINAL_TITLE = "original_title";
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mError = findViewById(R.id.tv_error);
         mProgressBar = findViewById(R.id.pb_view);
         mRecyclerView = findViewById(R.id.recycler_view);
+        mDb = (new MovieDbHelper(this)).getWritableDatabase();
     }
 
     /* get movies data */
@@ -114,20 +118,24 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         protected void onPostExecute(String movieJsonString) {
             mProgressBar.setVisibility(View.INVISIBLE);
             if(movieJsonString!=null && !movieJsonString.equals("")) {
-                if(mSort) {
-
-                } else {
-                    MovieUtils.getMovieList(movieJsonString, mMovieList);
-                }
+                MovieUtils.getMovieList(movieJsonString, mMovieList);
+                MovieUtils.initializedDb(mDb, mMovieList);
                 createAndSetAdapter();
+                insertDataToTable();
             }
             else showErrorMessage();
         }
     }
 
-    private void createAndSetAdapter(){
+    /* used in AsyncTask */
+    private void createAndSetAdapter() {
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mRecyclerView.setAdapter(new MovieAdapter(MainActivity.this, mMovieList));
+    }
+
+    /* used in AsyncTask */
+    private void insertDataToTable() {
+
     }
 
     /* Menu */
