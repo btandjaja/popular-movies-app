@@ -92,48 +92,6 @@ public class MovieUtils {
         }
     }
 
-    /** This method will take the movies base on user input (popularity or rating)
-     *
-     *  @param movieList    contains the list of movies to be sorted
-     *  @param sortType     sort type, 0 = popularity, 1 = rating
-     */
-    public static void sort(ArrayList<Movie> movieList, int sortType) {
-        Movie tempMovie;
-
-    }
-
-    /** This method will sort the movie list based on sorting types, 0 = popularity, 1 = rating
-     *
-     * @param movieList     List of movies
-     * @param sortType
-     * @return
-     */
-    private static ArrayList<Movie> mergeSort(ArrayList<Movie> movieList, int sortType) {
-        if (movieList == null || movieList.size() <= 1 ) return movieList;
-        int mid = movieList.size() / 2 - 1;
-        int end = movieList.size() - 1;
-        ArrayList<Movie> leftList = (ArrayList)
-                mergeSort((ArrayList) movieList.subList(0, mid), sortType);
-        ArrayList<Movie> rightList = (ArrayList)
-                mergeSort((ArrayList) movieList.subList(mid + 1, end), sortType);
-        merge(leftList, rightList, sortType);
-        return movieList;
-    }
-
-    private static void merge(ArrayList<Movie> leftList, ArrayList<Movie> rightList, int sortType) {
-        Movie tempMovie;
-        int i = 0, j = 0;
-        while(i < leftList.size() - 1 && j < rightList.size() - 1) {
-            switch(sortType) {
-                case 0:
-
-                    break;
-                case 1:
-                    break;
-            }
-        }
-    }
-
     //TODO remove
 //    public static void copy(ArrayList<Movie> movieList, ArrayList<Movie> newList) {
 //        if (movieList.size() == 0) return;
