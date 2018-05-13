@@ -1,6 +1,7 @@
 package com.btandjaja.www.popular_movies_app.MovieAdapters;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,9 +16,8 @@ import java.util.ArrayList;
 public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
     /* declarations */
     private final Context mContext;
-    private static ArrayList<Movie> mMovieList;
+    private static Cursor mCursor;
     private final MovieAdapterOnClickHandler mClickHandler;
-    private final int mCount;
 
     /**
      * Creates a MovieAdapter.
@@ -25,24 +25,24 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
      * @param clickHandler The on-click handler for this adapter. This single handler is called
      *                     when an item is clicked.
      */
-    public MovieAdapter(MovieAdapterOnClickHandler clickHandler, ArrayList<Movie> movieList) {
+    public MovieAdapter(MovieAdapterOnClickHandler clickHandler, Cursor cursor) {
         mContext = (Context) clickHandler;
         mClickHandler = clickHandler;
-        mMovieList = movieList;
-        mCount = mMovieList.size();
+        mCursor = cursor;
     }
 
+    //TODO remove
     /**
      * This method is used to set the movies on a MovieAdapter if we've already
      * created one. This is handy when we get new data from the web but don't want to create a
      * new MovieAdapter to display it.
      *
-     * @param newMovieList The new movie data to be displayed.
+     * param newMovieList The new movie data to be displayed.
      */
-    public void setMovieList(ArrayList<Movie> newMovieList) {
-        mMovieList = newMovieList;
-        notifyDataSetChanged();
-    }
+//    public void setMovieList(ArrayList<Movie> newMovieList) {
+//        mMovieList = newMovieList;
+//        notifyDataSetChanged();
+//    }
 
     public interface MovieAdapterOnClickHandler {
         void onClick(Movie movie);
@@ -59,7 +59,10 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
 
         @Override
         public void onClick(View itemView) {
-            Movie movie = mMovieList.get(getAdapterPosition());
+            /* move cursor to the right position */
+            if (!mCursor.moveToPosition(getAdapterPosition())) return;
+            /* create movie object */
+            Movie movie = new Movie(mCursor);
             mClickHandler.onClick(movie);
         }
     }
@@ -93,18 +96,19 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
      * passed into us.
      *
      * @param movieViewHolder The ViewHolder which should be updated to represent the
-     *                                  contents of the item at the given position in the data set.
-     * @param position                  The position of the item within the adapter's data set.
+     *                          contents of the item at the given position in the data set.
+     * @param position        The position of the item within the adapter's data set.
      */
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int position) {
-        Movie movie = mMovieList.get(position);
-        String path = movie.getPosterPath();
+        /* move cursor to the right position, +1 because recyclerView position starts with 0*/
+        if (!mCursor.moveToPosition(position+1)) return;
+        String path = mCursor.getString((Movie.POSTER_PATH));
         Picasso.with(mContext).load(path).into(movieViewHolder.mImageView);
     }
 
     @Override
     public int getItemCount() {
-        return mCount;
+        return mCursor.getCount();
     }
 }

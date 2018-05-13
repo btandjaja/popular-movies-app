@@ -34,7 +34,7 @@ public class MovieUtils {
                 Double popularity = singleMovie.getDouble(MovieEntry.COLUMN_NAME_POPULARITY);
                 String originalTitle = singleMovie.getString(MovieEntry.COLUMN_NAME_TITLE);
                 String posterPath = singleMovie.getString(MovieEntry.COLUMN_NAME_POSTER_PATH);
-                String overView = singleMovie.getString(MovieEntry.COLUM_NAME_OVER_VIEW);
+                String overView = singleMovie.getString(MovieEntry.COLUMN_NAME_OVER_VIEW);
                 String releaseDate = singleMovie.getString(MovieEntry.COLUMN_NAME_RELEASE_DATE);
                 movieList.add(new Movie(voteAvg, popularity, originalTitle, posterPath, overView,
                         releaseDate));
@@ -84,7 +84,7 @@ public class MovieUtils {
         for(Movie m : movieList) {
             ContentValues singleMovie = new ContentValues();
             singleMovie.put(MovieEntry.COLUMN_NAME_TITLE, m.getTitle());
-            singleMovie.put(MovieEntry.COLUM_NAME_OVER_VIEW, m.getOverView());
+            singleMovie.put(MovieEntry.COLUMN_NAME_OVER_VIEW, m.getOverView());
             singleMovie.put(MovieEntry.COLUMN_NAME_RELEASE_DATE, m.getReleaseDate());
             singleMovie.put(MovieEntry.COLUMN_NAME_POSTER_PATH, m.getPosterPath());
             singleMovie.put(MovieEntry.COLUMN_NAME_POPULARITY, m.getPopularity());

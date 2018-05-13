@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private TextView mError;
     private ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;
-    private boolean mSort;
     private SQLiteDatabase mDb;
     private Cursor mCursor;
 
@@ -50,8 +50,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         initializedDisplayVariables();
         /* get movie data */
         loadMoviesData();
-        /* we don't want to sort when activity started */
-        mSort = false;
     }
 
     /* initialize variables */
@@ -120,8 +118,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             if(movieJsonString!=null && !movieJsonString.equals("")) {
                 MovieUtils.getMovieList(movieJsonString, mMovieList);
                 MovieUtils.initializedDb(mDb, mMovieList);
+                mCursor = MovieUtils.getAllMovies(mDb);
+                Log.v("*****movie count: ", String.valueOf(mCursor.getCount()));
                 createAndSetAdapter();
-                insertDataToTable();
             }
             else showErrorMessage();
         }
@@ -130,12 +129,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     /* used in AsyncTask */
     private void createAndSetAdapter() {
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        mRecyclerView.setAdapter(new MovieAdapter(MainActivity.this, mMovieList));
-    }
-
-    /* used in AsyncTask */
-    private void insertDataToTable() {
-
+        mRecyclerView.setAdapter(new MovieAdapter(MainActivity.this, mCursor));
     }
 
     /* Menu */
