@@ -15,9 +15,14 @@ import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
 import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
 
 public class MovieUtils {
-    /* movies data constants to retrieve data*/
+    /* movies data constants to retrieve data */
     private final static String RESULTS = "results";
 
+    /** This method creates Movie object from JSONstring and stores in movieList
+     *
+     * @param jsonMovies    List of movies in JSON string
+     * @param movieList     List of movies to be added to
+     */
     public static void getMovieList(String jsonMovies, ArrayList<Movie> movieList) {
         try {
             JSONObject movieJsonObj = new JSONObject(jsonMovies);
@@ -38,6 +43,11 @@ public class MovieUtils {
         }
     }
 
+    /** This method initialized the SQLite table
+     *
+     * @param sqLiteDatabase    empty SQLite table
+     * @param movieList         list of movies to be added to the table
+     */
     public static void initializedDb(SQLiteDatabase sqLiteDatabase, ArrayList<Movie> movieList) {
         if(sqLiteDatabase == null) return;
 
@@ -64,6 +74,11 @@ public class MovieUtils {
         }
     }
 
+    /** This method complement initializeDb method
+     *
+     * @param movieContentValueList empty list with movies to be added to
+     * @param movieList             list of movies
+     */
     private static void initializeDbHelper(List<ContentValues> movieContentValueList, ArrayList<Movie> movieList) {
         for(Movie m : movieList) {
             ContentValues singleMovie = new ContentValues();
