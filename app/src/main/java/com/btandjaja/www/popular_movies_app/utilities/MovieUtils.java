@@ -1,6 +1,7 @@
 package com.btandjaja.www.popular_movies_app.utilities;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
@@ -90,6 +91,16 @@ public class MovieUtils {
             singleMovie.put(MovieEntry.COLUMN_NAME_VOTE_AVERAGE, m.getVoteAvg());
             movieContentValueList.add(singleMovie);
         }
+    }
+
+    public static Cursor getAllMovies(SQLiteDatabase sqLiteDatabase) {
+        return sqLiteDatabase.query(MovieEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                MovieEntry._ID);
     }
 
     //TODO remove
