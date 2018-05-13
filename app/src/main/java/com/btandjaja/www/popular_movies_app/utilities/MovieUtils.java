@@ -43,16 +43,7 @@ public class MovieUtils {
 
         /* create movie list from the web */
         List<ContentValues> movieContentValueList = new ArrayList<ContentValues>();
-        for(Movie m : movieList) {
-            ContentValues singleMovie = new ContentValues();
-            singleMovie.put(MovieEntry.COLUMN_NAME_TITLE, m.getTitle());
-            singleMovie.put(MovieEntry.COLUM_NAME_OVER_VIEW, m.getOverView());
-            singleMovie.put(MovieEntry.COLUMN_NAME_RELEASE_DATE, m.getReleaseDate());
-            singleMovie.put(MovieEntry.COLUMN_NAME_POSTER_PATH, m.getPosterPath());
-            singleMovie.put(MovieEntry.COLUMN_NAME_POPULARITY, m.getPopularity());
-            singleMovie.put(MovieEntry.COLUMN_NAME_VOTE_AVERAGE, m.getVoteAvg());
-            movieContentValueList.add(singleMovie);
-        }
+        initializeDbHelper(movieContentValueList, movieList);
 
         /* attempt to insert movie to sqlite table */
         try {
@@ -71,7 +62,19 @@ public class MovieUtils {
             /* once successful, end transaction */
             sqLiteDatabase.endTransaction();
         }
+    }
 
+    private static void initializeDbHelper(List<ContentValues> movieContentValueList, ArrayList<Movie> movieList) {
+        for(Movie m : movieList) {
+            ContentValues singleMovie = new ContentValues();
+            singleMovie.put(MovieEntry.COLUMN_NAME_TITLE, m.getTitle());
+            singleMovie.put(MovieEntry.COLUM_NAME_OVER_VIEW, m.getOverView());
+            singleMovie.put(MovieEntry.COLUMN_NAME_RELEASE_DATE, m.getReleaseDate());
+            singleMovie.put(MovieEntry.COLUMN_NAME_POSTER_PATH, m.getPosterPath());
+            singleMovie.put(MovieEntry.COLUMN_NAME_POPULARITY, m.getPopularity());
+            singleMovie.put(MovieEntry.COLUMN_NAME_VOTE_AVERAGE, m.getVoteAvg());
+            movieContentValueList.add(singleMovie);
+        }
     }
 
     /** This method will take the movies base on user input (popularity or rating)
