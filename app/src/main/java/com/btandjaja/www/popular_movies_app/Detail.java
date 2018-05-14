@@ -10,16 +10,19 @@ import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
 import com.squareup.picasso.Picasso;
 
 public class Detail extends AppCompatActivity {
+    /* constant */
+    private static final int BEGIN = 0;
+    private static final int END = 4;
     /* views from detail activity */
     private ImageView mThumbnail;
     private TextView mTitle, mRating, mOverView, mReleaseDate;
 
     /* extract data variables */
-    private String title;
-    private String thumbnail;
-    private String over_view;
-    private Double rating;
-    private String release_date;
+    private static String title;
+    private static String thumbnail;
+    private static String over_view;
+    private static Double rating;
+    private static String release_date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +58,12 @@ public class Detail extends AppCompatActivity {
         mTitle.setText(title);
         mRating.setText(String.valueOf(rating));
         mOverView.setText(over_view);
-        mReleaseDate.setText(release_date);
+        mReleaseDate.setText(parsedDate());
         Picasso.with(this).load(thumbnail).into(mThumbnail);
+    }
+
+    private String parsedDate() {
+        return release_date.substring(BEGIN, END);
     }
 
 }
