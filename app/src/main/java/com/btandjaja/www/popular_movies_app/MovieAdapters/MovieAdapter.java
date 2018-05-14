@@ -15,9 +15,9 @@ import com.squareup.picasso.Picasso;
 
 public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
     /* declarations */
-    private final Context mContext;
+    private static Context mContext;
     private static Cursor mCursor;
-    private final MovieAdapterOnClickHandler mClickHandler;
+    private static MovieAdapterOnClickHandler mClickHandler;
 
     /**
      * Creates a MovieAdapter.
@@ -39,7 +39,9 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
      *
      * @param cursor The new movie data to be displayed.
      */
-    public void setMovieList(Cursor cursor) {
+    public void setMovieList(MovieAdapterOnClickHandler clickHandler, Cursor cursor) {
+        mContext = (Context) clickHandler;
+        mClickHandler = clickHandler;
         mCursor = cursor;
         notifyDataSetChanged();
     }
