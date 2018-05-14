@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import com.btandjaja.www.popular_movies_app.R;
 import com.btandjaja.www.popular_movies_app.data.MovieContract;
 import com.squareup.picasso.Picasso;
-import java.util.ArrayList;
 
 public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
     /* declarations */

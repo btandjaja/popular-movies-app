@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 
 import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
 import com.btandjaja.www.popular_movies_app.MovieAdapters.MovieAdapter;
-import com.btandjaja.www.popular_movies_app.data.MovieContract;
 import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
 import com.btandjaja.www.popular_movies_app.data.MovieDbHelper;
 import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
@@ -30,7 +28,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler{
     /* declarations */
-    private ArrayList<Movie> mMovieList = new ArrayList<>();
     private TextView mError;
     private ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;

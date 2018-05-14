@@ -3,11 +3,9 @@ package com.btandjaja.www.popular_movies_app;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.btandjaja.www.popular_movies_app.data.MovieContract;
 import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
 import com.squareup.picasso.Picasso;
 
