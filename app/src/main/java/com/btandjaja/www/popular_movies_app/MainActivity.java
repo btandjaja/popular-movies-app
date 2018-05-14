@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
 import com.btandjaja.www.popular_movies_app.MovieAdapters.MovieAdapter;
+import com.btandjaja.www.popular_movies_app.data.MovieContract;
+import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
 import com.btandjaja.www.popular_movies_app.data.MovieDbHelper;
 import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
 import com.btandjaja.www.popular_movies_app.utilities.NetworkUtils;
@@ -27,20 +29,13 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler{
-
+    /* declarations */
     private ArrayList<Movie> mMovieList = new ArrayList<>();
     private TextView mError;
     private ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;
     private SQLiteDatabase mDb;
     private Cursor mCursor;
-
-    /* detail activity constants */
-    protected String ORIGINAL_TITLE = "original_title";
-    protected String IMAGE_THUMBNAIL = "image_thumbnail";
-    protected String OVER_VIEW = "over_view";
-    protected String RATING = "vote_average";
-    protected String RELEASE_DATE = "release_date";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,11 +81,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public void onClick(Movie movie) {
         Toast.makeText(MainActivity.this, movie.getTitle(), Toast.LENGTH_LONG).show();
         Intent detailIntent = new Intent(this, Detail.class);
-        detailIntent.putExtra(ORIGINAL_TITLE, movie.getTitle());
-        detailIntent.putExtra(IMAGE_THUMBNAIL, movie.getPosterPath());
-        detailIntent.putExtra(OVER_VIEW, movie.getOverView());
-        detailIntent.putExtra(RATING, movie.getVoteAvg());
-        detailIntent.putExtra(RELEASE_DATE, movie.getReleaseDate());
+        detailIntent.putExtra(MovieEntry.COLUMN_NAME_TITLE, movie.getTitle());
+        detailIntent.putExtra(MovieEntry.COLUMN_NAME_POSTER_PATH, movie.getPosterPath());
+        detailIntent.putExtra(MovieEntry.COLUMN_NAME_OVER_VIEW, movie.getOverView());
+        detailIntent.putExtra(MovieEntry.COLUMN_NAME_VOTE_AVERAGE, movie.getVoteAvg());
+        detailIntent.putExtra(MovieEntry.COLUMN_NAME_RELEASE_DATE, movie.getReleaseDate());
         startActivity(detailIntent);
     }
 
@@ -116,10 +111,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         protected void onPostExecute(String movieJsonString) {
             mProgressBar.setVisibility(View.INVISIBLE);
             if(movieJsonString!=null && !movieJsonString.equals("")) {
-                MovieUtils.getMovieList(movieJsonString, mMovieList);
-                MovieUtils.initializedDb(mDb, mMovieList);
+                ArrayList<Movie> movieList = new ArrayList<>();
+                MovieUtils.getMovieList(movieJsonString, movieList);
+                MovieUtils.initializedDb(mDb, movieList);
                 mCursor = MovieUtils.getAllMovies(mDb);
-                Log.v("*****movie count: ", String.valueOf(mCursor.getCount()));
                 createAndSetAdapter();
             }
             else showErrorMessage();
@@ -142,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.menu_settings){
+//            mRecyclerView.
             /* do something */
             return true;
         }

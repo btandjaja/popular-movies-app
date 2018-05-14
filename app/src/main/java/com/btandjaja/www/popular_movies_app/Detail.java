@@ -1,6 +1,5 @@
 package com.btandjaja.www.popular_movies_app;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +7,8 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.btandjaja.www.popular_movies_app.data.MovieContract;
+import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
 import com.squareup.picasso.Picasso;
 
 public class Detail extends AppCompatActivity {
@@ -37,16 +38,11 @@ public class Detail extends AppCompatActivity {
     }
 
     private void extractData(Intent movieDetailIntent) {
-        title = movieDetailIntent.getStringExtra("original_title");
-        thumbnail = movieDetailIntent.getStringExtra("image_thumbnail");
-        over_view = movieDetailIntent.getStringExtra("over_view");
-        rating = movieDetailIntent.getDoubleExtra("vote_average", 0);
-        release_date = movieDetailIntent.getStringExtra("release_date");
-        Log.v("****detail: ", title);
-        Log.v("****detail: ", thumbnail);
-        Log.v("****detail: ", over_view);
-        Log.v("****detail: ", String.valueOf(rating));
-        Log.v("****detail: ", release_date);
+        title = movieDetailIntent.getStringExtra(MovieEntry.COLUMN_NAME_TITLE);
+        thumbnail = movieDetailIntent.getStringExtra(MovieEntry.COLUMN_NAME_POSTER_PATH);
+        over_view = movieDetailIntent.getStringExtra(MovieEntry.COLUMN_NAME_OVER_VIEW);
+        rating = movieDetailIntent.getDoubleExtra(MovieEntry.COLUMN_NAME_VOTE_AVERAGE, 0);
+        release_date = movieDetailIntent.getStringExtra(MovieEntry.COLUMN_NAME_RELEASE_DATE);
     }
 
     private void getDetailLayoutId() {
