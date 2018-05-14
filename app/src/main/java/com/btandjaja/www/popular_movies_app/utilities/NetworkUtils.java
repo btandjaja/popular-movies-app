@@ -16,7 +16,7 @@ public class NetworkUtils {
     /* movie link + need key */
     private final static String POPULAR_MOVIES_BASE_URL = "http://api.themoviedb.org/3/movie/popular?api_key=";
     //TODO Please provide API key
-    private final static String API_KEY = "";
+    private final static String API_KEY = "20893aae2a9da0098c89e73e1dcad948";
 
     /**
      * Builds the URL used to query movie.
