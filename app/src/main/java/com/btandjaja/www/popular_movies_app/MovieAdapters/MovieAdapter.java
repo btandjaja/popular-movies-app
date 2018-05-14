@@ -31,7 +31,6 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
         mCursor = cursor;
     }
 
-    //TODO remove
     /**
      * This method is used to set the movies on a MovieAdapter if we've already
      * created one. This is handy when we get new data from the web or sorted data
