@@ -9,7 +9,7 @@
     <!-- Fail to load -->
     <string name="error">Failed to load data!\n Please try again!</string>
 
-    <!-- Constant Strings to retreive data -->
+    <!-- Constant Strings to retrieve data -->
     <string name="original_title">ORIGINAL_TITLE</string>
     <string name="image_thumbnail">IMAGE_THUMBNAIL</string>
     <string name="over_view">OVER_VIEW</string>

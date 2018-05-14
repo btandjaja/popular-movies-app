@@ -27,7 +27,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
      *  COLUMN_NAME_VOTE_AVERAGE is column 4
      *  COLUMN_NAME_RELEASE_DATE is column 5
      *  COLUMN_NAME_POSTER_PATH is column 6
-     * @param sqLiteDatabase
+     * @param sqLiteDatabase    table to be created to database
      */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {

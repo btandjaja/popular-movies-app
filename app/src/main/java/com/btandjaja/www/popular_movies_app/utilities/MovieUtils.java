@@ -53,7 +53,7 @@ public class MovieUtils {
         if(sqLiteDatabase == null) return;
 
         /* create movie list from the web */
-        List<ContentValues> movieContentValueList = new ArrayList<ContentValues>();
+        List<ContentValues> movieContentValueList = new ArrayList<>();
         initializeDbHelper(movieContentValueList, movieList);
 
         /* attempt to insert movie to sqlite table */

@@ -1,6 +1,6 @@
 Please provide API_KEY in NetworkUtils under TODO.
 
-Piscasso License
+Picasso License
 Copyright 2013 Square, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
