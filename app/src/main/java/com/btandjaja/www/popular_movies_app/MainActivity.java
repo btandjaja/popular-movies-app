@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -129,7 +128,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     /* Menu */
-
     /** This method is for creating menu
      *
      * @param menu  menu to be inflated

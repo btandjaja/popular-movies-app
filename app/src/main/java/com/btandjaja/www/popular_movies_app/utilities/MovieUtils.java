@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,7 +18,6 @@ import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
 public class MovieUtils {
     /* movies data constants to retrieve data */
     private final static String RESULTS = "results";
-    private final static int POPULARITY = 1;
 
     /** This method creates Movie object from JSONstring and stores in movieList
      *
@@ -116,20 +114,4 @@ public class MovieUtils {
                 null,
                 typeSort + " DESC");
     }
-
-
-    //TODO remove
-//    public static void copy(ArrayList<Movie> movieList, ArrayList<Movie> newList) {
-//        if (movieList.size() == 0) return;
-//        for (Movie movie : movieList) {
-//            Double voteAvg = movie.getVoteAvg();
-//            Double popularity = movie.getPopularity();
-//            String originalTitle = movie.getTitle();
-//            String posterPath = movie.getPosterPath();
-//            String overView = movie.getOverView();
-//            String releaseDate = movie.getReleaseDate();
-//            newList.add(new Movie(voteAvg, popularity, originalTitle, posterPath, overView,
-//                    releaseDate));
-//        }
-//    }
 }
