@@ -11,13 +11,15 @@ public class Movie {
     /* variable declarations */
     private double mVoteAvg, mPopularity;
     private String mOriginalTitle, mPosterPath, mOverView, mReleaseDate;
+    private int mMovieId;
 
     /* constructor */
     public Movie(double voteAvg, double popularity, String title, String posterPath,
-                 String overView, String releaseDate) {
+                 String overView, String releaseDate, int movieId) {
         mVoteAvg = voteAvg;  mPopularity = popularity;
         mOriginalTitle = title; mPosterPath = IMAGE_URL + posterPath;
         mOverView = overView; mReleaseDate = releaseDate;
+        mMovieId = movieId;
     }
 
     /* constructor for data from sqlite */

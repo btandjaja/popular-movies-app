@@ -20,7 +20,7 @@ public class MovieUtils {
     private final static String RESULTS = "results";
     private final static String DESC = " DESC";
 
-    /** This method creates Movie object from JSONstring and stores in movieList
+    /** This method creates Movie object from JSON string and stores in movieList
      *
      * @param jsonMovies    List of movies in JSON string
      * @param movieList     List of movies to be added to
@@ -37,8 +37,9 @@ public class MovieUtils {
                 String posterPath = singleMovie.getString(MovieEntry.COLUMN_NAME_POSTER_PATH);
                 String overView = singleMovie.getString(MovieEntry.COLUMN_NAME_OVER_VIEW);
                 String releaseDate = singleMovie.getString(MovieEntry.COLUMN_NAME_RELEASE_DATE);
+                int movieId = singleMovie.getInt(MovieEntry.COLUMN_NAME_MOVIE_ID);
                 movieList.add(new Movie(voteAvg, popularity, originalTitle, posterPath, overView,
-                        releaseDate));
+                        releaseDate, movieId));
             }
         } catch (JSONException e) {
             e.printStackTrace();

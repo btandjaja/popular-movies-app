@@ -20,6 +20,7 @@
         </activity>
         <activity android:name=".Detail"
             android:parentActivityName=".MainActivity"
+            android:label="Detail"
             >
         </activity>
     </application>
