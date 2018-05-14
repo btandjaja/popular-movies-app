@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private RecyclerView mRecyclerView;
     private SQLiteDatabase mDb;
     private Cursor mCursor;
+    private static final int SPLIT_COLUMN = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     /* used in AsyncTask */
     private void createAndSetAdapter() {
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, SPLIT_COLUMN));
         mRecyclerView.setAdapter(new MovieAdapter(MainActivity.this, mCursor));
     }
 
