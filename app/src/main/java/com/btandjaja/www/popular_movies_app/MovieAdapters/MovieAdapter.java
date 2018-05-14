@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.btandjaja.www.popular_movies_app.R;
+import com.btandjaja.www.popular_movies_app.data.MovieContract;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
@@ -34,15 +35,15 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
     //TODO remove
     /**
      * This method is used to set the movies on a MovieAdapter if we've already
-     * created one. This is handy when we get new data from the web but don't want to create a
-     * new MovieAdapter to display it.
+     * created one. This is handy when we get new data from the web or sorted data
+     * but don't want to create a new MovieAdapter to display it.
      *
-     * param newMovieList The new movie data to be displayed.
+     * @param cursor The new movie data to be displayed.
      */
-//    public void setMovieList(ArrayList<Movie> newMovieList) {
-//        mMovieList = newMovieList;
-//        notifyDataSetChanged();
-//    }
+    public void setMovieList(Cursor cursor) {
+        mCursor = cursor;
+        notifyDataSetChanged();
+    }
 
     public interface MovieAdapterOnClickHandler {
         void onClick(Movie movie);
@@ -101,9 +102,9 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
      */
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int position) {
-        /* move cursor to the right position, +1 because recyclerView position starts with 0*/
-        if (!mCursor.moveToPosition(position+1)) return;
-        String path = mCursor.getString((Movie.POSTER_PATH));
+        if (!mCursor.moveToPosition(position)) return;
+        String path = mCursor.getString(mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_NAME_POSTER_PATH
+        ));
         Picasso.with(mContext).load(path).into(movieViewHolder.mImageView);
     }
 

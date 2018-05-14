@@ -18,6 +18,7 @@ import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
 public class MovieUtils {
     /* movies data constants to retrieve data */
     private final static String RESULTS = "results";
+    private final static int POPULARITY = 1;
 
     /** This method creates Movie object from JSONstring and stores in movieList
      *
@@ -102,6 +103,19 @@ public class MovieUtils {
                 null,
                 MovieEntry._ID);
     }
+
+    public static Cursor sortPopularity(Cursor cursor, SQLiteDatabase sqLiteDatabase, int sortType) {
+        String typeSort = sortType == cursor.getColumnIndex(MovieEntry.COLUMN_NAME_POPULARITY) ?
+                MovieEntry.COLUMN_NAME_POPULARITY : MovieEntry.COLUMN_NAME_VOTE_AVERAGE;
+        return sqLiteDatabase.query(MovieEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                typeSort);
+    }
+
 
     //TODO remove
 //    public static void copy(ArrayList<Movie> movieList, ArrayList<Movie> newList) {
