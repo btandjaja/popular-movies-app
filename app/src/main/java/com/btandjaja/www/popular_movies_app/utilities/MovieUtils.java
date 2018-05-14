@@ -16,8 +16,9 @@ import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
 import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
 
 public class MovieUtils {
-    /* movies data constants to retrieve data */
+    /* movies data constants */
     private final static String RESULTS = "results";
+    private final static String DESC = " DESC";
 
     /** This method creates Movie object from JSONstring and stores in movieList
      *
@@ -112,6 +113,6 @@ public class MovieUtils {
                 null,
                 null,
                 null,
-                typeSort + " DESC");
+                typeSort + DESC);
     }
 }
