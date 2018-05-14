@@ -13,6 +13,7 @@ public class Detail extends AppCompatActivity {
     /* constant */
     private static final int BEGIN = 0;
     private static final int END = 4;
+    private static final String OUT_OF = "/10";
     /* views from detail activity */
     private ImageView mThumbnail;
     private TextView mTitle, mRating, mOverView, mReleaseDate;
@@ -56,7 +57,7 @@ public class Detail extends AppCompatActivity {
 
     private void fillData() {
         mTitle.setText(title);
-        mRating.setText(String.valueOf(rating));
+        mRating.setText(parseRating());
         mOverView.setText(over_view);
         mReleaseDate.setText(parsedDate());
         Picasso.with(this).load(thumbnail).into(mThumbnail);
@@ -64,6 +65,10 @@ public class Detail extends AppCompatActivity {
 
     private String parsedDate() {
         return release_date.substring(BEGIN, END);
+    }
+
+    private String parseRating() {
+        return String.valueOf(rating) + OUT_OF;
     }
 
 }
