@@ -104,7 +104,7 @@ public class MovieUtils {
                 MovieEntry._ID);
     }
 
-    public static Cursor sortPopularity(Cursor cursor, SQLiteDatabase sqLiteDatabase, int sortType) {
+    public static Cursor sort(Cursor cursor, SQLiteDatabase sqLiteDatabase, int sortType) {
         String typeSort = sortType == cursor.getColumnIndex(MovieEntry.COLUMN_NAME_POPULARITY) ?
                 MovieEntry.COLUMN_NAME_POPULARITY : MovieEntry.COLUMN_NAME_VOTE_AVERAGE;
         return sqLiteDatabase.query(MovieEntry.TABLE_NAME,

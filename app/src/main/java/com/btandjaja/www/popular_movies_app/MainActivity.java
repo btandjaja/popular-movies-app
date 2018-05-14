@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private RecyclerView mRecyclerView;
     private SQLiteDatabase mDb;
     private Cursor mCursor;
+    private static MovieAdapter mMovieAdapter;
     private static final int SPLIT_COLUMN = 2;
 
     @Override
@@ -122,23 +124,46 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     /* used in AsyncTask */
     private void createAndSetAdapter() {
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, SPLIT_COLUMN));
-        mRecyclerView.setAdapter(new MovieAdapter(MainActivity.this, mCursor));
+        mMovieAdapter = new MovieAdapter(MainActivity.this, mCursor);
+        mRecyclerView.setAdapter( mMovieAdapter);
     }
 
     /* Menu */
+
+    /** This method is for creating menu
+     *
+     * @param menu  menu to be inflated
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
+    /** This method will call the MovieUtils.sort method
+     *
+     * @param item  options selected from the menu
+     * @return true if option is selected, else return super
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.menu_settings){
-//            mRecyclerView.
-            /* do something */
-            return true;
+        switch(item.getItemId()) {
+            case R.id.sort_by_popularity:
+                mCursor = MovieUtils.sort(mCursor, mDb, mCursor.getColumnIndex(MovieEntry.COLUMN_NAME_POPULARITY));
+                break;
+            case R.id.sort_by_rating:
+                mCursor = MovieUtils.sort(mCursor, mDb, mCursor.getColumnIndex(MovieEntry.COLUMN_NAME_VOTE_AVERAGE));
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+        resetAdapter();
+        return true;
+    }
+
+    private void resetAdapter() {
+        mMovieAdapter.setMovieList(this, mCursor);
+        mRecyclerView.setAdapter(mMovieAdapter);
     }
 }
