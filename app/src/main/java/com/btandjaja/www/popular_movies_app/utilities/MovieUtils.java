@@ -15,6 +15,7 @@ import java.util.List;
 import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
 import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
 
+@SuppressWarnings("ALL")
 public class MovieUtils {
     /* movies data constants */
     private final static String RESULTS = "results";
