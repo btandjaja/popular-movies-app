@@ -30,6 +30,7 @@ public class Movie {
         mReleaseDate = cursor.getString(cursor.getColumnIndex(MovieEntry.COLUMN_NAME_RELEASE_DATE));
         mVoteAvg = cursor.getDouble(cursor.getColumnIndex(MovieEntry.COLUMN_NAME_VOTE_AVERAGE));
         mPopularity = cursor.getDouble(cursor.getColumnIndex(MovieEntry.COLUMN_NAME_POPULARITY));
+        mMovieId = cursor.getInt(cursor.getColumnIndex(MovieEntry.COLUMN_NAME_MOVIE_ID));
     }
 
     /* get data methods */
@@ -39,4 +40,5 @@ public class Movie {
     public String getPosterPath() {return mPosterPath;}
     public String getOverView() {return mOverView;}
     public String getReleaseDate() {return mReleaseDate;}
+    public int getMovieId() {return mMovieId;}
 }

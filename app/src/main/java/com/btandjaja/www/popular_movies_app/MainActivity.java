@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private final static String TOP_RATED_MOVIES_BASE_URL = MOVIE_BASE_URL + "top_rated?api_key=";
     private final static String CURRENT_PLAYING_MOVIES_BASE_URL = MOVIE_BASE_URL + "now_playing?api_key=";
     //TODO Please provide API key
-    private final static String API_KEY = "";
+    private final static String API_KEY = "20893aae2a9da0098c89e73e1dcad948";
     private final static String POPULAR_MOVIES = POPULAR_MOVIES_BASE_URL + API_KEY;
     private final static String TOP_RATED_MOVIES = TOP_RATED_MOVIES_BASE_URL + API_KEY;
     private final static String CURRENT_PLAYING_MOVIES = CURRENT_PLAYING_MOVIES_BASE_URL + API_KEY;
@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         detailIntent.putExtra(MovieEntry.COLUMN_NAME_OVER_VIEW, movie.getOverView());
         detailIntent.putExtra(MovieEntry.COLUMN_NAME_VOTE_AVERAGE, movie.getVoteAvg());
         detailIntent.putExtra(MovieEntry.COLUMN_NAME_RELEASE_DATE, movie.getReleaseDate());
+        detailIntent.putExtra(MovieEntry.COLUMN_NAME_MOVIE_ID, movie.getMovieId());
         startActivity(detailIntent);
     }
 
