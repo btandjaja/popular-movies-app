@@ -13,29 +13,6 @@ import java.util.Scanner;
  * These utilities will be used to communicate with the network.
  */
 public class NetworkUtils {
-    /* movie link + need key */
-    private final static String POPULAR_MOVIES_BASE_URL = "http://api.themoviedb.org/3/movie/popular?api_key=";
-    //TODO Please provide API key
-    private final static String API_KEY = "20893aae2a9da0098c89e73e1dcad948";
-
-    /**
-     * Builds the URL used to query movie.
-     *
-     * @return The URL to use to query the movie server.
-     */
-    public static URL buildUrl() {
-        Uri builtUri = Uri.parse(POPULAR_MOVIES_BASE_URL+API_KEY).buildUpon()
-                .build();
-        URL url = null;
-        try {
-            url = new URL(builtUri.toString());
-
-        }catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        return url;
-    }
-
     /**
      * Builds the URL used to query movie.
      *
