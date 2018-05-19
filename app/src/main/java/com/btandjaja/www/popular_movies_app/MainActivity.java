@@ -1,13 +1,18 @@
 package com.btandjaja.www.popular_movies_app;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,15 +31,26 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler{
-    /* declarations */
-    private TextView mError;
-    private ProgressBar mProgressBar;
-    private RecyclerView mRecyclerView;
-    private SQLiteDatabase mDb;
-    private Cursor mCursor;
-    private static MovieAdapter mMovieAdapter;
+public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler,
+        LoaderManager.LoaderCallbacks<String>{
+    /* movie link + need key */
+    private final static String POPULAR_MOVIES_BASE_URL = "http://api.themoviedb.org/3/movie/popular?api_key=";
+    //TODO Please provide API key
+    private final static String API_KEY = "20893aae2a9da0098c89e73e1dcad948";
+    private final static String MOVIES = POPULAR_MOVIES_BASE_URL + API_KEY;
+    /* constants */
     private static final int SPLIT_COLUMN = 2;
+    private static final int MOVIE_QUERY_LOADER = 2001;
+    private static final String MOVIE_QUERY = "query";
+
+    /* declarations */
+    private static TextView mError;
+    private static ProgressBar mProgressBar;
+    private static RecyclerView mRecyclerView;
+    private static SQLiteDatabase mDb;
+    private static Cursor mCursor;
+    private static MovieAdapter mMovieAdapter;
+    private static URL mURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         initializedDisplayVariables();
         /* get movie data */
         loadMoviesData();
+        /* initialize loader */
+        getSupportLoaderManager().initLoader(MOVIE_QUERY_LOADER, null, this);
     }
 
     /* initialize variables */
@@ -62,8 +80,21 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     /* connect to network retrieve data */
     private void getDataFromNetwork() {
-        URL movieSearchUrl = NetworkUtils.buildUrl();
-        new Movies().execute(movieSearchUrl);
+        if(TextUtils.isEmpty(POPULAR_MOVIES_BASE_URL) || TextUtils.isEmpty(API_KEY)) {
+            showErrorMessage();
+            return;
+        }
+
+        mURL = NetworkUtils.buildUrl(MOVIES);
+        Bundle movieBundle = new Bundle();
+        movieBundle.putString(MOVIE_QUERY, mURL.toString());
+        //TODO second URL put to movie Bundle
+        LoaderManager loaderManager = getSupportLoaderManager();
+        if(loaderManager.getLoader(MOVIE_QUERY_LOADER) == null) {
+            loaderManager.initLoader(MOVIE_QUERY_LOADER, movieBundle, this);
+        } else {
+            loaderManager.restartLoader(MOVIE_QUERY_LOADER, movieBundle, this);
+        }
     }
 
     /* show movie data */
@@ -73,12 +104,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     /* show error message */
     private void showErrorMessage() {
+        mError.setText("Failed to load!");
         mError.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onClick(Movie movie) {
-        Toast.makeText(MainActivity.this, movie.getTitle(), Toast.LENGTH_LONG).show();
         Intent detailIntent = new Intent(this, Detail.class);
         detailIntent.putExtra(MovieEntry.COLUMN_NAME_TITLE, movie.getTitle());
         detailIntent.putExtra(MovieEntry.COLUMN_NAME_POSTER_PATH, movie.getPosterPath());
@@ -88,36 +119,60 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         startActivity(detailIntent);
     }
 
-    private class Movies extends AsyncTask<URL, Void, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mProgressBar.setVisibility(View.VISIBLE);
-        }
+    @NonNull
+    @Override
+    public Loader<String> onCreateLoader(int id, @Nullable final Bundle args) {
+        return new AsyncTaskLoader<String>(this) {
 
-        @Override
-        protected String doInBackground(URL... urls) {
-            String movieSearchResult = null;
-            try {
-                movieSearchResult = NetworkUtils.getResponseFromHttpUrl(urls[0]);
-            } catch (IOException e) {
-                e.printStackTrace();
+            @Override
+            protected void onStartLoading() {
+                super.onStartLoading();
+                if(args == null) return;
+                mProgressBar.setVisibility(View.VISIBLE);
+                forceLoad();
             }
-            return movieSearchResult;
-        }
 
-        @Override
-        protected void onPostExecute(String movieJsonString) {
-            mProgressBar.setVisibility(View.INVISIBLE);
-            if(movieJsonString!=null && !movieJsonString.equals("")) {
-                ArrayList<Movie> movieList = new ArrayList<>();
-                MovieUtils.getMovieList(movieJsonString, movieList);
-                MovieUtils.initializedDb(mDb, movieList);
-                mCursor = MovieUtils.getAllMovies(mDb);
-                createAndSetAdapter();
+            @Override
+            public String loadInBackground() {
+                try {
+                    String movieUrl = args.getString(MOVIE_QUERY);
+                    /* check for valid url */
+                    if(movieUrl == null || TextUtils.isEmpty(movieUrl)) return null;
+                    mURL = new URL(movieUrl);
+                    return NetworkUtils.getResponseFromHttpUrl(mURL);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                }
             }
-            else showErrorMessage();
+        };
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<String> loader, String jsonString) {
+        mProgressBar.setVisibility(View.INVISIBLE);
+        if (jsonString == null || TextUtils.isEmpty(jsonString))  {
+            showErrorMessage();
+            return;
         }
+        showMoviesDataView();
+        ArrayList<Movie> movieList = new ArrayList<Movie>();
+        MovieUtils.getMovieList(jsonString, movieList);
+        Toast.makeText(MainActivity.this, String.valueOf(movieList.size()), Toast.LENGTH_LONG).show();
+        MovieUtils.initializedDb(mDb, movieList);
+        mCursor = MovieUtils.getAllMovies(mDb);
+        createAndSetAdapter();
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<String> loader) {
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(MOVIE_QUERY, MOVIES);
     }
 
     /* used in AsyncTask */

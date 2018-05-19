@@ -37,6 +37,23 @@ public class NetworkUtils {
     }
 
     /**
+     * Builds the URL used to query movie.
+     *
+     * @return The URL to use to query the movie server.
+     */
+    public static URL buildUrl(String moviesQuery) {
+        Uri builtUri = Uri.parse(moviesQuery).buildUpon().build();
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+
+        }catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
+    /**
      * This method returns the entire result from the HTTP response.
      *
      * @param url The URL to fetch the HTTP response from.
