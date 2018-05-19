@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
 import com.btandjaja.www.popular_movies_app.MovieAdapters.MovieAdapter;
@@ -35,9 +34,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         LoaderManager.LoaderCallbacks<String>{
     /* movie link + need key */
     private final static String POPULAR_MOVIES_BASE_URL = "http://api.themoviedb.org/3/movie/popular?api_key=";
+    private final static String TOP_RATED_MOVIES_BASE_URL = "https://api.themoviedb.org/3/movie/top_rated?api_key=";
+    private final static String CURRENT_PLAYING_MOVIES_BASE_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=";
     //TODO Please provide API key
-    private final static String API_KEY = "";
-    private final static String MOVIES = POPULAR_MOVIES_BASE_URL + API_KEY;
+    private final static String API_KEY = "20893aae2a9da0098c89e73e1dcad948";
+    private final static String POPULAR_MOVIES = POPULAR_MOVIES_BASE_URL + API_KEY;
+    private final static String TOP_RATED_MOVIES = TOP_RATED_MOVIES_BASE_URL + API_KEY;
+    private final static String CURRENT_PLAYING_MOVIES = CURRENT_PLAYING_MOVIES_BASE_URL + API_KEY;
     /* constants */
     private static final int SPLIT_COLUMN = 2;
     private static final int MOVIE_QUERY_LOADER = 2001;
@@ -85,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             return;
         }
 
-        mURL = NetworkUtils.buildUrl(MOVIES);
+        mURL = NetworkUtils.buildUrl(CURRENT_PLAYING_MOVIES);
         Bundle movieBundle = new Bundle();
         movieBundle.putString(MOVIE_QUERY, mURL.toString());
         //TODO second URL put to movie Bundle
@@ -156,11 +159,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             return;
         }
         showMoviesDataView();
-        ArrayList<Movie> movieList = new ArrayList<Movie>();
-        MovieUtils.getMovieList(jsonString, movieList);
-        Toast.makeText(MainActivity.this, String.valueOf(movieList.size()), Toast.LENGTH_LONG).show();
-        MovieUtils.initializedDb(mDb, movieList);
-        mCursor = MovieUtils.getAllMovies(mDb);
+        fillDatabase(jsonString);
         createAndSetAdapter();
     }
 
@@ -172,7 +171,15 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(MOVIE_QUERY, MOVIES);
+        outState.putString(MOVIE_QUERY, mURL.toString());
+    }
+
+    /* fill in database */
+    private void fillDatabase(String jsonString) {
+        ArrayList<Movie> movieList = new ArrayList<Movie>();
+        MovieUtils.getMovieList(jsonString, movieList);
+        MovieUtils.initializedDb(mDb, movieList);
+        mCursor = MovieUtils.getAllMovies(mDb);
     }
 
     /* used in AsyncTask */

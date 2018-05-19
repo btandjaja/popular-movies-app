@@ -50,6 +50,7 @@
                 android:layout_marginLeft="48dp"
                 android:layout_marginStart="48dp"
                 android:layout_marginTop="8dp"
+                android:textSize="22sp"
                 app:layout_constraintStart_toEndOf="@+id/thumbnail"
                 app:layout_constraintTop_toTopOf="@+id/thumbnail"
                 tools:text="@string/release_date" />
