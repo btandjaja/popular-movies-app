@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,7 +28,6 @@ public class MovieUtils {
     public static void getMovieList(String jsonMovies, ArrayList<Movie> movieList) {
         try {
             JSONObject movieJsonObj = new JSONObject(jsonMovies);
-            Log.v("****", movieJsonObj.toString());
             JSONArray movieJsonArr = movieJsonObj.getJSONArray(RESULTS);
             for(int i = 0; i < movieJsonArr.length(); i++) {
                 JSONObject singleMovie = movieJsonArr.getJSONObject(i);

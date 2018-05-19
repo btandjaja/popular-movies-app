@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
 import com.btandjaja.www.popular_movies_app.MovieAdapters.MovieAdapter;
@@ -34,28 +33,29 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler,
         LoaderManager.LoaderCallbacks<String>{
     /* movie link + need key */
-    private final static String POPULAR_MOVIES_BASE_URL = "http://api.themoviedb.org/3/movie/popular?api_key=";
-    private final static String TOP_RATED_MOVIES_BASE_URL = "https://api.themoviedb.org/3/movie/top_rated?api_key=";
-    private final static String CURRENT_PLAYING_MOVIES_BASE_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=";
+    private final static String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie/";
+    private final static String POPULAR_MOVIES_BASE_URL = MOVIE_BASE_URL + "popular?api_key=";
+    private final static String TOP_RATED_MOVIES_BASE_URL = MOVIE_BASE_URL + "top_rated?api_key=";
+    private final static String CURRENT_PLAYING_MOVIES_BASE_URL = MOVIE_BASE_URL + "now_playing?api_key=";
     //TODO Please provide API key
-    private final static String API_KEY = "";
+    private final static String API_KEY = "20893aae2a9da0098c89e73e1dcad948";
     private final static String POPULAR_MOVIES = POPULAR_MOVIES_BASE_URL + API_KEY;
     private final static String TOP_RATED_MOVIES = TOP_RATED_MOVIES_BASE_URL + API_KEY;
     private final static String CURRENT_PLAYING_MOVIES = CURRENT_PLAYING_MOVIES_BASE_URL + API_KEY;
     /* constants */
     private static final int SPLIT_COLUMN = 2;
     private static final int MOVIE_QUERY_LOADER = 2001;
-    private static final String MOVIE_QUERY = "query";
+    private static final String MOVIE_QUERY_STRING = "query";
 
     /* declarations */
-    private static TextView mError;
-    private static ProgressBar mProgressBar;
-    private static RecyclerView mRecyclerView;
+    private TextView mError;
+    private ProgressBar mProgressBar;
+    private RecyclerView mRecyclerView;
     private static SQLiteDatabase mDb;
     private static Cursor mCursor;
-    private static MovieAdapter mMovieAdapter;
-    private static URL mURL;
-    private static String MOVIES_TO_QUERY;
+    private MovieAdapter mMovieAdapter = null;
+    private static URL mURL = null;
+    private static String MOVIES_TO_QUERY = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mProgressBar = findViewById(R.id.pb_view);
         mRecyclerView = findViewById(R.id.recycler_view);
         mDb = (new MovieDbHelper(this)).getWritableDatabase();
-        MOVIES_TO_QUERY = CURRENT_PLAYING_MOVIES;
+        if(MOVIES_TO_QUERY == null)
+            MOVIES_TO_QUERY = CURRENT_PLAYING_MOVIES;
     }
 
     /* get movies data */
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private void restartLoader() {
         mURL = NetworkUtils.buildUrl(MOVIES_TO_QUERY);
         Bundle movieBundle = new Bundle();
-        movieBundle.putString(MOVIE_QUERY, mURL.toString());
+        movieBundle.putString(MOVIE_QUERY_STRING, mURL.toString());
         LoaderManager loaderManager = getSupportLoaderManager();
         if(loaderManager.getLoader(MOVIE_QUERY_LOADER) == null) {
             loaderManager.initLoader(MOVIE_QUERY_LOADER, movieBundle, this);
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     /* show error message */
     private void showErrorMessage() {
-        mError.setText("Failed to load!");
+        mError.setText(getResources().getString(R.string.error));
         mError.setVisibility(View.VISIBLE);
     }
 
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             @Override
             public String loadInBackground() {
                 try {
-                    String movieUrl = args.getString(MOVIE_QUERY);
+                    String movieUrl = args.getString(MOVIE_QUERY_STRING);
                     /* check for valid url */
                     if(movieUrl == null || TextUtils.isEmpty(movieUrl)) return null;
                     mURL = new URL(movieUrl);
@@ -178,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(MOVIE_QUERY, mURL.toString());
+        outState.putString(MOVIE_QUERY_STRING, mURL.toString());
     }
 
     /* fill in database */
@@ -192,7 +193,15 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     /* used in AsyncTask */
     private void createAdapter() {
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, SPLIT_COLUMN));
-        mMovieAdapter = new MovieAdapter(MainActivity.this, mCursor);
+        if(mMovieAdapter == null) {
+            mMovieAdapter = new MovieAdapter(MainActivity.this, mCursor);
+        }
+    }
+
+    /* fill in recyclerview */
+    private void setAdapter() {
+        mMovieAdapter.setMovieList(this, mCursor);
+        mRecyclerView.setAdapter(mMovieAdapter);
     }
 
     /* Menu */
@@ -215,24 +224,21 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
+            case R.id.current_playing:
+                MOVIES_TO_QUERY = CURRENT_PLAYING_MOVIES;
+                break;
             case R.id.sort_by_popularity:
                 MOVIES_TO_QUERY = POPULAR_MOVIES;
-                restartLoader();
                 mCursor = MovieUtils.sort(mCursor, mDb, mCursor.getColumnIndex(MovieEntry.COLUMN_NAME_POPULARITY));
                 break;
             case R.id.sort_by_rating:
                 MOVIES_TO_QUERY = TOP_RATED_MOVIES;
-                restartLoader();
                 mCursor = MovieUtils.sort(mCursor, mDb, mCursor.getColumnIndex(MovieEntry.COLUMN_NAME_VOTE_AVERAGE));
                 break;
             default:
                 return super.onOptionsItemSelected(item);
         }
+        restartLoader();
         return true;
-    }
-
-    private void setAdapter() {
-        mMovieAdapter.setMovieList(this, mCursor);
-        mRecyclerView.setAdapter(mMovieAdapter);
     }
 }

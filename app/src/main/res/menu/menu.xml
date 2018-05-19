@@ -2,13 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/sort_by_popularity"
+        android:id="@+id/current_playing"
         android:orderInCategory="1"
+        android:title="@string/current_playing"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/sort_by_popularity"
+        android:orderInCategory="2"
         android:title="@string/sort_by_popularity"
         app:showAsAction="never" />
     <item
         android:id="@+id/sort_by_rating"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         android:title="@string/sort_by_rating"
         app:showAsAction="never" />
 </menu>

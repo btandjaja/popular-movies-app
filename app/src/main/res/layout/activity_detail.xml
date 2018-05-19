@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Detail">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/thumbnail"
@@ -21,6 +18,7 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
+                android:contentDescription="@string/image_thumbnail"
                 app:layout_constraintStart_toStartOf="@+id/relative_title"
                 app:layout_constraintTop_toBottomOf="@+id/relative_title" />
 
@@ -37,6 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -93,5 +92,4 @@
             </RelativeLayout>
 
         </android.support.constraint.ConstraintLayout>
-    </ScrollView>
-</RelativeLayout>
+</ScrollView>
