@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
 import com.btandjaja.www.popular_movies_app.MovieAdapters.MovieAdapter;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private final static String TOP_RATED_MOVIES_BASE_URL = "https://api.themoviedb.org/3/movie/top_rated?api_key=";
     private final static String CURRENT_PLAYING_MOVIES_BASE_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=";
     //TODO Please provide API key
-    private final static String API_KEY = "20893aae2a9da0098c89e73e1dcad948";
+    private final static String API_KEY = "";
     private final static String POPULAR_MOVIES = POPULAR_MOVIES_BASE_URL + API_KEY;
     private final static String TOP_RATED_MOVIES = TOP_RATED_MOVIES_BASE_URL + API_KEY;
     private final static String CURRENT_PLAYING_MOVIES = CURRENT_PLAYING_MOVIES_BASE_URL + API_KEY;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private static Cursor mCursor;
     private static MovieAdapter mMovieAdapter;
     private static URL mURL;
+    private static String MOVIES_TO_QUERY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mProgressBar = findViewById(R.id.pb_view);
         mRecyclerView = findViewById(R.id.recycler_view);
         mDb = (new MovieDbHelper(this)).getWritableDatabase();
+        MOVIES_TO_QUERY = CURRENT_PLAYING_MOVIES;
     }
 
     /* get movies data */
@@ -87,11 +90,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             showErrorMessage();
             return;
         }
+        restartLoader();
+    }
 
-        mURL = NetworkUtils.buildUrl(CURRENT_PLAYING_MOVIES);
+    /* restarts the asyncTaskLoader if it's not created */
+    private void restartLoader() {
+        mURL = NetworkUtils.buildUrl(MOVIES_TO_QUERY);
         Bundle movieBundle = new Bundle();
         movieBundle.putString(MOVIE_QUERY, mURL.toString());
-        //TODO second URL put to movie Bundle
         LoaderManager loaderManager = getSupportLoaderManager();
         if(loaderManager.getLoader(MOVIE_QUERY_LOADER) == null) {
             loaderManager.initLoader(MOVIE_QUERY_LOADER, movieBundle, this);
@@ -160,7 +166,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
         showMoviesDataView();
         fillDatabase(jsonString);
-        createAndSetAdapter();
+        createAdapter();
+        setAdapter();
     }
 
     @Override
@@ -183,10 +190,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     /* used in AsyncTask */
-    private void createAndSetAdapter() {
+    private void createAdapter() {
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, SPLIT_COLUMN));
         mMovieAdapter = new MovieAdapter(MainActivity.this, mCursor);
-        mRecyclerView.setAdapter( mMovieAdapter);
     }
 
     /* Menu */
@@ -210,19 +216,22 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.sort_by_popularity:
+                MOVIES_TO_QUERY = POPULAR_MOVIES;
+                restartLoader();
                 mCursor = MovieUtils.sort(mCursor, mDb, mCursor.getColumnIndex(MovieEntry.COLUMN_NAME_POPULARITY));
                 break;
             case R.id.sort_by_rating:
+                MOVIES_TO_QUERY = TOP_RATED_MOVIES;
+                restartLoader();
                 mCursor = MovieUtils.sort(mCursor, mDb, mCursor.getColumnIndex(MovieEntry.COLUMN_NAME_VOTE_AVERAGE));
                 break;
             default:
                 return super.onOptionsItemSelected(item);
         }
-        resetAdapter();
         return true;
     }
 
-    private void resetAdapter() {
+    private void setAdapter() {
         mMovieAdapter.setMovieList(this, mCursor);
         mRecyclerView.setAdapter(mMovieAdapter);
     }
