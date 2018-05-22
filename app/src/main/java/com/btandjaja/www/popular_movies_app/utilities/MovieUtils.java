@@ -92,9 +92,11 @@ public class MovieUtils {
             singleMovie.put(MovieEntry.COLUMN_NAME_POSTER_PATH, m.getPosterPath());
             singleMovie.put(MovieEntry.COLUMN_NAME_POPULARITY, m.getPopularity());
             singleMovie.put(MovieEntry.COLUMN_NAME_VOTE_AVERAGE, m.getVoteAvg());
+            singleMovie.put(MovieEntry.COLUMN_NAME_MOVIE_ID, m.getMovieId());
             movieContentValueList.add(singleMovie);
         }
     }
+
 
     public static Cursor getAllMovies(SQLiteDatabase sqLiteDatabase) {
         return sqLiteDatabase.query(MovieEntry.TABLE_NAME,

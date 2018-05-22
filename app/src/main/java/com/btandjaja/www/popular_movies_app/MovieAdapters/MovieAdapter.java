@@ -20,10 +20,6 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
     private static MovieAdapterOnClickHandler mClickHandler;
 
     /**
-     * Empty constructor.
-     */
-    public MovieAdapter() { }
-    /**
      * Creates a MovieAdapter.
      *
      * @param clickHandler The on-click handler for this adapter. This single handler is called

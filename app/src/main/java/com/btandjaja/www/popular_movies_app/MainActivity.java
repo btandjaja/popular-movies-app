@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,12 +64,15 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /* initialize loader */
-        getSupportLoaderManager().initLoader(MOVIE_QUERY_LOADER, null, this);
-        /* initialize variables */
+        /* initialize variables & recycler */
         initializedDisplayVariables();
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, SPLIT_COLUMN));
+        mRecyclerView.setAdapter(null);
+//        initializeRecyclerLayout();
         /* get movie data */
         loadMoviesData();
+        /* initialize loader */
+        getSupportLoaderManager().initLoader(MOVIE_QUERY_LOADER, null, this);
     }
 
     /* initialize variables */
@@ -77,7 +81,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mProgressBar = findViewById(R.id.pb_view);
         mRecyclerView = findViewById(R.id.recycler_view);
         mDb = (new MovieDbHelper(this)).getWritableDatabase();
-        mMoviesToQuery = CURRENT_PLAYING_MOVIES;
+        if(mMoviesToQuery == null) mMoviesToQuery = CURRENT_PLAYING_MOVIES;
+    }
+
+    /* initialize Recycler layout */
+    private void initializeRecyclerLayout() {
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, SPLIT_COLUMN));
+        mRecyclerView.setAdapter(null);
     }
 
     /* get movies data */
@@ -131,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         startActivity(detailIntent);
     }
 
+    /* asyncTaskLoader */
     @NonNull
     @Override
     public Loader<String> onCreateLoader(int id, @Nullable final Bundle args) {
@@ -194,7 +205,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     /* used in AsyncTask */
     private void createAdapter() {
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, SPLIT_COLUMN));
         if(mMovieAdapter == null) {
             mMovieAdapter = new MovieAdapter(MainActivity.this, mCursor);
         }
