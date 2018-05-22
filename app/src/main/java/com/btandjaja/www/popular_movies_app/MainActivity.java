@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private final static String TOP_RATED_MOVIES_BASE_URL = MOVIE_BASE_URL + "top_rated?api_key=";
     private final static String CURRENT_PLAYING_MOVIES_BASE_URL = MOVIE_BASE_URL + "now_playing?api_key=";
     //TODO Please provide API key
-    private final static String API_KEY = "";
+    private final static String API_KEY = "20893aae2a9da0098c89e73e1dcad948";
     private final static String POPULAR_MOVIES = POPULAR_MOVIES_BASE_URL + API_KEY;
     private final static String TOP_RATED_MOVIES = TOP_RATED_MOVIES_BASE_URL + API_KEY;
     private final static String CURRENT_PLAYING_MOVIES = CURRENT_PLAYING_MOVIES_BASE_URL + API_KEY;
@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         setContentView(R.layout.activity_main);
         /* initialize variables & recycler */
         initializedDisplayVariables();
+        mMovieAdapter = new MovieAdapter();
         initializeRecyclerLayout();
-        createAdapter();
         /* get movie data */
         loadMoviesData();
         /* initialize loader */
@@ -82,6 +82,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         if(mMoviesToQuery == null) mMoviesToQuery = CURRENT_PLAYING_MOVIES;
     }
 
+    /**
+     * This method creates the MovieAdapter
+     */
+    private void createAdapter() {
+        mMovieAdapter = new MovieAdapter();
+    }
+
     /* initialize Recycler layout */
     private void initializeRecyclerLayout() {
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, SPLIT_COLUMN));
@@ -94,16 +101,21 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         getDataFromNetwork();
     }
 
-    /* connect to network retrieve data */
+    /**
+     * This method shows the error message if
+     */
     private void getDataFromNetwork() {
-        if(TextUtils.isEmpty(POPULAR_MOVIES_BASE_URL) || TextUtils.isEmpty(API_KEY)) {
+        if(TextUtils.isEmpty(mMoviesToQuery) || TextUtils.isEmpty(API_KEY)) {
             showErrorMessage();
             return;
         }
         restartLoader();
     }
 
-    /* restarts the asyncTaskLoader if it's not created */
+    /**
+     * This method check for AsyncTaskLoader
+     * Creates or restart Loader if it already exist
+     */
     private void restartLoader() {
         mURL = NetworkUtils.buildUrl(mMoviesToQuery);
         Bundle movieBundle = new Bundle();
@@ -116,17 +128,26 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
     }
 
-    /* show movie data */
+    /**
+     * This method is to disable error message.
+     */
     private void showMoviesDataView() {
         mError.setVisibility(View.INVISIBLE);
     }
 
-    /* show error message */
+    /**
+     * This method is to enable error message.
+     */
     private void showErrorMessage() {
         mError.setText(getResources().getString(R.string.error));
         mError.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * This method takes in movie based on the position that is selected,
+     * store the data and start detail activity with the data.
+     * @param movie
+     */
     @Override
     public void onClick(Movie movie) {
         Intent detailIntent = new Intent(this, Detail.class);
@@ -193,7 +214,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         outState.putString(MOVIE_QUERY_STRING, mURL.toString());
     }
 
-    /* fill in database */
+    /**
+     * This method takes jsonString and extracts the data with MovieUtils.getMovieList method
+     * @param jsonString
+     */
     private void fillDatabase(String jsonString) {
         ArrayList<Movie> movieList = new ArrayList<Movie>();
         MovieUtils.getMovieList(jsonString, movieList);
@@ -201,22 +225,19 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mCursor = MovieUtils.getAllMovies(mDb);
     }
 
-    /* used in AsyncTask */
-    private void createAdapter() {
-        if(mMovieAdapter == null) {
-            mMovieAdapter = new MovieAdapter(MainActivity.this, mCursor);
-        }
-    }
 
-    /* fill in recyclerview */
+
+    /**
+     * This method set up the MovieAdapter
+     */
     private void setAdapter() {
         mMovieAdapter.setMovieList(this, mCursor);
         mRecyclerView.setAdapter(mMovieAdapter);
     }
 
     /* Menu */
-    /** This method is for creating menu
-     *
+    /**
+     * This method is for creating menu
      * @param menu  menu to be inflated
      * @return true
      */
