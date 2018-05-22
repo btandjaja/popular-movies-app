@@ -20,6 +20,11 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
     private static MovieAdapterOnClickHandler mClickHandler;
 
     /**
+     * Creates an empty MovieAdatper
+     */
+    public MovieAdapter() { }
+
+    /**
      * Creates a MovieAdapter.
      *
      * @param clickHandler The on-click handler for this adapter. This single handler is called
@@ -45,10 +50,12 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
         notifyDataSetChanged();
     }
 
+    /* interface for onClick */
     public interface MovieAdapterOnClickHandler {
         void onClick(Movie movie);
     }
 
+    /* MovieViewHolder */
     public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final ImageView mImageView;
 
