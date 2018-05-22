@@ -8,7 +8,8 @@
     <string name="sort_by_popularity">Sort By Popularity</string>
 
     <!-- Fail to load -->
-    <string name="error">Failed to load data!\n Please try again!</string>
+    <string name="error">Failed to load data!\nPlease check internet
+        \nconnection and try again!</string>
 
     <!-- Constant Strings to retrieve data -->
     <string name="original_title">ORIGINAL_TITLE</string>
