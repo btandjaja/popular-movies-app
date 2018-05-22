@@ -39,6 +39,10 @@ public class Detail extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method extracts data provided from previous activity
+     * @param movieDetailIntent
+     */
     private void extractData(Intent movieDetailIntent) {
         title = movieDetailIntent.getStringExtra(MovieEntry.COLUMN_NAME_TITLE);
         thumbnail = movieDetailIntent.getStringExtra(MovieEntry.COLUMN_NAME_POSTER_PATH);
@@ -47,6 +51,9 @@ public class Detail extends AppCompatActivity {
         release_date = movieDetailIntent.getStringExtra(MovieEntry.COLUMN_NAME_RELEASE_DATE);
     }
 
+    /**
+     * This method finds the views from detail Activiy xml file.
+     */
     private void getDetailLayoutId() {
         mThumbnail = findViewById(R.id.thumbnail);
         mTitle = findViewById(R.id.tv_title);
@@ -55,6 +62,10 @@ public class Detail extends AppCompatActivity {
         mReleaseDate = findViewById(R.id.tv_release_date);
     }
 
+    /**
+     * This method fills in data to detail activity layout
+     * after the data has been extracted.
+     */
     private void fillData() {
         mTitle.setText(title);
         mRating.setText(parseRating());
@@ -63,10 +74,18 @@ public class Detail extends AppCompatActivity {
         Picasso.with(this).load(thumbnail).into(mThumbnail);
     }
 
+    /**
+     * This method takes the first four character from release date
+     * @return
+     */
     private String parsedDate() {
         return release_date.substring(BEGIN, END);
     }
 
+    /**
+     * This method set a ratio to current rating
+     * @return
+     */
     private String parseRating() {
         return String.valueOf(rating) + OUT_OF;
     }
