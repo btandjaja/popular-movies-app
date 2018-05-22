@@ -73,7 +73,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         getSupportLoaderManager().initLoader(MOVIE_QUERY_LOADER, null, this);
     }
 
-    /* initialize variables */
+    /**
+     * This methods find appropriate views and set the variables.
+     */
     private void initializedDisplayVariables() {
         mError = findViewById(R.id.tv_error);
         mProgressBar = findViewById(R.id.pb_view);
@@ -83,26 +85,33 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     /**
-     * This method creates the MovieAdapter
+     * This method creates the MovieAdapter.
      */
     private void createAdapter() {
         mMovieAdapter = new MovieAdapter();
     }
 
-    /* initialize Recycler layout */
+    /**
+     * This method initialize RecyclerView with a layout
+     * and movieAdapter.
+     */
     private void initializeRecyclerLayout() {
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, SPLIT_COLUMN));
         mRecyclerView.setAdapter(mMovieAdapter);
     }
 
-    /* get movies data */
+    /**
+     * This method calls showMovieDataView
+     * then getDataFromNetwork methods.
+     */
     private void loadMoviesData() {
         showMoviesDataView();
         getDataFromNetwork();
     }
 
     /**
-     * This method shows the error message if
+     * This method shows the error message if mMoviesToQuery is null
+     * or if API_KEY is not provided.
      */
     private void getDataFromNetwork() {
         if(TextUtils.isEmpty(mMoviesToQuery) || TextUtils.isEmpty(API_KEY)) {
@@ -113,8 +122,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     /**
-     * This method check for AsyncTaskLoader
-     * Creates or restart Loader if it already exist
+     * This method check for AsyncTaskLoader.
+     * Creates or restart Loader if it already exist.
      */
     private void restartLoader() {
         mURL = NetworkUtils.buildUrl(mMoviesToQuery);
@@ -199,10 +208,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
         showMoviesDataView();
         fillDatabase(jsonString);
-//        createAdapter();
         setAdapter();
     }
 
+    /**
+     * Has to be created, but we are not using it
+     * @param loader
+     */
     @Override
     public void onLoaderReset(@NonNull Loader<String> loader) {
 

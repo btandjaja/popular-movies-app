@@ -115,6 +115,11 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
         Picasso.with(mContext).load(path).into(movieViewHolder.mImageView);
     }
 
+    /**
+     * This method returns the number of elements in table if there's data
+     * or else it returns 0 if mCursor is null.
+     * @return
+     */
     @Override
     public int getItemCount() {
         if(mCursor == null) return 0;
