@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
 import com.squareup.picasso.Picasso;
 
+import java.net.URL;
+
 public class Detail extends AppCompatActivity {
     /* constant */
     private static final int BEGIN = 0;
@@ -25,6 +27,8 @@ public class Detail extends AppCompatActivity {
     private static String over_view;
     private static Double rating;
     private static String release_date;
+    private static String trailer_url;
+    private static URL mUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,8 @@ public class Detail extends AppCompatActivity {
         over_view = movieDetailIntent.getStringExtra(MovieEntry.COLUMN_NAME_OVER_VIEW);
         rating = movieDetailIntent.getDoubleExtra(MovieEntry.COLUMN_NAME_VOTE_AVERAGE, 0);
         release_date = movieDetailIntent.getStringExtra(MovieEntry.COLUMN_NAME_RELEASE_DATE);
+        //TODO need to access TRAILER variable
+        trailer_url = movieDetailIntent.getStringExtra()
     }
 
     /**
