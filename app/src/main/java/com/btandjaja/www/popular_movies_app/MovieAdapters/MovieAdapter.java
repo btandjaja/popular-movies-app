@@ -118,7 +118,7 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
     /**
      * This method returns the number of elements in table if there's data
      * or else it returns 0 if mCursor is null.
-     * @return elements in sqlite table
+     * @return elements in SQLite table
      */
     @Override
     public int getItemCount() {
