@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         /* get movie data */
         loadMoviesData();
         /* initialize loader */
-//        getSupportLoaderManager().initLoader(MOVIE_QUERY_LOADER, null, this);
         getSupportLoaderManager().initLoader(Constants.MOVIE_QUERY_LOADER, null, this);
 
     }
@@ -87,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mProgressBar = findViewById(R.id.pb_view);
         mRecyclerView = findViewById(R.id.recycler_view);
         mDb = (new MovieDbHelper(this)).getWritableDatabase();
-//        if(mMoviesToQuery == null) mMoviesToQuery = CURRENT_PLAYING_MOVIES;
         if(mMoviesToQuery == null) mMoviesToQuery = Constants.CURRENT_PLAYING_MOVIES;
     }
 
@@ -103,7 +101,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * and movieAdapter.
      */
     private void initializeRecyclerLayout() {
-//        mRecyclerView.setLayoutManager(new GridLayoutManager(this, SPLIT_COLUMN));
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, Constants.SPLIT_COLUMN));
         mRecyclerView.setAdapter(mMovieAdapter);
     }
@@ -122,7 +119,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * or if API_KEY is not provided.
      */
     private void getDataFromNetwork() {
-//        if(TextUtils.isEmpty(mMoviesToQuery) || TextUtils.isEmpty(API_KEY)) {
         if(TextUtils.isEmpty(mMoviesToQuery) || TextUtils.isEmpty(Constants.API_KEY)) {
             showErrorMessage();
             return;
@@ -137,15 +133,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private void restartLoader() {
         mURL = NetworkUtils.buildUrl(mMoviesToQuery);
         Bundle movieBundle = new Bundle();
-//        movieBundle.putString(MOVIE_QUERY_STRING, mURL.toString());
         movieBundle.putString(Constants.MOVIE_QUERY_STRING, mURL.toString());
         LoaderManager loaderManager = getSupportLoaderManager();
-//        if(loaderManager.getLoader(MOVIE_QUERY_LOADER) == null) {
         if(loaderManager.getLoader(Constants.MOVIE_QUERY_LOADER) == null) {
-//            loaderManager.initLoader(MOVIE_QUERY_LOADER, movieBundle, this);
             loaderManager.initLoader(Constants.MOVIE_QUERY_LOADER, movieBundle, this);
         } else {
-//            loaderManager.restartLoader(MOVIE_QUERY_LOADER, movieBundle, this);
             loaderManager.restartLoader(Constants.MOVIE_QUERY_LOADER, movieBundle, this);
         }
     }
@@ -183,14 +175,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         detailIntent.putExtra(MovieEntry.COLUMN_NAME_OVER_VIEW, movie.getOverView());
         detailIntent.putExtra(MovieEntry.COLUMN_NAME_VOTE_AVERAGE, movie.getVoteAvg());
         detailIntent.putExtra(MovieEntry.COLUMN_NAME_RELEASE_DATE, movie.getReleaseDate());
-        //TODO remove, don't need to take in movie ID, just need it for getting trailer
-//        detailIntent.putExtra(MovieEntry.COLUMN_NAME_MOVIE_ID, movie.getMovieId());
-//        detailIntent.putExtra(TRAILER, getTrailerLink(detailIntent, movie));
         detailIntent.putExtra(Constants.TRAILER, getTrailerLink(detailIntent, movie));
     }
 
     private String getTrailerLink(Intent detailIntent, Movie movie) {
-//        return MOVIE_BASE_URL + movie.getMovieId() + TRAILER + API_KEY;
         return Constants.MOVIE_BASE_URL + movie.getMovieId() + Constants.TRAILER + Constants.API_KEY;
     }
 
@@ -211,7 +199,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             @Override
             public String loadInBackground() {
                 try {
-//                    String movieUrl = args.getString(MOVIE_QUERY_STRING);
                     String movieUrl = args.getString(Constants.MOVIE_QUERY_STRING);
                     /* check for valid url */
                     if(movieUrl == null || TextUtils.isEmpty(movieUrl)) return null;
@@ -249,7 +236,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-//        outState.putString(MOVIE_QUERY_STRING, mURL.toString());
         outState.putString(Constants.MOVIE_QUERY_STRING, mURL.toString());
     }
 
@@ -293,16 +279,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.current_playing:
-//                mMoviesToQuery = CURRENT_PLAYING_MOVIES;
                 mMoviesToQuery = Constants.CURRENT_PLAYING_MOVIES;
                 break;
             case R.id.sort_by_popularity:
-//                mMoviesToQuery = POPULAR_MOVIES;
                 mMoviesToQuery = Constants.POPULAR_MOVIES;
                 mCursor = MovieUtils.sort(mCursor, mDb, mCursor.getColumnIndex(MovieEntry.COLUMN_NAME_POPULARITY));
                 break;
             case R.id.sort_by_rating:
-//                mMoviesToQuery = TOP_RATED_MOVIES;
                 mMoviesToQuery = Constants.TOP_RATED_MOVIES;
                 mCursor = MovieUtils.sort(mCursor, mDb, mCursor.getColumnIndex(MovieEntry.COLUMN_NAME_VOTE_AVERAGE));
                 break;
