@@ -55,7 +55,7 @@ public class Detail extends AppCompatActivity {
         rating = movieDetailIntent.getDoubleExtra(MovieEntry.COLUMN_NAME_VOTE_AVERAGE, 0);
         release_date = movieDetailIntent.getStringExtra(MovieEntry.COLUMN_NAME_RELEASE_DATE);
         //TODO need to access TRAILER variable
-        trailer_url = movieDetailIntent.getStringExtra()
+//        trailer_url = movieDetailIntent.getStringExtra()
     }
 
     /**
