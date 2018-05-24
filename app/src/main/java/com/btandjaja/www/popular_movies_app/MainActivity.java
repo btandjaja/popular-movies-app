@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private final static String POPULAR_MOVIES_BASE_URL = MOVIE_BASE_URL + "popular?api_key=";
     private final static String TOP_RATED_MOVIES_BASE_URL = MOVIE_BASE_URL + "top_rated?api_key=";
     private final static String CURRENT_PLAYING_MOVIES_BASE_URL = MOVIE_BASE_URL + "now_playing?api_key=";
+    private final static String TRAILER = "videos?api_key=";
 
     //TODO Please provide API key
     private final static String API_KEY = "20893aae2a9da0098c89e73e1dcad948";
@@ -163,7 +164,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public void onClick(Movie movie) {
         Intent detailIntent = new Intent(this, Detail.class);
         getMovieExtra(detailIntent, movie);
-
         startActivity(detailIntent);
     }
 
@@ -173,8 +173,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         detailIntent.putExtra(MovieEntry.COLUMN_NAME_OVER_VIEW, movie.getOverView());
         detailIntent.putExtra(MovieEntry.COLUMN_NAME_VOTE_AVERAGE, movie.getVoteAvg());
         detailIntent.putExtra(MovieEntry.COLUMN_NAME_RELEASE_DATE, movie.getReleaseDate());
-        detailIntent.putExtra(MovieEntry.COLUMN_NAME_MOVIE_ID, movie.getMovieId());
+        //TODO remove, don't need to take in movie ID, just need it for getting trailer
+//        detailIntent.putExtra(MovieEntry.COLUMN_NAME_MOVIE_ID, movie.getMovieId());
+        detailIntent.putExtra(TRAILER, getTrailerLink(detailIntent, movie));
+    }
 
+    private String getTrailerLink(Intent detailIntent, Movie movie) {
+        return MOVIE_BASE_URL + movie.getMovieId() + TRAILER + API_KEY;
     }
 
     /* asyncTaskLoader */
