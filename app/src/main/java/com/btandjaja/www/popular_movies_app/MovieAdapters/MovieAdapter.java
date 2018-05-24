@@ -20,7 +20,7 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
     private static MovieAdapterOnClickHandler mClickHandler;
 
     /**
-     * Creates an empty MovieAdatper
+     * Creates an empty MovieAdapter
      */
     public MovieAdapter() { }
 
@@ -57,9 +57,9 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
 
     /* MovieViewHolder */
     public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public final ImageView mImageView;
+        private final ImageView mImageView;
 
-        public MovieViewHolder(View itemView) {
+        private MovieViewHolder(View itemView) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.single_movie);
             itemView.setOnClickListener(this);
@@ -118,7 +118,7 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
     /**
      * This method returns the number of elements in table if there's data
      * or else it returns 0 if mCursor is null.
-     * @return
+     * @return elements in sqlite table
      */
     @Override
     public int getItemCount() {

@@ -9,9 +9,9 @@ public class Movie {
     private static final String IMAGE_URL = "http://image.tmdb.org/t/p/w185/";
 
     /* variable declarations */
-    private double mVoteAvg, mPopularity;
-    private String mOriginalTitle, mPosterPath, mOverView, mReleaseDate;
-    private int mMovieId;
+    private final double mVoteAvg, mPopularity;
+    private final String mOriginalTitle, mPosterPath, mOverView, mReleaseDate;
+    private final int mMovieId;
 
     /* constructor */
     public Movie(double voteAvg, double popularity, String title, String posterPath,
@@ -22,7 +22,7 @@ public class Movie {
         mMovieId = movieId;
     }
 
-    /* constructor for data from sqlite */
+    /* constructor for data from SQLite */
     public Movie(Cursor cursor) {
         mOriginalTitle = cursor.getString(cursor.getColumnIndex(MovieEntry.COLUMN_NAME_TITLE));
         mPosterPath = cursor.getString(cursor.getColumnIndex(MovieEntry.COLUMN_NAME_POSTER_PATH));

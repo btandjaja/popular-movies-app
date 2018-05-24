@@ -83,7 +83,7 @@ public class Detail extends AppCompatActivity {
 
     /**
      * This method takes the first four character from release date
-     * @return
+     * @return year of release date
      */
     private String parsedDate() {
         return release_date.substring(BEGIN, END);
@@ -91,7 +91,7 @@ public class Detail extends AppCompatActivity {
 
     /**
      * This method set a ratio to current rating
-     * @return
+     * @return percentage rating
      */
     private String parseRating() {
         return String.valueOf(rating) + OUT_OF;

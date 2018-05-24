@@ -3,9 +3,9 @@ package com.btandjaja.www.popular_movies_app.utilities;
 public class Constants {
     /* movie link + need key */
     public final static String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie/";
-    public final static String POPULAR_MOVIES_BASE_URL = MOVIE_BASE_URL + "popular?api_key=";
-    public final static String TOP_RATED_MOVIES_BASE_URL = MOVIE_BASE_URL + "top_rated?api_key=";
-    public final static String CURRENT_PLAYING_MOVIES_BASE_URL = MOVIE_BASE_URL + "now_playing?api_key=";
+    private final static String POPULAR_MOVIES_BASE_URL = MOVIE_BASE_URL + "popular?api_key=";
+    private final static String TOP_RATED_MOVIES_BASE_URL = MOVIE_BASE_URL + "top_rated?api_key=";
+    private final static String CURRENT_PLAYING_MOVIES_BASE_URL = MOVIE_BASE_URL + "now_playing?api_key=";
     public final static String TRAILER = "videos?api_key=";
 
     //TODO Please provide API key
