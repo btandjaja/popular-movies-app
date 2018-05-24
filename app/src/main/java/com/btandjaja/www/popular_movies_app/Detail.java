@@ -14,6 +14,7 @@ public class Detail extends AppCompatActivity {
     private static final int BEGIN = 0;
     private static final int END = 4;
     private static final String OUT_OF = "/10";
+
     /* views from detail activity */
     private ImageView mThumbnail;
     private TextView mTitle, mRating, mOverView, mReleaseDate;
