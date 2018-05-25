@@ -27,7 +27,6 @@ import com.btandjaja.www.popular_movies_app.utilities.Constants;
 import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
 import com.btandjaja.www.popular_movies_app.utilities.NetworkUtils;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -181,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
             @Override
             public String loadInBackground() {
-                return MovieUtils.getMovieListJsonString(args.getString(Constants.MOVIE_QUERY_STRING), mURL);
+                return MovieUtils.getMovieListJsonString(args.getString(Constants.MOVIE_QUERY_STRING));
             }
         };
     }

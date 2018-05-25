@@ -139,11 +139,11 @@ public class MovieUtils {
      * @param storeUrl helps return from initial screen
      * @return a jsonString of movie data
      */
-    public static String getMovieListJsonString(String movieUrlString, URL storeUrl) {
+    public static String getMovieListJsonString(String movieUrlString) {
         try {
             /* check for valid url */
             if(movieUrlString == null || TextUtils.isEmpty(movieUrlString)) return null;
-            storeUrl = new URL(movieUrlString);
+            URL storeUrl = new URL(movieUrlString);
             return NetworkUtils.getResponseFromHttpUrl(storeUrl);
         } catch (IOException e) {
             e.printStackTrace();

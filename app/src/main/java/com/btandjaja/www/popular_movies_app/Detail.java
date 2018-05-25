@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
 import com.btandjaja.www.popular_movies_app.utilities.Constants;
 import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
+import com.btandjaja.www.popular_movies_app.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 import java.net.URL;
@@ -103,10 +104,11 @@ public class Detail extends AppCompatActivity {
     }
 
     /**
-     *trailerStringUrl = "http://api.themoviedb.org/3/movie/383498/videos?api_key=20893aae2a9da0098c89e73e1dcad948"
+     * http://api.themoviedb.org/3/movie/383498/videos?api_key=20893aae2a9da0098c89e73e1dcad948
      */
     private void getRunTime() {
-        mMovieJsonString = MovieUtils.getMovieListJsonString(trailerStringUrl, mURL);
+        mURL = NetworkUtils.buildUrl(trailerStringUrl);
+        mMovieJsonString = MovieUtils.getMovieListJsonString(mURL.toString());
         runTime = MovieUtils.getRunTime(mMovieJsonString);
     }
 }
