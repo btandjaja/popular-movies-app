@@ -46,7 +46,8 @@ public class Detail extends AppCompatActivity {
             extractData(movieDetailIntent);
             getDetailLayoutId();
             fillData();
-            getRunTime();
+            //TODO for part 2
+//            getRunTime();
         }
     }
 
