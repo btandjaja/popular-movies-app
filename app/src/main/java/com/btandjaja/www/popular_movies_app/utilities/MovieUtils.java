@@ -133,6 +133,12 @@ public class MovieUtils {
                 typeSort + DESC);
     }
 
+    /**
+     * This method connects to network and returns json data
+     * @param movieUrlString is the url needed to connect to network
+     * @param storeUrl helps return from initial screen
+     * @return a jsonString of movie data
+     */
     public static String getMovieListJsonString(String movieUrlString, URL storeUrl) {
         try {
             /* check for valid url */
