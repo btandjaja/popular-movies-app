@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
+import com.btandjaja.www.popular_movies_app.utilities.Constants;
+import com.btandjaja.www.popular_movies_app.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 import java.net.URL;
@@ -24,10 +26,10 @@ public class Detail extends AppCompatActivity {
     /* extract data variables */
     private static String title;
     private static String thumbnail;
-    private static String over_view;
+    private static String overView;
     private static Double rating;
     private static String release_date;
-    private static String trailer_url;
+    private static String trailerStringUrl;
     private static URL mUrl;
 
     @Override
@@ -41,6 +43,7 @@ public class Detail extends AppCompatActivity {
             extractData(movieDetailIntent);
             getDetailLayoutId();
             fillData();
+            getRunTime();
         }
     }
 
@@ -51,11 +54,10 @@ public class Detail extends AppCompatActivity {
     private void extractData(Intent movieDetailIntent) {
         title = movieDetailIntent.getStringExtra(MovieEntry.COLUMN_NAME_TITLE);
         thumbnail = movieDetailIntent.getStringExtra(MovieEntry.COLUMN_NAME_POSTER_PATH);
-        over_view = movieDetailIntent.getStringExtra(MovieEntry.COLUMN_NAME_OVER_VIEW);
+        overView = movieDetailIntent.getStringExtra(MovieEntry.COLUMN_NAME_OVER_VIEW);
         rating = movieDetailIntent.getDoubleExtra(MovieEntry.COLUMN_NAME_VOTE_AVERAGE, 0);
         release_date = movieDetailIntent.getStringExtra(MovieEntry.COLUMN_NAME_RELEASE_DATE);
-        //TODO need to access TRAILER variable
-//        trailer_url = movieDetailIntent.getStringExtra()
+        trailerStringUrl = movieDetailIntent.getStringExtra(Constants.TRAILER);
     }
 
     /**
@@ -76,7 +78,7 @@ public class Detail extends AppCompatActivity {
     private void fillData() {
         mTitle.setText(title);
         mRating.setText(parseRating());
-        mOverView.setText(over_view);
+        mOverView.setText(overView);
         mReleaseDate.setText(parsedDate());
         Picasso.with(this).load(thumbnail).into(mThumbnail);
     }
@@ -97,4 +99,15 @@ public class Detail extends AppCompatActivity {
         return String.valueOf(rating) + OUT_OF;
     }
 
+    /**
+     *
+     */
+    private void getRunTime() {
+
+    }
+
+    private void getMovieJson() {
+        mUrl = NetworkUtils.buildUrl(trailerStringUrl);
+        
+    }
 }
