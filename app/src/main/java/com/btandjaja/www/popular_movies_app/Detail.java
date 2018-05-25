@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
 import com.btandjaja.www.popular_movies_app.utilities.Constants;
+import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
 import com.btandjaja.www.popular_movies_app.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
@@ -21,7 +22,7 @@ public class Detail extends AppCompatActivity {
 
     /* views from detail activity */
     private ImageView mThumbnail;
-    private TextView mTitle, mRating, mOverView, mReleaseDate;
+    private TextView mTitle, mRating, mOverView, mReleaseDate, mRunTime;
 
     /* extract data variables */
     private static String title;
@@ -30,7 +31,9 @@ public class Detail extends AppCompatActivity {
     private static Double rating;
     private static String release_date;
     private static String trailerStringUrl;
-    private static URL mUrl;
+    private static int runTime;
+    private static URL mURL;
+    private static String mMovieJsonString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,7 @@ public class Detail extends AppCompatActivity {
         mRating = findViewById(R.id.tv_rating);
         mOverView = findViewById(R.id.tv_over_view);
         mReleaseDate = findViewById(R.id.tv_release_date);
+        mRunTime = findViewById(R.id.tv_run_time);
     }
 
     /**
@@ -103,11 +107,7 @@ public class Detail extends AppCompatActivity {
      *
      */
     private void getRunTime() {
-
-    }
-
-    private void getMovieJson() {
-        mUrl = NetworkUtils.buildUrl(trailerStringUrl);
-
+        mMovieJsonString = MovieUtils.getMovieListJsonString(trailerStringUrl, mURL);
+        runTime = MovieUtils.getRunTime(mMovieJsonString);
     }
 }
