@@ -108,6 +108,6 @@ public class Detail extends AppCompatActivity {
 
     private void getMovieJson() {
         mUrl = NetworkUtils.buildUrl(trailerStringUrl);
-        
+
     }
 }

@@ -97,7 +97,10 @@ public class MovieUtils {
         }
     }
 
-
+    /**
+     * This method returns a cursor with list of movies
+     * @return Cursor that contains current playing movie list
+     */
     public static Cursor getAllMovies(SQLiteDatabase sqLiteDatabase) {
         return sqLiteDatabase.query(MovieEntry.TABLE_NAME,
                 null,
@@ -108,6 +111,13 @@ public class MovieUtils {
                 MovieEntry._ID);
     }
 
+    /**
+     * This method returns a sorted SQLite table
+     * @param cursor            Cursor of current SQLite table
+     * @param sqLiteDatabase    SQLite table variable
+     * @param sortType          sortby user preference (rating or popularity)
+     * @return  Cursor of the SQLite table
+     */
     public static Cursor sort(Cursor cursor, SQLiteDatabase sqLiteDatabase, int sortType) {
         String typeSort = sortType == cursor.getColumnIndex(MovieEntry.COLUMN_NAME_POPULARITY) ?
                 MovieEntry.COLUMN_NAME_POPULARITY : MovieEntry.COLUMN_NAME_VOTE_AVERAGE;
