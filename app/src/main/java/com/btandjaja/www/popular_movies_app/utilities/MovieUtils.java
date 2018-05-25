@@ -4,11 +4,14 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.text.TextUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,5 +131,17 @@ public class MovieUtils {
                 null,
                 null,
                 typeSort + DESC);
+    }
+
+    public static String getMovieListJsonString(String movieUrlString, URL storeUrl) {
+        try {
+            /* check for valid url */
+            if(movieUrlString == null || TextUtils.isEmpty(movieUrlString)) return null;
+            storeUrl = new URL(movieUrlString);
+            return NetworkUtils.getResponseFromHttpUrl(storeUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

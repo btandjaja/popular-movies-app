@@ -181,16 +181,17 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
             @Override
             public String loadInBackground() {
-                try {
-                    String movieUrl = args.getString(Constants.MOVIE_QUERY_STRING);
-                    /* check for valid url */
-                    if(movieUrl == null || TextUtils.isEmpty(movieUrl)) return null;
-                    mURL = new URL(movieUrl);
-                    return NetworkUtils.getResponseFromHttpUrl(mURL);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return null;
-                }
+                return MovieUtils.getMovieListJsonString(args.getString(Constants.MOVIE_QUERY_STRING), mURL);
+//                try {
+//                    String movieUrl = args.getString(Constants.MOVIE_QUERY_STRING);
+//                    /* check for valid url */
+//                    if(movieUrl == null || TextUtils.isEmpty(movieUrl)) return null;
+//                    mURL = new URL(movieUrl);
+//                    return NetworkUtils.getResponseFromHttpUrl(mURL);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    return null;
+//                }
             }
         };
     }
