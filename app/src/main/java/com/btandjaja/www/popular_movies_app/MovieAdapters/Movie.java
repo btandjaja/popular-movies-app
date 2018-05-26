@@ -32,14 +32,4 @@ public class Movie {
     public String getOverView() {return mOverView;}
     public String getReleaseDate() {return mReleaseDate;}
     public int getMovieId() {return mMovieId;}
-
-    /* set data methods */
-    private void setVoteAve(double voteAvg) { mVoteAvg = voteAvg; }
-    private void setPopularity(double popularity) { mPopularity = popularity; }
-    private void setTitle(String title) { mOriginalTitle = title; }
-    private void setPosterPath(String posterPath) { mPosterPath = posterPath; }
-    private void setOverView(String overView) { mOverView = overView; }
-    private void setReleaseDate(String releaseDate) { mReleaseDate = releaseDate; }
-    private void setMovieId(int movieId) { mMovieId = movieId; }
-
 }

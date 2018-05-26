@@ -17,9 +17,7 @@ import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
 @SuppressWarnings("ALL")
 public class MovieUtils {
     /** This method creates Movie object from JSON string and stores in movieList
-     *
      * @param jsonMovies    List of movies in JSON string
-     *
      * @param movieList     List of movies to be added to
      */
     public static void getMovieList(String jsonMovies, ArrayList<Movie> movieList) {
