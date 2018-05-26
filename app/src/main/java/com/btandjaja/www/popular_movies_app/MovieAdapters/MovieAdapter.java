@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
     /* declarations */
     private Context mContext;
     private static Cursor mCursor;
@@ -25,7 +25,8 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
     /**
      * Creates an empty MovieAdapter
      */
-    public MovieAdapter() { }
+    public MovieAdapter() {
+    }
 
     /**
      * Creates a MovieAdapter.
@@ -60,9 +61,8 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
      *
      * @param movieList The new movie data to be displayed.
      */
-    public void setMovieList(MovieAdapterOnClickHandler clickHandler, ArrayList<Movie> movieList) {
-        mContext = (Context) clickHandler;
-        mClickHandler = clickHandler;
+    public void setMovieList(Context context, ArrayList<Movie> movieList) {
+        mContext = context;
         mMovieList = movieList;
         notifyDataSetChanged();
     }
@@ -82,12 +82,20 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
             itemView.setOnClickListener(this);
         }
 
+        //@Override
+//        public void onClick(View itemView) {
+//            /* move cursor to the right position */
+//            if (!mCursor.moveToPosition(getAdapterPosition())) return;
+//            /* create movie object */
+//            Movie movie = new Movie(mCursor);
+//            mClickHandler.onClick(movie);
+//        }
         @Override
         public void onClick(View itemView) {
+            Movie movie = mMovieList.get(getAdapterPosition());
             /* move cursor to the right position */
-            if (!mCursor.moveToPosition(getAdapterPosition())) return;
+            if ( movie == null ) return;
             /* create movie object */
-            Movie movie = new Movie(mCursor);
             mClickHandler.onClick(movie);
         }
     }
@@ -121,7 +129,7 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
      * passed into us.
      *
      * @param movieViewHolder The ViewHolder which should be updated to represent the
-     *                          contents of the item at the given position in the data set.
+     *                        contents of the item at the given position in the data set.
      * @param position        The position of the item within the adapter's data set.
      */
     @Override
@@ -135,11 +143,12 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
     /**
      * This method returns the number of elements in table if there's data
      * or else it returns 0 if mCursor is null.
+     *
      * @return elements in SQLite table
      */
     @Override
     public int getItemCount() {
-        if(mCursor == null) return 0;
+        if (mCursor == null) return 0;
         return mCursor.getCount();
     }
 }
