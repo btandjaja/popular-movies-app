@@ -4,9 +4,6 @@ package com.btandjaja.www.popular_movies_app.MovieAdapters;
 import com.btandjaja.www.popular_movies_app.utilities.Constants;
 
 public class Movie {
-    /* image url link front portion */
-    private static final String IMAGE_URL = "http://image.tmdb.org/t/p/w185/";
-
     /* variable declarations */
     private final double mVoteAvg, mPopularity;
     private final String mOriginalTitle, mPosterPath, mOverView, mReleaseDate;
