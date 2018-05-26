@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * or if API_KEY is not provided.
      */
     private void getDataFromNetwork() {
-        if(TextUtils.isEmpty(mMoviesToQuery) || TextUtils.isEmpty(Constants.API_KEY)) {
+        if(TextUtils.isEmpty(mMoviesToQuery) || TextUtils.isEmpty(BuildConfig.API_KEY)) {
             showErrorMessage();
             return;
         }
@@ -146,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      */
     @Override
     public void onClick(Movie movie) {
-        Intent detailIntent = new Intent(this, Detail.class);
+        Intent detailIntent = new Intent(this, DetailActivity.class);
         getMovieExtra(detailIntent, movie);
         startActivity(detailIntent);
     }
@@ -161,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     private String getTrailerLink(Intent detailIntent, Movie movie) {
-        return Constants.MOVIE_BASE_URL + movie.getMovieId() + Constants.TRAILER + Constants.API_KEY;
+        return Constants.MOVIE_BASE_URL + movie.getMovieId() + Constants.TRAILER + BuildConfig.API_KEY;
     }
 
     /* asyncTaskLoader */

@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import java.net.URL;
 
-public class Detail extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity {
     /* constant */
     private static final int BEGIN = 0;
     private static final int END = 4;
