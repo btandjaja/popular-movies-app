@@ -126,12 +126,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      */
     private void showMoviesDataView() {
         mError.setVisibility(View.INVISIBLE);
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     /**
      * This method is to enable error message.
      */
     private void showErrorMessage() {
+        mRecyclerView.setVisibility(View.INVISIBLE);
         mError.setText(getResources().getString(R.string.error));
         mError.setVisibility(View.VISIBLE);
     }
