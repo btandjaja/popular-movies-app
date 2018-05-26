@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private TextView mError = null;
     private ProgressBar mProgressBar = null;
     private RecyclerView mRecyclerView = null;
-    private static SQLiteDatabase mDb = null;
-    private static Cursor mCursor = null;
+//    private static SQLiteDatabase mDb = null;
+//    private static Cursor mCursor = null;
     private MovieAdapter mMovieAdapter = null;
     private static URL mURL = null;
     private static String mMoviesToQuery = null;
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mError = findViewById(R.id.tv_error);
         mProgressBar = findViewById(R.id.pb_view);
         mRecyclerView = findViewById(R.id.recycler_view);
-        mDb = (new MovieDbHelper(this)).getWritableDatabase();
+//        mDb = (new MovieDbHelper(this)).getWritableDatabase();
         sortType = null;
         if(mMoviesToQuery == null) mMoviesToQuery = Constants.CURRENT_PLAYING_MOVIES;
     }
