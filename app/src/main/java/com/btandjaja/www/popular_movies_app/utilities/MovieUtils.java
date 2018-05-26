@@ -27,13 +27,13 @@ public class MovieUtils {
             JSONArray movieJsonArr = movieJsonObj.getJSONArray(Constants.RESULTS);
             for(int i = 0; i < movieJsonArr.length(); i++) {
                 JSONObject singleMovie = movieJsonArr.getJSONObject(i);
-                Double voteAvg = singleMovie.getDouble(Constants.VOTE_AVERAGE);
-                Double popularity = singleMovie.getDouble(Constants.POPULARITY);
-                String originalTitle = singleMovie.getString(Constants.ORIGINAL_TITLE);
-                String posterPath = singleMovie.getString(Constants.POSTER_PATH);
-                String overView = singleMovie.getString(Constants.OVERVIEW);
-                String releaseDate = singleMovie.getString(Constants.RELEASE_DATE);
-                int movieId = singleMovie.getInt(Constants.MOVIE_ID);
+                Double voteAvg = singleMovie.optDouble(Constants.VOTE_AVERAGE);
+                Double popularity = singleMovie.optDouble(Constants.POPULARITY);
+                String originalTitle = singleMovie.optString(Constants.ORIGINAL_TITLE);
+                String posterPath = singleMovie.optString(Constants.POSTER_PATH);
+                String overView = singleMovie.optString(Constants.OVERVIEW);
+                String releaseDate = singleMovie.optString(Constants.RELEASE_DATE);
+                int movieId = singleMovie.optInt(Constants.MOVIE_ID);
                 movieList.add(new Movie(voteAvg, popularity, originalTitle,
                         Constants.IMAGE_URL + posterPath, overView,
                         releaseDate, movieId));
