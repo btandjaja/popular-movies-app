@@ -52,6 +52,7 @@ public class Detail extends AppCompatActivity {
 
     /**
      * This method extracts data provided from previous activity
+     *
      * @param movieDetailIntent has data to be extracted from previous activity
      */
     private void extractData(Intent movieDetailIntent) {

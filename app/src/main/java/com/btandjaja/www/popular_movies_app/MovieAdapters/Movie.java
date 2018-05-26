@@ -1,8 +1,5 @@
 package com.btandjaja.www.popular_movies_app.MovieAdapters;
 
-
-import com.btandjaja.www.popular_movies_app.utilities.Constants;
-
 public class Movie {
     /* variable declarations */
     private double mVoteAvg, mPopularity;

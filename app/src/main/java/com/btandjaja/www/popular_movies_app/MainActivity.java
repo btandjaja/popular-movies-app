@@ -139,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     /**
      * This method takes in movie based on the position that is selected,
      * store the data and start detail activity with the data.
+     *
      * @param movie
      */
     @Override
@@ -196,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     /**
      * Has to be created, but we are not using it
+     *
      * @param loader
      */
     @Override
@@ -211,6 +213,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     /**
      * This method takes jsonString and extracts the data with MovieUtils.getMovieList method
+     *
      * @param jsonString
      */
     private void fillDatabase(String jsonString) {
@@ -230,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     /* Menu */
     /**
      * This method is for creating menu
+     *
      * @param menu  menu to be inflated
      * @return true
      */
