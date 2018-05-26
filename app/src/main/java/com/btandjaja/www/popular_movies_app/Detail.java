@@ -46,7 +46,7 @@ public class Detail extends AppCompatActivity {
             getDetailLayoutId();
             fillData();
             //TODO for part 2
-            getRunTime();
+//            getRunTime();
         }
     }
 

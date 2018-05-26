@@ -35,7 +35,8 @@ public class MovieUtils {
                 String overView = singleMovie.getString(Constants.OVERVIEW);
                 String releaseDate = singleMovie.getString(Constants.RELEASE_DATE);
                 int movieId = singleMovie.getInt(Constants.MOVIE_ID);
-                movieList.add(new Movie(voteAvg, popularity, originalTitle, posterPath, overView,
+                movieList.add(new Movie(voteAvg, popularity, originalTitle,
+                        Constants.IMAGE_URL + posterPath, overView,
                         releaseDate, movieId));
             }
         } catch (JSONException e) {

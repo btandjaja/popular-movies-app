@@ -13,7 +13,7 @@ public class Movie {
     public Movie(double voteAvg, double popularity, String title, String posterPath,
                  String overView, String releaseDate, int movieId) {
         mVoteAvg = voteAvg;  mPopularity = popularity;
-        mOriginalTitle = title; mPosterPath = Constants.IMAGE_URL + posterPath;
+        mOriginalTitle = title; mPosterPath = posterPath;
         mOverView = overView; mReleaseDate = releaseDate;
         mMovieId = movieId;
     }
@@ -23,6 +23,7 @@ public class Movie {
         return new Movie(movie.getVoteAvg(), movie.getPopularity(), movie.getTitle(),
                 movie.getPosterPath(), movie.getOverView(), movie.getReleaseDate(), movie.getMovieId());
     }
+
     /* get data methods */
     public double getVoteAvg() {return mVoteAvg;}
     public double getPopularity() {return mPopularity;}
