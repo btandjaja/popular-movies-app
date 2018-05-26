@@ -22,9 +22,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     /**
      * Creates an empty MovieAdapter
      */
-    public MovieAdapter() {
-        mClickHandler = null;
-    }
+    public MovieAdapter() { }
 
     /**
      * This method is used to set the movies on a MovieAdapter if we've already
@@ -56,8 +54,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         @Override
         public void onClick(View itemView) {
-            Movie movie = mMovieList.get(getAdapterPosition());
-            /* move cursor to the right position */
+            /* get data from the right position */
+            Movie movie = Movie.copyMovie(mMovieList.get(getAdapterPosition()));
             if ( movie == null ) return;
             /* create movie object */
             mClickHandler.onClick(movie);
