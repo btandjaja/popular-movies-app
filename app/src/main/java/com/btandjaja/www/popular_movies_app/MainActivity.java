@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
 import com.btandjaja.www.popular_movies_app.MovieAdapters.MovieAdapter;
-import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
 import com.btandjaja.www.popular_movies_app.utilities.Constants;
 import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
 import com.btandjaja.www.popular_movies_app.utilities.NetworkUtils;
@@ -150,11 +149,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     private void getMovieExtra(Intent detailIntent, Movie movie) {
-        detailIntent.putExtra(MovieEntry.COLUMN_NAME_TITLE, movie.getTitle());
-        detailIntent.putExtra(MovieEntry.COLUMN_NAME_POSTER_PATH, movie.getPosterPath());
-        detailIntent.putExtra(MovieEntry.COLUMN_NAME_OVER_VIEW, movie.getOverView());
-        detailIntent.putExtra(MovieEntry.COLUMN_NAME_VOTE_AVERAGE, movie.getVoteAvg());
-        detailIntent.putExtra(MovieEntry.COLUMN_NAME_RELEASE_DATE, movie.getReleaseDate());
+        detailIntent.putExtra(Constants.ORIGINAL_TITLE, movie.getTitle());
+        detailIntent.putExtra(Constants.POSTER_PATH, movie.getPosterPath());
+        detailIntent.putExtra(Constants.OVERVIEW, movie.getOverView());
+        detailIntent.putExtra(Constants.VOTE_AVERAGE, movie.getVoteAvg());
+        detailIntent.putExtra(Constants.RELEASE_DATE, movie.getReleaseDate());
         detailIntent.putExtra(Constants.TRAILER, getTrailerLink(detailIntent, movie));
     }
 
@@ -254,11 +253,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 break;
             case R.id.sort_by_popularity:
                 mMoviesToQuery = Constants.POPULAR_MOVIES;
-                sortType = Constants.POPULAR_MOVIES;
+                sortType = Constants.POPULARITY;
                 break;
             case R.id.sort_by_rating:
                 mMoviesToQuery = Constants.TOP_RATED_MOVIES;
-                sortType = Constants.TOP_RATED_MOVIES;
+                sortType = Constants.VOTE_AVERAGE;
                 break;
             default:
                 return super.onOptionsItemSelected(item);

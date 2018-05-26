@@ -1,7 +1,6 @@
 package com.btandjaja.www.popular_movies_app.MovieAdapters;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.btandjaja.www.popular_movies_app.R;
-import com.btandjaja.www.popular_movies_app.data.MovieContract;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

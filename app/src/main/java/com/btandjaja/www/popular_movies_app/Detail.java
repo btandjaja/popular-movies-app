@@ -1,13 +1,11 @@
 package com.btandjaja.www.popular_movies_app;
 
 import android.content.Intent;
-import android.support.v4.app.LoaderManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
 import com.btandjaja.www.popular_movies_app.utilities.Constants;
 import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
 import com.btandjaja.www.popular_movies_app.utilities.NetworkUtils;
@@ -57,11 +55,11 @@ public class Detail extends AppCompatActivity {
      * @param movieDetailIntent has data to be extracted from previous activity
      */
     private void extractData(Intent movieDetailIntent) {
-        title = movieDetailIntent.getStringExtra(MovieEntry.COLUMN_NAME_TITLE);
-        thumbnail = movieDetailIntent.getStringExtra(MovieEntry.COLUMN_NAME_POSTER_PATH);
-        overView = movieDetailIntent.getStringExtra(MovieEntry.COLUMN_NAME_OVER_VIEW);
-        rating = movieDetailIntent.getDoubleExtra(MovieEntry.COLUMN_NAME_VOTE_AVERAGE, 0);
-        release_date = movieDetailIntent.getStringExtra(MovieEntry.COLUMN_NAME_RELEASE_DATE);
+        title = movieDetailIntent.getStringExtra(Constants.ORIGINAL_TITLE);
+        thumbnail = movieDetailIntent.getStringExtra(Constants.POSTER_PATH);
+        overView = movieDetailIntent.getStringExtra(Constants.OVERVIEW);
+        rating = movieDetailIntent.getDoubleExtra(Constants.VOTE_AVERAGE, 0);
+        release_date = movieDetailIntent.getStringExtra(Constants.RELEASE_DATE);
         trailerStringUrl = movieDetailIntent.getStringExtra(Constants.TRAILER);
     }
 
