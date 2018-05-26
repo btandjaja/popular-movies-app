@@ -13,6 +13,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
@@ -131,6 +134,17 @@ public class MovieUtils {
                 null,
                 null,
                 typeSort + DESC);
+    }
+
+    public static void sort(ArrayList<Movie> movieList, final String sortType) {
+        Collections.sort(movieList, new Comparator<Movie> () {
+            @Override
+            public int compare(Movie o1, Movie o2) {
+                if(sortType == Constants.POPULAR_MOVIES)
+                    return Double.compare(o2.getPopularity(), o1.getPopularity());
+                return Double.compare(o2.getVoteAvg(), o1.getVoteAvg());
+            }
+        });
     }
 
     /**

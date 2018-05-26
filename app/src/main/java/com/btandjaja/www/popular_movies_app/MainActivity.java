@@ -13,12 +13,12 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
 import com.btandjaja.www.popular_movies_app.MovieAdapters.MovieAdapter;
@@ -30,8 +30,6 @@ import com.btandjaja.www.popular_movies_app.utilities.NetworkUtils;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 @SuppressWarnings("ALL")
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler,
@@ -47,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private static String mMoviesToQuery = null;
     private static Boolean mAdapterCreated = false;
     private static String mMovieTrailer = null;
+    private static ArrayList<Movie> mMovieList;
+    private static String sortType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,17 +60,18 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         loadMoviesData();
         /* initialize loader */
         getSupportLoaderManager().initLoader(Constants.MOVIE_QUERY_LOADER, null, this);
-
     }
 
     /**
      * This methods find appropriate views and set the variables.
      */
     private void initializedDisplayVariables() {
+        mMovieList = new ArrayList<>();
         mError = findViewById(R.id.tv_error);
         mProgressBar = findViewById(R.id.pb_view);
         mRecyclerView = findViewById(R.id.recycler_view);
         mDb = (new MovieDbHelper(this)).getWritableDatabase();
+        sortType = null;
         if(mMoviesToQuery == null) mMoviesToQuery = Constants.CURRENT_PLAYING_MOVIES;
     }
 
@@ -220,17 +221,21 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * @param jsonString
      */
     private void fillDatabase(String jsonString) {
-        ArrayList<Movie> movieList = new ArrayList<Movie>();
-        MovieUtils.getMovieList(jsonString, movieList);
-        MovieUtils.initializedDb(mDb, movieList);
-        mCursor = MovieUtils.getAllMovies(mDb);
+//        ArrayList<Movie> movieList = new ArrayList<Movie>();
+//        MovieUtils.getMovieList(jsonString, movieList);
+//        MovieUtils.initializedDb(mDb, movieList);
+//        mCursor = MovieUtils.getAllMovies(mDb);
+        mMovieList.clear();
+        MovieUtils.getMovieList(jsonString, mMovieList);
     }
 
     /**
      * This method set up the MovieAdapter
      */
     private void setAdapter() {
-        mMovieAdapter.setMovieList(this, mCursor);
+//        mMovieAdapter.setMovieList(this, mCursor);
+        if(sortType != null) MovieUtils.sort(mMovieList, sortType);
+        mMovieAdapter.setMovieList(this, mMovieList);
         mRecyclerView.setAdapter(mMovieAdapter);
     }
 
@@ -253,18 +258,18 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int sortType = -1;
         switch(item.getItemId()) {
             case R.id.current_playing:
                 mMoviesToQuery = Constants.CURRENT_PLAYING_MOVIES;
+                sortType = null;
                 break;
             case R.id.sort_by_popularity:
                 mMoviesToQuery = Constants.POPULAR_MOVIES;
-                sortType = 1;
+                sortType = Constants.POPULAR_MOVIES;
                 break;
             case R.id.sort_by_rating:
                 mMoviesToQuery = Constants.TOP_RATED_MOVIES;
-                sortType = 2;
+                sortType = Constants.TOP_RATED_MOVIES;
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -272,11 +277,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         restartLoader();
 
-        if(sortType == 1) {
-            mCursor = MovieUtils.sort(mCursor, mDb, mCursor.getColumnIndex(MovieEntry.COLUMN_NAME_POPULARITY));
-        } else if(sortType == 2) {
-            mCursor = MovieUtils.sort(mCursor, mDb, mCursor.getColumnIndex(MovieEntry.COLUMN_NAME_VOTE_AVERAGE));
-        }
+//        if(sortType == 1) {
+//            mCursor = MovieUtils.sort(mCursor, mDb, mCursor.getColumnIndex(MovieEntry.COLUMN_NAME_POPULARITY));
+//        } else if(sortType == 2) {
+//            mCursor = MovieUtils.sort(mCursor, mDb, mCursor.getColumnIndex(MovieEntry.COLUMN_NAME_VOTE_AVERAGE));
+//        }
         return true;
     }
 }
