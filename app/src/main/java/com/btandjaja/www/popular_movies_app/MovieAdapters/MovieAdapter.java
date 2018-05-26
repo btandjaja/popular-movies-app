@@ -134,9 +134,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
      */
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int position) {
-        if (!mCursor.moveToPosition(position)) return;
-        String path = mCursor.getString(mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_NAME_POSTER_PATH
-        ));
+//        if (!mCursor.moveToPosition(position)) return;
+//        String path = mCursor.getString(mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_NAME_POSTER_PATH
+//        ));
+        Movie movie = mMovieList.get(position);
+        if(movie == null) return;
+        String path = movie.getPosterPath();
         Picasso.with(mContext).load(path).into(movieViewHolder.mImageView);
     }
 
