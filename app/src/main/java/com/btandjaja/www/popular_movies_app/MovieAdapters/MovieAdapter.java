@@ -22,7 +22,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     /**
      * Creates an empty MovieAdapter
      */
-    public MovieAdapter() { }
+    public MovieAdapter(MovieAdapterOnClickHandler clickHandler) { mClickHandler = clickHandler; }
 
     /**
      * This method is used to set the movies on a MovieAdapter if we've already

@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         setContentView(R.layout.activity_main);
         /* initialize variables & recycler */
         initializedDisplayVariables();
-        mMovieAdapter = new MovieAdapter();
+        createAdapter();
         initializeRecyclerLayout();
         /* get movie data */
         loadMoviesData();
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * This method creates the MovieAdapter.
      */
     private void createAdapter() {
-        mMovieAdapter = new MovieAdapter();
+        mMovieAdapter = new MovieAdapter(MainActivity.this);
     }
 
     /**
