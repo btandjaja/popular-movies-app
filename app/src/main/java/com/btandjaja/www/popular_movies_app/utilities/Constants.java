@@ -10,6 +10,7 @@ public class Constants {
     public static final int SPLIT_COLUMN = 2;
     public static final int MOVIE_QUERY_LOADER = 2001;
     public static final String MOVIE_QUERY_STRING = "query";
+    public static final String IMAGE_URL = "http://image.tmdb.org/t/p/w185/";
     //TODO Please provide API key
     public final static String API_KEY = "20893aae2a9da0098c89e73e1dcad948";
     public final static String RUNTIME = "runtime";

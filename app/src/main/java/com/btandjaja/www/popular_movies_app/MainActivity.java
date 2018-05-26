@@ -6,8 +6,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,7 +21,6 @@ import android.widget.TextView;
 import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
 import com.btandjaja.www.popular_movies_app.MovieAdapters.MovieAdapter;
 import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
-import com.btandjaja.www.popular_movies_app.data.MovieDbHelper;
 import com.btandjaja.www.popular_movies_app.utilities.Constants;
 import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
 import com.btandjaja.www.popular_movies_app.utilities.NetworkUtils;
@@ -38,8 +35,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private TextView mError = null;
     private ProgressBar mProgressBar = null;
     private RecyclerView mRecyclerView = null;
-//    private static SQLiteDatabase mDb = null;
-//    private static Cursor mCursor = null;
     private MovieAdapter mMovieAdapter = null;
     private static URL mURL = null;
     private static String mMoviesToQuery = null;
@@ -70,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mError = findViewById(R.id.tv_error);
         mProgressBar = findViewById(R.id.pb_view);
         mRecyclerView = findViewById(R.id.recycler_view);
-//        mDb = (new MovieDbHelper(this)).getWritableDatabase();
         sortType = null;
         if(mMoviesToQuery == null) mMoviesToQuery = Constants.CURRENT_PLAYING_MOVIES;
     }
@@ -221,10 +215,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * @param jsonString
      */
     private void fillDatabase(String jsonString) {
-//        ArrayList<Movie> movieList = new ArrayList<Movie>();
-//        MovieUtils.getMovieList(jsonString, movieList);
-//        MovieUtils.initializedDb(mDb, movieList);
-//        mCursor = MovieUtils.getAllMovies(mDb);
         mMovieList.clear();
         MovieUtils.getMovieList(jsonString, mMovieList);
     }
@@ -233,7 +223,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * This method set up the MovieAdapter
      */
     private void setAdapter() {
-//        mMovieAdapter.setMovieList(this, mCursor);
         if(sortType != null) MovieUtils.sort(mMovieList, sortType);
         mMovieAdapter.setMovieList(this, mMovieList);
         mRecyclerView.setAdapter(mMovieAdapter);
@@ -274,14 +263,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             default:
                 return super.onOptionsItemSelected(item);
         }
-
         restartLoader();
-
-//        if(sortType == 1) {
-//            mCursor = MovieUtils.sort(mCursor, mDb, mCursor.getColumnIndex(MovieEntry.COLUMN_NAME_POPULARITY));
-//        } else if(sortType == 2) {
-//            mCursor = MovieUtils.sort(mCursor, mDb, mCursor.getColumnIndex(MovieEntry.COLUMN_NAME_VOTE_AVERAGE));
-//        }
         return true;
     }
 }

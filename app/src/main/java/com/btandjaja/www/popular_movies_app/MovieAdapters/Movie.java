@@ -1,8 +1,7 @@
 package com.btandjaja.www.popular_movies_app.MovieAdapters;
 
-import android.database.Cursor;
 
-import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
+import com.btandjaja.www.popular_movies_app.utilities.Constants;
 
 public class Movie {
     /* image url link front portion */
@@ -17,20 +16,9 @@ public class Movie {
     public Movie(double voteAvg, double popularity, String title, String posterPath,
                  String overView, String releaseDate, int movieId) {
         mVoteAvg = voteAvg;  mPopularity = popularity;
-        mOriginalTitle = title; mPosterPath = IMAGE_URL + posterPath;
+        mOriginalTitle = title; mPosterPath = Constants.IMAGE_URL + posterPath;
         mOverView = overView; mReleaseDate = releaseDate;
         mMovieId = movieId;
-    }
-
-    /* constructor for data from SQLite */
-    public Movie(Cursor cursor) {
-        mOriginalTitle = cursor.getString(cursor.getColumnIndex(MovieEntry.COLUMN_NAME_TITLE));
-        mPosterPath = cursor.getString(cursor.getColumnIndex(MovieEntry.COLUMN_NAME_POSTER_PATH));
-        mOverView = cursor.getString(cursor.getColumnIndex(MovieEntry.COLUMN_NAME_OVER_VIEW));
-        mReleaseDate = cursor.getString(cursor.getColumnIndex(MovieEntry.COLUMN_NAME_RELEASE_DATE));
-        mVoteAvg = cursor.getDouble(cursor.getColumnIndex(MovieEntry.COLUMN_NAME_VOTE_AVERAGE));
-        mPopularity = cursor.getDouble(cursor.getColumnIndex(MovieEntry.COLUMN_NAME_POPULARITY));
-        mMovieId = cursor.getInt(cursor.getColumnIndex(MovieEntry.COLUMN_NAME_MOVIE_ID));
     }
 
     /* get data methods */

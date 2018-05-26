@@ -18,7 +18,6 @@ import java.util.ArrayList;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
     /* declarations */
     private Context mContext;
-    private static Cursor mCursor;
     private static MovieAdapterOnClickHandler mClickHandler;
     private static ArrayList<Movie> mMovieList;
 
@@ -26,32 +25,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
      * Creates an empty MovieAdapter
      */
     public MovieAdapter() {
-    }
-
-    /**
-     * Creates a MovieAdapter.
-     *
-     * @param clickHandler The on-click handler for this adapter. This single handler is called
-     *                     when an item is clicked.
-     */
-    public MovieAdapter(MovieAdapterOnClickHandler clickHandler, Cursor cursor) {
-        mContext = (Context) clickHandler;
-        mClickHandler = clickHandler;
-        mCursor = cursor;
-    }
-
-    /**
-     * This method is used to set the movies on a MovieAdapter if we've already
-     * created one. This is handy when we get new data from the web or sorted data
-     * but don't want to create a new MovieAdapter to display it.
-     *
-     * @param cursor The new movie data to be displayed.
-     */
-    public void setMovieList(MovieAdapterOnClickHandler clickHandler, Cursor cursor) {
-        mContext = (Context) clickHandler;
-        mClickHandler = clickHandler;
-        mCursor = cursor;
-        notifyDataSetChanged();
+        mClickHandler = null;
     }
 
     /**
@@ -82,14 +56,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             itemView.setOnClickListener(this);
         }
 
-        //@Override
-//        public void onClick(View itemView) {
-//            /* move cursor to the right position */
-//            if (!mCursor.moveToPosition(getAdapterPosition())) return;
-//            /* create movie object */
-//            Movie movie = new Movie(mCursor);
-//            mClickHandler.onClick(movie);
-//        }
         @Override
         public void onClick(View itemView) {
             Movie movie = mMovieList.get(getAdapterPosition());
@@ -134,9 +100,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
      */
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int position) {
-//        if (!mCursor.moveToPosition(position)) return;
-//        String path = mCursor.getString(mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_NAME_POSTER_PATH
-//        ));
         Movie movie = mMovieList.get(position);
         if(movie == null) return;
         String path = movie.getPosterPath();
@@ -151,8 +114,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
      */
     @Override
     public int getItemCount() {
-//        if (mCursor == null) return 0;
-//        return mCursor.getCount();
         if (mMovieList == null) return 0;
         return mMovieList.size();
     }
