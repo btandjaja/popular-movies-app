@@ -13,7 +13,7 @@ public class Constants {
     public static final String IMAGE_URL = "http://image.tmdb.org/t/p/w185/";
     public final static String RESULTS = "results";
     //TODO Please provide API key
-    public final static String API_KEY = "20893aae2a9da0098c89e73e1dcad948";
+    public final static String API_KEY = "";
     public final static String RUNTIME = "runtime";
     public final static String OVERVIEW = "overview";
     public final static String ORIGINAL_TITLE = "original_title";
