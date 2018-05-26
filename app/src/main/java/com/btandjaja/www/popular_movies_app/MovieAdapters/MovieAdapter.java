@@ -13,11 +13,14 @@ import com.btandjaja.www.popular_movies_app.R;
 import com.btandjaja.www.popular_movies_app.data.MovieContract;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
     /* declarations */
     private Context mContext;
     private static Cursor mCursor;
     private static MovieAdapterOnClickHandler mClickHandler;
+    private static ArrayList<Movie> mMovieList;
 
     /**
      * Creates an empty MovieAdapter
@@ -47,6 +50,20 @@ public class MovieAdapter extends  RecyclerView.Adapter<MovieAdapter.MovieViewHo
         mContext = (Context) clickHandler;
         mClickHandler = clickHandler;
         mCursor = cursor;
+        notifyDataSetChanged();
+    }
+
+    /**
+     * This method is used to set the movies on a MovieAdapter if we've already
+     * created one. This is handy when we get new data from the web or sorted data
+     * but don't want to create a new MovieAdapter to display it.
+     *
+     * @param movieList The new movie data to be displayed.
+     */
+    public void setMovieList(MovieAdapterOnClickHandler clickHandler, ArrayList<Movie> movieList) {
+        mContext = (Context) clickHandler;
+        mClickHandler = clickHandler;
+        mMovieList = movieList;
         notifyDataSetChanged();
     }
 

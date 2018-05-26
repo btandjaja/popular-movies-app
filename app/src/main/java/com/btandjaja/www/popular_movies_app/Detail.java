@@ -1,6 +1,7 @@
 package com.btandjaja.www.popular_movies_app;
 
 import android.content.Intent;
+import android.support.v4.app.LoaderManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -47,7 +48,7 @@ public class Detail extends AppCompatActivity {
             getDetailLayoutId();
             fillData();
             //TODO for part 2
-//            getRunTime();
+            getRunTime();
         }
     }
 

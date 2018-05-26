@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
 import com.btandjaja.www.popular_movies_app.MovieAdapters.MovieAdapter;
@@ -29,6 +30,8 @@ import com.btandjaja.www.popular_movies_app.utilities.NetworkUtils;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 @SuppressWarnings("ALL")
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler,
@@ -250,22 +253,30 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int sortType = -1;
         switch(item.getItemId()) {
             case R.id.current_playing:
                 mMoviesToQuery = Constants.CURRENT_PLAYING_MOVIES;
                 break;
             case R.id.sort_by_popularity:
                 mMoviesToQuery = Constants.POPULAR_MOVIES;
-                mCursor = MovieUtils.sort(mCursor, mDb, mCursor.getColumnIndex(MovieEntry.COLUMN_NAME_POPULARITY));
+                sortType = 1;
                 break;
             case R.id.sort_by_rating:
                 mMoviesToQuery = Constants.TOP_RATED_MOVIES;
-                mCursor = MovieUtils.sort(mCursor, mDb, mCursor.getColumnIndex(MovieEntry.COLUMN_NAME_VOTE_AVERAGE));
+                sortType = 2;
                 break;
             default:
                 return super.onOptionsItemSelected(item);
         }
+
         restartLoader();
+
+        if(sortType == 1) {
+            mCursor = MovieUtils.sort(mCursor, mDb, mCursor.getColumnIndex(MovieEntry.COLUMN_NAME_POPULARITY));
+        } else if(sortType == 2) {
+            mCursor = MovieUtils.sort(mCursor, mDb, mCursor.getColumnIndex(MovieEntry.COLUMN_NAME_VOTE_AVERAGE));
+        }
         return true;
     }
 }

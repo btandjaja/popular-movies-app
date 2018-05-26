@@ -11,7 +11,7 @@ public class Constants {
     public static final int MOVIE_QUERY_LOADER = 2001;
     public static final String MOVIE_QUERY_STRING = "query";
     //TODO Please provide API key
-    public final static String API_KEY = "";
+    public final static String API_KEY = "20893aae2a9da0098c89e73e1dcad948";
     public final static String RUNTIME = "runtime";
     /* used constants */
     public final static String POPULAR_MOVIES = MOVIE_BASE_URL + POPULAR_MOVIES_BASE_URL + API_KEY;
