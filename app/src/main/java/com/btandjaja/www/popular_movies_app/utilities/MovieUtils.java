@@ -37,7 +37,8 @@ public class MovieUtils {
 //                movieList.add(new Movie(voteAvg, popularity, originalTitle,
 //                        Constants.IMAGE_URL + posterPath, overView,
 //                        releaseDate, movieId));
-                movieList.add(new Movie(voteAvg, popularity, posterPath, movieId));
+                movieList.add(new Movie(voteAvg, popularity,
+                        Constants.IMAGE_URL + posterPath, movieId));
             }
         } catch (JSONException e) {
             e.printStackTrace();

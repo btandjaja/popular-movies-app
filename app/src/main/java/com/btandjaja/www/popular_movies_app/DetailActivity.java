@@ -44,6 +44,7 @@ public class DetailActivity extends AppCompatActivity {
         if (movieDetailIntent.hasExtra("original_title")) {
             extractData(movieDetailIntent);
             getDetailLayoutId();
+            //TODO might need to change location adding data
             fillData();
             //TODO for part 2
 //            getRunTime();
