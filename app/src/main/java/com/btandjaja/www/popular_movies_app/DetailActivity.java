@@ -1,19 +1,22 @@
 package com.btandjaja.www.popular_movies_app;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.btandjaja.www.popular_movies_app.utilities.Constants;
-import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
-import com.btandjaja.www.popular_movies_app.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 import java.net.URL;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements LoaderCallbacks<String>{
     /* constant */
     private static final int BEGIN = 0;
     private static final int END = 4;
@@ -103,4 +106,20 @@ public class DetailActivity extends AppCompatActivity {
         return String.valueOf(rating) + OUT_OF;
     }
 
+    /* AsyncTaskLoader */
+    @NonNull
+    @Override
+    public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<String> loader, String data) {
+
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<String> loader) {
+
+    }
 }
