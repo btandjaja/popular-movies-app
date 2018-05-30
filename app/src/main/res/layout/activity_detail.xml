@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetailActivity">
 
+    <ProgressBar
+        android:id="@+id/pb_detail_view"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:visibility="invisible"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:id="@+id/tv_detail_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_centerInParent="true"
+        android:text="@string/error"
+        android:textSize="22sp"
+        android:gravity="center"
+        tools:text="@string/error" />
+
     <ScrollView
+        android:id="@+id/sv_movie_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.constraint.ConstraintLayout
@@ -95,4 +114,4 @@
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
-</FrameLayout>
+</RelativeLayout>

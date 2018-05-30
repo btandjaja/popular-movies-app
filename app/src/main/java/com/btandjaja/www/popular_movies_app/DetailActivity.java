@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.btandjaja.www.popular_movies_app.utilities.Constants;
@@ -17,7 +20,8 @@ import com.squareup.picasso.Picasso;
 
 import java.net.URL;
 
-public class DetailActivity extends AppCompatActivity implements LoaderCallbacks<String>{
+public class DetailActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<String>{
     /* constant */
     private static final int BEGIN = 0;
     private static final int END = 4;
@@ -25,7 +29,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderCallbacks
 
     /* views from detail activity */
     private ImageView mThumbnail;
-    private TextView mTitle, mRating, mOverView, mReleaseDate, mRunTime;
+    private TextView mTitle, mRating, mOverView, mReleaseDate, mRunTime, mError;
+    private ProgressBar mLoadingInidicator;
+    private ScrollView mScrollView;
 
     /* extract data variables */
     private static String title;
@@ -77,6 +83,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderCallbacks
         mOverView = findViewById(R.id.tv_over_view);
         mReleaseDate = findViewById(R.id.tv_release_date);
         mRunTime = findViewById(R.id.tv_run_time);
+        mLoadingInidicator = findViewById(R.id.pb_detail_view);
+        mError = findViewById(R.id.tv_detail_error);
+        mScrollView = findViewById(R.id.sv_movie_detail);
     }
 
     /**
@@ -116,24 +125,44 @@ public class DetailActivity extends AppCompatActivity implements LoaderCallbacks
             protected void onStartLoading() {
                 super.onStartLoading();
                 if(args == null) return;
+                mLoadingInidicator.setVisibility(View.VISIBLE);
                 forceLoad();
             }
 
             @Nullable
             @Override
             public String loadInBackground() {
+
                 return null;
             }
         };
     }
 
     @Override
-    public void onLoadFinished(@NonNull Loader<String> loader, String data) {
-
+    public void onLoadFinished(@NonNull Loader<String> loader, String jsonString) {
+        mLoadingInidicator.setVisibility(View.INVISIBLE);
+        if(jsonString == null || TextUtils.isEmpty(jsonString)) return;
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<String> loader) {
 
+    }
+
+    /**
+     * This method is to disable error message.
+     */
+    private void showMovieDetail() {
+        mError.setVisibility(View.INVISIBLE);
+        mScrollView.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * This method is to enable error message.
+     */
+    private void showErrorMessage() {
+        mScrollView.setVisibility(View.INVISIBLE);
+        mError.setText(getResources().getString(R.string.error));
+        mError.setVisibility(View.VISIBLE);
     }
 }
