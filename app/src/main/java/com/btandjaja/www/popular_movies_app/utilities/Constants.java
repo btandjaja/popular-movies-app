@@ -3,11 +3,15 @@ package com.btandjaja.www.popular_movies_app.utilities;
 import com.btandjaja.www.popular_movies_app.BuildConfig;
 
 public class Constants {
-    /* movie link + need key - readability */
-    public final static String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie/";
     private final static String POPULAR_MOVIES_BASE_URL = "popular?api_key=";
     private final static String TOP_RATED_MOVIES_BASE_URL = "top_rated?api_key=";
     private final static String CURRENT_PLAYING_MOVIES_BASE_URL = "now_playing?api_key=";
+    /* movie link + need key - readability */
+    public final static String SCHEME = "http";
+    public final static String MOVIES_AUTHORITY = "api.themoviedb.org/3/movie";
+    public final static String API_KEY = BuildConfig.API_KEY;
+
+    public final static String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie/";
     public final static String TRAILER = "/videos?api_key=";
     public static final int SPLIT_COLUMN = 2;
     public static final int MOVIE_QUERY_LOADER = 2001;

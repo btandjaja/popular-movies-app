@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">popular-movies-app</string>
+    <!-- manifest -->
+    <string name="app_name">Movie App</string>
+    <string name="detail">Movie Detail</string>
 
     <!-- Menu Strings -->
     <string name="current_playing">Current Playing</string>
