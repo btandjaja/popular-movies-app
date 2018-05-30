@@ -45,9 +45,7 @@ public class DetailActivity extends AppCompatActivity {
             extractData(movieDetailIntent);
             getDetailLayoutId();
             //TODO might need to change location adding data
-            fillData();
-            //TODO for part 2
-//            getRunTime();
+//            fillData();
         }
     }
 
@@ -105,12 +103,4 @@ public class DetailActivity extends AppCompatActivity {
         return String.valueOf(rating) + OUT_OF;
     }
 
-    /**
-     * http://api.themoviedb.org/3/movie/383498/videos?api_key=20893aae2a9da0098c89e73e1dcad948
-     */
-    private void getRunTime() {
-        mURL = NetworkUtils.buildUrl(trailerStringUrl);
-        mMovieJsonString = MovieUtils.getMovieListJsonString(mURL.toString());
-        runTime = MovieUtils.getRunTime(mMovieJsonString);
-    }
 }

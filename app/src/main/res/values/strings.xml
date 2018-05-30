@@ -13,10 +13,10 @@
         \nconnection and try again!</string>
 
     <!-- Constant Strings to retrieve data -->
-    <string name="original_title">ORIGINAL_TITLE</string>
-    <string name="image_thumbnail">IMAGE_THUMBNAIL</string>
-    <string name="over_view">OVER_VIEW</string>
-    <string name="vote_average">RATING</string>
-    <string name="release_date">RELEASE_DATE</string>
-    <string name="play_time">PLAY_TIME</string>
+    <string name="original_title">Original Title</string>
+    <string name="image_thumbnail">Image Thumnail</string>
+    <string name="over_view">Overview</string>
+    <string name="vote_average">Rating</string>
+    <string name="release_date">Release Date</string>
+    <string name="run_time">Run Time</string>
 </resources>
