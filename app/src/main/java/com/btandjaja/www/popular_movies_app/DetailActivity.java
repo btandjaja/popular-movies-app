@@ -72,7 +72,7 @@ public class DetailActivity extends AppCompatActivity {
         mRating = findViewById(R.id.tv_rating);
         mOverView = findViewById(R.id.tv_over_view);
         mReleaseDate = findViewById(R.id.tv_release_date);
-//        mRunTime = findViewById(R.id.tv_run_time);
+        mRunTime = findViewById(R.id.tv_run_time);
     }
 
     /**
