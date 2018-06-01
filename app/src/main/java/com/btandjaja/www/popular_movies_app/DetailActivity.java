@@ -141,7 +141,12 @@ public class DetailActivity extends AppCompatActivity implements
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String jsonString) {
         mLoadingInidicator.setVisibility(View.INVISIBLE);
-        if(jsonString == null || TextUtils.isEmpty(jsonString)) return;
+        if(jsonString == null || TextUtils.isEmpty(jsonString)) {
+            showErrorMessage();
+            return;
+        }
+        showMovieDetail();
+        //TODO load movie detail
     }
 
     @Override
