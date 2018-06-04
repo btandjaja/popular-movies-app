@@ -69,15 +69,5 @@ public class MovieUtils {
         }
     }
 
-    public static int getRunTime(String movieJson) {
-        int runtime = 0;
-        try {
-            JSONObject movie = new JSONObject(movieJson);
-            String runTimeString = movie.getString(Constants.RUNTIME);
-            int abc = 0;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return runtime;
-    }
+    
 }

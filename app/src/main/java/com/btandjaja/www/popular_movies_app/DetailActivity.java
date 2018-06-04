@@ -67,12 +67,8 @@ public class DetailActivity extends AppCompatActivity implements
      * @param movieDetailIntent has data to be extracted from previous activity
      */
     private void extractData(Intent movieDetailIntent) {
-//        title = movieDetailIntent.getStringExtra(Constants.ORIGINAL_TITLE);
         thumbnail = movieDetailIntent.getStringExtra(Constants.POSTER_PATH);
-//        overView = movieDetailIntent.getStringExtra(Constants.OVERVIEW);
         rating = movieDetailIntent.getDoubleExtra(Constants.VOTE_AVERAGE, 0);
-//        release_date = movieDetailIntent.getStringExtra(Constants.RELEASE_DATE);
-//        trailerStringUrl = movieDetailIntent.getStringExtra(Constants.TRAILER);
         movieId = movieDetailIntent.getIntExtra(Constants.MOVIE_ID, Constants.DEFAULT_MOVIE_ID);
         mURL = NetworkUtils.buildUrl(String.valueOf(movieId));
     }
