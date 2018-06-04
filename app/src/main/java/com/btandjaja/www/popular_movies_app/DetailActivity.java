@@ -16,6 +16,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.btandjaja.www.popular_movies_app.utilities.Constants;
+import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
 import com.btandjaja.www.popular_movies_app.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
@@ -132,8 +133,7 @@ public class DetailActivity extends AppCompatActivity implements
             @Nullable
             @Override
             public String loadInBackground() {
-
-                return null;
+                return MovieUtils.getMovieJsonString(args.getString(Constants.MOVIE_QUERY_STRING));
             }
         };
     }
@@ -152,6 +152,12 @@ public class DetailActivity extends AppCompatActivity implements
     @Override
     public void onLoaderReset(@NonNull Loader<String> loader) {
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(Constants.MOVIE_QUERY_STRING, mURL.toString());
     }
 
     /**

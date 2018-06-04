@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             return;
         }
         showMoviesDataView();
-        fillDatabase(jsonString);
+        fillData(jsonString);
         setAdapter();
     }
 
@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      *
      * @param jsonString
      */
-    private void fillDatabase(String jsonString) {
+    private void fillData(String jsonString) {
         mMovieList.clear();
         MovieUtils.getMovieList(jsonString, mMovieList);
     }
