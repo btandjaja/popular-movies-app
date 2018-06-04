@@ -38,8 +38,6 @@ public class Movie {
 
     /* copy */
     public static Movie copyMovie(Movie movie) {
-//        return new Movie(movie.getVoteAvg(), movie.getPopularity(), movie.getTitle(),
-//                movie.getPosterPath(), movie.getOverView(), movie.getReleaseDate(), movie.getMovieId());
         return new Movie(movie.getVoteAvg(), movie.getPosterPath(), movie.mMovieId);
     }
 
