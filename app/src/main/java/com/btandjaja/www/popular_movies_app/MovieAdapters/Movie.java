@@ -10,12 +10,16 @@ public class Movie {
     private ArrayList<String> mTrailerId;
 
     /* constructor */
+    public Movie(double voteAvg, String posterPath, int movieId) {
+        mVoteAvg = voteAvg; mPopularity = 0;
+        mPosterPath = posterPath; mMovieId = movieId;
+        initializedNull();
+    }
+    /* constructor */
     public Movie(double voteAvg, double popularity, String posterPath, int movieId) {
         mVoteAvg = voteAvg; mPopularity = popularity;
         mPosterPath = posterPath; mMovieId = movieId;
-        mOriginalTitle = null; mOverView = null;
-        mReleaseDate = null; mTrailerId = new ArrayList<>();
-        mRunTime = "0";
+        initializedNull();
     }
     /* constructor */
     public Movie(double voteAvg, double popularity, String title, String posterPath,
@@ -24,6 +28,12 @@ public class Movie {
         mOriginalTitle = title; mPosterPath = posterPath;
         mOverView = overView; mReleaseDate = releaseDate;
         mMovieId = movieId;
+    }
+
+    private void initializedNull() {
+        mOriginalTitle = null; mOverView = null;
+        mReleaseDate = null; mRunTime = "0";
+        mTrailerId = new ArrayList<>();
     }
 
     /* copy */
