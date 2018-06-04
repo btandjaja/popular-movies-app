@@ -154,7 +154,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private void getMovieExtra(Intent detailIntent, Movie movie) {
         detailIntent.putExtra(Constants.POSTER_PATH, movie.getPosterPath());
         detailIntent.putExtra(Constants.VOTE_AVERAGE, movie.getVoteAvg());
-        detailIntent.putExtra(Constants.TRAILER, getTrailerLink(detailIntent, movie));
+//        detailIntent.putExtra(Constants.TRAILER, getTrailerLink(detailIntent, movie));
+        detailIntent.putExtra(Constants.MOVIE_ID, movie.getMovieId());
     }
 
     private String getTrailerLink(Intent detailIntent, Movie movie) {
