@@ -22,14 +22,6 @@ public class Movie {
         mPosterPath = posterPath; mMovieId = movieId;
         initializedNull();
     }
-    /* constructor */
-//    public Movie(double voteAvg, double popularity, String title, String posterPath,
-//                 String overView, String releaseDate, int movieId) {
-//        mVoteAvg = voteAvg;  mPopularity = popularity;
-//        mOriginalTitle = title; mPosterPath = posterPath;
-//        mOverView = overView; mReleaseDate = releaseDate;
-//        mMovieId = movieId;
-//    }
 
     private void initializedNull() {
         mOriginalTitle = null; mOverView = null;
