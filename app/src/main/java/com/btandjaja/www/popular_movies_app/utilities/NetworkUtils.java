@@ -28,10 +28,8 @@ public class NetworkUtils {
                 .authority(Constants.MOVIES_AUTHORITY)
                 .path(moviesQuery)
                 .appendQueryParameter(Constants.API_KEY, BuildConfig.API_KEY);
-//        Uri builtUri = Uri.parse(moviesQuery).buildUpon().build();
         URL url = null;
         try {
-//            url = new URL(builtUri.toString());
             url = new URL(URLDecoder.decode(builder.build().toString(), "UTF-8"));
         }catch (MalformedURLException e) {
             e.printStackTrace();

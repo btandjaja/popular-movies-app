@@ -16,6 +16,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.btandjaja.www.popular_movies_app.utilities.Constants;
+import com.btandjaja.www.popular_movies_app.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 import java.net.URL;
@@ -52,7 +53,7 @@ public class DetailActivity extends AppCompatActivity implements
         /* get intent from different activity */
         Intent movieDetailIntent = getIntent();
         /* check if string exist */
-        if (movieDetailIntent.hasExtra("original_title")) {
+        if (movieDetailIntent.hasExtra(Constants.MOVIE_ID)) {
             extractData(movieDetailIntent);
             getDetailLayoutId();
             //TODO might need to change location adding data
@@ -73,6 +74,7 @@ public class DetailActivity extends AppCompatActivity implements
 //        release_date = movieDetailIntent.getStringExtra(Constants.RELEASE_DATE);
 //        trailerStringUrl = movieDetailIntent.getStringExtra(Constants.TRAILER);
         movieId = movieDetailIntent.getIntExtra(Constants.MOVIE_ID, Constants.DEFAULT_MOVIE_ID);
+        mURL = NetworkUtils.buildUrl(String.valueOf(movieId));
     }
 
     /**
