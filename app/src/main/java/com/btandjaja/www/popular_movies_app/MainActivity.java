@@ -251,15 +251,15 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.current_playing:
-                mMoviesToQuery = Constants.CURRENT_PLAYING_MOVIES;
+                mMoviesToQuery = Constants.NOW_PLAYING;
                 sortType = null;
                 break;
             case R.id.sort_by_popularity:
-                mMoviesToQuery = Constants.POPULAR_MOVIES;
+                mMoviesToQuery = Constants.POPULARITY;
                 sortType = Constants.POPULARITY;
                 break;
             case R.id.sort_by_rating:
-                mMoviesToQuery = Constants.TOP_RATED_MOVIES;
+                mMoviesToQuery = Constants.TOP_RATED;
                 sortType = Constants.VOTE_AVERAGE;
                 break;
             default:
