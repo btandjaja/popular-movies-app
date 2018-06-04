@@ -60,7 +60,7 @@ public class MovieUtils {
     public static String getMovieListJsonString(String movieUrlString) {
         try {
             /* check for valid url */
-            if(movieUrlString == null || TextUtils.isEmpty(movieUrlString)) return null;
+            if(!checkEmptyString(movieUrlString)) return null;
             URL storeUrl = new URL(movieUrlString);
             return NetworkUtils.getResponseFromHttpUrl(storeUrl);
         } catch (IOException e) {
@@ -69,5 +69,19 @@ public class MovieUtils {
         }
     }
 
-    
+    public static String getMovieJsonString(String movieUrlString) {
+        try {
+            if (!checkEmptyString(movieUrlString)) return null;
+            URL storeUrl = new URL(movieUrlString);
+            return NetworkUtils.getResponseFromHttpUrl(storeUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private static boolean checkEmptyString(String movieUrlString) {
+        if (movieUrlString == null || TextUtils.isEmpty(movieUrlString)) return false;
+        return true;
+    }
 }
