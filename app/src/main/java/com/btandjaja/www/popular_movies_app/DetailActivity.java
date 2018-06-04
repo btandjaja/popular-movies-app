@@ -62,6 +62,7 @@ public class DetailActivity extends AppCompatActivity implements
             //TODO might need to change location adding data
 //            fillData();
         }
+        getLoaderManager().initLoader(Constants.MOVIE_QUERY_LOADER, null, Constants.MOVIE_QUERY_LOADER);
     }
 
     /**
