@@ -43,6 +43,7 @@ public class DetailActivity extends AppCompatActivity implements
     private static int runTime;
     private static URL mURL;
     private static String mMovieJsonString;
+    private static int movieId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,8 @@ public class DetailActivity extends AppCompatActivity implements
 //        overView = movieDetailIntent.getStringExtra(Constants.OVERVIEW);
         rating = movieDetailIntent.getDoubleExtra(Constants.VOTE_AVERAGE, 0);
 //        release_date = movieDetailIntent.getStringExtra(Constants.RELEASE_DATE);
-        trailerStringUrl = movieDetailIntent.getStringExtra(Constants.TRAILER);
+//        trailerStringUrl = movieDetailIntent.getStringExtra(Constants.TRAILER);
+        movieId = movieDetailIntent.getIntExtra(Constants.MOVIE_ID, Constants.DEFAULT_MOVIE_ID);
     }
 
     /**

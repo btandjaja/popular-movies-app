@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Movie {
     /* variable declarations */
     private double mVoteAvg, mPopularity;
-    private String mOriginalTitle, mPosterPath, mOverView, mReleaseDate;
+    private String mOriginalTitle, mPosterPath, mOverView, mReleaseDate, mRunTime;
     private int mMovieId;
     private ArrayList<String> mTrailerId;
 
@@ -15,6 +15,7 @@ public class Movie {
         mPosterPath = posterPath; mMovieId = movieId;
         mOriginalTitle = null; mOverView = null;
         mReleaseDate = null; mTrailerId = new ArrayList<>();
+        mRunTime = "0";
     }
     /* constructor */
     public Movie(double voteAvg, double popularity, String title, String posterPath,
@@ -40,6 +41,7 @@ public class Movie {
     public String getReleaseDate() { return mReleaseDate; }
     public int getMovieId() { return mMovieId; }
     public ArrayList<String> getTrailerId() { return mTrailerId; }
+    public String getRunTime() { return mRunTime; }
 
     /* setter methods */
     public void setTitle(String title) { mOriginalTitle = title; }
@@ -50,4 +52,5 @@ public class Movie {
             mTrailerId.add(new String(trailerId));
         }
     }
+    public void setRunTime(int runTime) { mRunTime = String.valueOf(runTime); }
 }
