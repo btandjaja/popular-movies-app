@@ -2,11 +2,15 @@ package com.btandjaja.www.popular_movies_app.utilities;
 
 import android.net.Uri;
 
+import com.btandjaja.www.popular_movies_app.BuildConfig;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.Scanner;
 
 /**
@@ -19,15 +23,39 @@ public class NetworkUtils {
      * @return The URL to use to query the movie server.
      */
     public static URL buildUrl(String moviesQuery) {
-        Uri builtUri = Uri.parse(moviesQuery).buildUpon().build();
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme(Constants.SCHEME)
+                .authority(Constants.MOVIES_AUTHORITY)
+                .path(moviesQuery)
+                .appendQueryParameter(Constants.API_KEY, BuildConfig.API_KEY);
+//        Uri builtUri = Uri.parse(moviesQuery).buildUpon().build();
         URL url = null;
         try {
-            url = new URL(builtUri.toString());
+//            url = new URL(builtUri.toString());
+            url = new URL(URLDecoder.decode(builder.build().toString(), "UTF-8"));
         }catch (MalformedURLException e) {
+            e.printStackTrace();
+        }catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         return url;
     }
+
+    /** original copy
+     * Builds the URL used to query movie.
+     *
+     * @return The URL to use to query the movie server.
+     */
+//    public static URL buildUrl(String moviesQuery) {
+//        Uri builtUri = Uri.parse(moviesQuery).buildUpon().build();
+//        URL url = null;
+//        try {
+//            url = new URL(builtUri.toString());
+//        }catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+//        return url;
+//    }
 
     /**
      * This method returns the entire result from the HTTP response.

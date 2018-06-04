@@ -7,9 +7,13 @@ public class Constants {
     private final static String TOP_RATED_MOVIES_BASE_URL = "top_rated?api_key=";
     private final static String CURRENT_PLAYING_MOVIES_BASE_URL = "now_playing?api_key=";
     /* movie link + need key - readability */
-    public final static String SCHEME = "http";
+    public final static String SCHEME = "https";
     public final static String MOVIES_AUTHORITY = "api.themoviedb.org/3/movie";
-    public final static String API_KEY = BuildConfig.API_KEY;
+    public final static String POPULARITY = "popular";
+    public final static String TOP_RATED = "top_rated";
+    public final static String NOW_PLAYING = "now_playing";
+    public final static String MOVIE_ID = "id";
+    public final static String API_KEY = "api_key";
 
     public final static String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie/";
     public final static String TRAILER = "/videos?api_key=";
@@ -24,8 +28,8 @@ public class Constants {
     public final static String POSTER_PATH = "poster_path";
     public final static String VOTE_AVERAGE = "vote_average";
     public final static String RELEASE_DATE = "release_date";
-    public final static String MOVIE_ID = "id";
-    public final static String POPULARITY = "popularity";
+
+
     /* used constants */
     public final static String POPULAR_MOVIES = MOVIE_BASE_URL + POPULAR_MOVIES_BASE_URL + BuildConfig.API_KEY;
     public final static String TOP_RATED_MOVIES = MOVIE_BASE_URL + TOP_RATED_MOVIES_BASE_URL + BuildConfig.API_KEY;
