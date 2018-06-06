@@ -24,6 +24,13 @@
             android:parentActivityName=".MainActivity">
 
         </activity>
+
+        <!-- Register Content Provider -->
+        <provider
+            android:authorities="com.btandjaja.www.popular_movies_app"
+            android:name="com.btandjaja.www.popular_movies_app.data.MovieContentProvider"
+            android:exported="false" />
+        
     </application>
 
 </manifest>
