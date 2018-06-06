@@ -23,8 +23,9 @@ import com.squareup.picasso.Picasso;
 
 import java.net.URL;
 
-public class DetailActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<String>{
+//public class DetailActivity extends AppCompatActivity implements
+//        LoaderManager.LoaderCallbacks<String>{
+public class DetailActivity extends AppCompatActivity {
     /* constant */
     private static final int BEGIN = 0;
     private static final int END = 4;
@@ -62,7 +63,7 @@ public class DetailActivity extends AppCompatActivity implements
             //TODO might need to change location adding data
 //            fillData();
         }
-        getLoaderManager().initLoader(Constants.MOVIE_QUERY_LOADER, null, Constants.MOVIE_QUERY_LOADER);
+//        getLoaderManager().initLoader(Constants.MOVIE_QUERY_LOADER, null, );
     }
 
     /**
@@ -123,47 +124,47 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     /* AsyncTaskLoader */
-    @NonNull
-    @Override
-    public Loader<String> onCreateLoader(int id, @Nullable final Bundle args) {
-        return new AsyncTaskLoader<String>(this) {
-            @Override
-            protected void onStartLoading() {
-                super.onStartLoading();
-                if(args == null) return;
-                mLoadingInidicator.setVisibility(View.VISIBLE);
-                forceLoad();
-            }
-
-            @Nullable
-            @Override
-            public String loadInBackground() {
-                return MovieUtils.getMovieJsonString(args.getString(Constants.MOVIE_QUERY_STRING));
-            }
-        };
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<String> loader, String jsonString) {
-        mLoadingInidicator.setVisibility(View.INVISIBLE);
-        if(jsonString == null || TextUtils.isEmpty(jsonString)) {
-            showErrorMessage();
-            return;
-        }
-        showMovieDetail();
-        //TODO load movie detail
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<String> loader) {
-
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(Constants.MOVIE_QUERY_STRING, mURL.toString());
-    }
+//    @NonNull
+//    @Override
+//    public Loader<String> onCreateLoader(int id, @Nullable final Bundle args) {
+//        return new AsyncTaskLoader<String>(this) {
+//            @Override
+//            protected void onStartLoading() {
+//                super.onStartLoading();
+//                if(args == null) return;
+//                mLoadingInidicator.setVisibility(View.VISIBLE);
+//                forceLoad();
+//            }
+//
+//            @Nullable
+//            @Override
+//            public String loadInBackground() {
+//                return MovieUtils.getMovieJsonString(args.getString(Constants.MOVIE_QUERY_STRING));
+//            }
+//        };
+//    }
+//
+//    @Override
+//    public void onLoadFinished(@NonNull Loader<String> loader, String jsonString) {
+//        mLoadingInidicator.setVisibility(View.INVISIBLE);
+//        if(jsonString == null || TextUtils.isEmpty(jsonString)) {
+//            showErrorMessage();
+//            return;
+//        }
+//        showMovieDetail();
+//        //TODO load movie detail
+//    }
+//
+//    @Override
+//    public void onLoaderReset(@NonNull Loader<String> loader) {
+//
+//    }
+//
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        outState.putString(Constants.MOVIE_QUERY_STRING, mURL.toString());
+//    }
 
     /**
      * This method is to disable error message.
