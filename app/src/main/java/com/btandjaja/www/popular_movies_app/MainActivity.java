@@ -40,6 +40,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private static String mMovieTrailer = null;
     private static ArrayList<Movie> mMovieList;
     private static String sortType;
+    private static boolean singleMovie;
+    private static String singleMovieId;
+    private static String singleMovieJson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mProgressBar = findViewById(R.id.pb_view);
         mRecyclerView = findViewById(R.id.recycler_view);
         sortType = null;
-//        if(mMoviesToQuery == null) mMoviesToQuery = Constants.CURRENT_PLAYING_MOVIES;
+        singleMovie = false;
         if(mMoviesToQuery == null) mMoviesToQuery = Constants.NOW_PLAYING;
     }
 
@@ -110,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * Creates or restart Loader if it already exist.
      */
     private void restartLoader() {
-        mURL = NetworkUtils.buildUrl(mMoviesToQuery);
+        mURL = NetworkUtils.buildUrl(mMoviesToQuery, singleMovie);
         Bundle movieBundle = new Bundle();
         movieBundle.putString(Constants.MOVIE_QUERY_STRING, mURL.toString());
         LoaderManager loaderManager = getSupportLoaderManager();
@@ -136,25 +139,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mRecyclerView.setVisibility(View.INVISIBLE);
         mError.setText(getResources().getString(R.string.error));
         mError.setVisibility(View.VISIBLE);
-    }
-
-    /**
-     * This method takes in movie based on the position that is selected,
-     * store the data and start detail activity with the data.
-     *
-     * @param movie
-     */
-    @Override
-    public void onClick(Movie movie) {
-        Intent detailIntent = new Intent(this, DetailActivity.class);
-        getMovieExtra(detailIntent, movie);
-        startActivity(detailIntent);
-    }
-
-    private void getMovieExtra(Intent detailIntent, Movie movie) {
-        detailIntent.putExtra(Constants.POSTER_PATH, movie.getPosterPath());
-        detailIntent.putExtra(Constants.VOTE_AVERAGE, movie.getVoteAvg());
-        detailIntent.putExtra(Constants.MOVIE_ID, movie.getMovieId());
     }
 
     /* asyncTaskLoader */
@@ -185,9 +169,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             showErrorMessage();
             return;
         }
-        showMoviesDataView();
-        fillData(jsonString);
-        setAdapter();
+        if(singleMovie) {
+            singleMovieJson = jsonString;
+        } else {
+            showMoviesDataView();
+            fillData(jsonString);
+            setAdapter();
+        }
     }
 
     /**
@@ -245,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        singleMovie = false;
         switch(item.getItemId()) {
             case R.id.current_playing:
                 mMoviesToQuery = Constants.NOW_PLAYING;
@@ -263,5 +252,37 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
         restartLoader();
         return true;
+    }
+
+    /**
+     * This method takes in movie based on the position that is selected,
+     * store the data and start detail activity with the data.
+     *
+     * @param movie
+     */
+    @Override
+    public void onClick(Movie movie) {
+        /*
+        TODO
+        Year
+        Runtime
+        Average Rating
+
+         */
+        singleMovie = true;
+        String oldMovieRequest = mMoviesToQuery;
+        mMoviesToQuery = movie.getMovieId();
+        restartLoader();
+        mMoviesToQuery = oldMovieRequest;
+        MovieUtils.getSingleMovie(singleMovieJson, movie);
+        Intent detailIntent = new Intent(this, DetailActivity.class);
+        getMovieExtra(detailIntent, movie);
+        startActivity(detailIntent);
+    }
+
+    private void getMovieExtra(Intent detailIntent, Movie movie) {
+        detailIntent.putExtra(Constants.POSTER_PATH, movie.getPosterPath());
+        detailIntent.putExtra(Constants.VOTE_AVERAGE, movie.getVoteAvg());
+        detailIntent.putExtra(Constants.MOVIE_ID, movie.getMovieId());
     }
 }

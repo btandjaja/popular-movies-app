@@ -47,7 +47,7 @@ public class DetailActivity extends AppCompatActivity {
     private static int runTime;
     private static URL mURL;
     private static String mMovieJsonString;
-    private static int movieId;
+    private static String movieId;
     private static Movie movieObj;
 
     @Override
@@ -74,9 +74,7 @@ public class DetailActivity extends AppCompatActivity {
     private void extractData(Intent movieDetailIntent) {
         thumbnail = movieDetailIntent.getStringExtra(Constants.POSTER_PATH);
         rating = movieDetailIntent.getDoubleExtra(Constants.VOTE_AVERAGE, 0);
-        movieId = movieDetailIntent.getIntExtra(Constants.MOVIE_ID, Constants.DEFAULT_MOVIE_ID);
-        mURL = NetworkUtils.buildUrl(String.valueOf(movieId));
-        //TODO may have to change 0, we don't need popularity
+        movieId = movieDetailIntent.getStringExtra(Constants.MOVIE_ID);
         movieObj = new Movie(rating, thumbnail, movieId);
     }
 
