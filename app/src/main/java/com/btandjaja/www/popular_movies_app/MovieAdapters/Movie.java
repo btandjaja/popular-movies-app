@@ -42,9 +42,10 @@ public class Movie {
     public String getTitle() { return mOriginalTitle; }
     public String getPosterPath() { return mPosterPath; }
     public String getOverView() { return mOverView; }
-    public String getReleaseDate() { return mReleaseDate; }
+    public String getReleaseYear() { return mReleaseDate; }
     public String getMovieId() { return mMovieId; }
     public ArrayList<String> getTrailerKeys() { return mTrailerKeys; }
+    public ArrayList<String> getReviews() { return mReviews; }
     public String getRunTime() { return mRunTime; }
 
     /* setter methods */

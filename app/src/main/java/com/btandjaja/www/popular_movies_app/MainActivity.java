@@ -262,13 +262,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      */
     @Override
     public void onClick(Movie movie) {
-        /*
-        TODO
-        Year
-        Runtime
-        Average Rating
-
-         */
         singleMovie = true;
         String oldMovieRequest = mMoviesToQuery;
         mMoviesToQuery = movie.getMovieId();
@@ -276,13 +269,17 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mMoviesToQuery = oldMovieRequest;
         MovieUtils.getSingleMovie(singleMovieJson, movie);
         Intent detailIntent = new Intent(this, DetailActivity.class);
-        getMovieExtra(detailIntent, movie);
+        putMovieExtra(detailIntent, movie);
         startActivity(detailIntent);
     }
 
-    private void getMovieExtra(Intent detailIntent, Movie movie) {
+    private void putMovieExtra(Intent detailIntent, Movie movie) {
         detailIntent.putExtra(Constants.POSTER_PATH, movie.getPosterPath());
         detailIntent.putExtra(Constants.VOTE_AVERAGE, movie.getVoteAvg());
         detailIntent.putExtra(Constants.MOVIE_ID, movie.getMovieId());
+        detailIntent.putExtra(Constants.RELEASE_DATE, movie.getReleaseYear());
+        detailIntent.putExtra(Constants.RUNTIME, movie.getRunTime());
+        detailIntent.putStringArrayListExtra(Constants.KEY, movie.getTrailerKeys());
+        detailIntent.putStringArrayListExtra(Constants.REVIEWS, movie.getReviews());
     }
 }
