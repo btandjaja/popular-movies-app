@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -117,7 +118,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         Bundle movieBundle = new Bundle();
         movieBundle.putString(Constants.MOVIE_QUERY_STRING, mURL.toString());
         LoaderManager loaderManager = getSupportLoaderManager();
-        if(loaderManager.getLoader(Constants.MOVIE_QUERY_LOADER) == null) {
+        if(loaderManager.getLoader(Constants.MOVIE_QUERY_LOADER) == null
+                ) {
             loaderManager.initLoader(Constants.MOVIE_QUERY_LOADER, movieBundle, this);
         } else {
             loaderManager.restartLoader(Constants.MOVIE_QUERY_LOADER, movieBundle, this);
@@ -153,17 +155,26 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 if(args == null) return;
                 mProgressBar.setVisibility(View.VISIBLE);
                 forceLoad();
+                //TODO remove
+                Log.v("****in startloading", "****");
             }
 
             @Override
             public String loadInBackground() {
-                return MovieUtils.getMovieListJsonString(args.getString(Constants.MOVIE_QUERY_STRING));
+                //TODO remove
+                Log.v("****in background", "****");
+                String jsonResult = MovieUtils.getMovieListJsonString(args.getString(Constants.MOVIE_QUERY_STRING));
+                Log.v("*****jsonResult ", jsonResult);
+                return jsonResult;
+//                return MovieUtils.getMovieListJsonString(args.getString(Constants.MOVIE_QUERY_STRING));
             }
         };
     }
 
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String jsonString) {
+        //TODO remove
+        Log.v("****in loadfinished", jsonString);
         mProgressBar.setVisibility(View.INVISIBLE);
         if (jsonString == null || TextUtils.isEmpty(jsonString))  {
             showErrorMessage();

@@ -1,8 +1,7 @@
 package com.btandjaja.www.popular_movies_app.utilities;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,6 +66,7 @@ public class MovieUtils {
             /* check for valid url */
             if(!checkEmptyString(movieUrlString)) return null;
             URL storeUrl = new URL(movieUrlString);
+            String jsonResult = NetworkUtils.getResponseFromHttpUrl(storeUrl);
             return NetworkUtils.getResponseFromHttpUrl(storeUrl);
         } catch (IOException e) {
             e.printStackTrace();
