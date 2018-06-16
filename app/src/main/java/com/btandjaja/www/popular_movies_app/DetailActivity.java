@@ -63,9 +63,7 @@ public class DetailActivity extends AppCompatActivity implements
         if (movieDetailIntent.hasExtra(Constants.MOVIE_ID)) {
             extractData(movieDetailIntent);
             getDetailLayoutId();
-            fillData();
         }
-        //TODO remove
         getSupportLoaderManager().initLoader(Constants.MOVIE_QUERY_LOADER, null, this);
     }
 

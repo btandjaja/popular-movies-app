@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private static ArrayList<Movie> mMovieList;
     private static String sortType;
     private static boolean singleMovie;
-    private static String singleMovieId;
     private static String singleMovieJson;
 
     @Override
@@ -211,7 +210,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     /* Menu */
-
     /**
      * This method is for creating menu
      *
@@ -232,7 +230,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        singleMovie = false;
         switch (item.getItemId()) {
             case R.id.current_playing:
                 mMoviesToQuery = Constants.NOW_PLAYING;
