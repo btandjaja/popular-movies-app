@@ -19,6 +19,8 @@ public class Constants {
     public final static String RESULTS = "results";
     public final static String POSTER_PATH = "poster_path";
     public final static String VOTE_AVERAGE = "vote_average";
+    public final static String MOVIE_JSON_DATA = "movie_json_data";
+    public final static String FAVORITE = "favorite";
 
     /* constants needed for detailActivity not pass from Main Acitivity */
     public final static int YEAR = 4;
@@ -31,6 +33,10 @@ public class Constants {
     public final static String RUNTIME = "runtime";
     public final static String VIDEO_PLUS_REVIEW = "videos,reviews";
     public final static String APPEND_TO_RESPONSE = "append_to_response";
+    public final static String OUT_OF = "/10";
+    //TODO might not need default movie id
     /* default Avenger Infinity movie id */
     public final static int DEFAULT_MOVIE_ID = 299536;
+    public final static boolean DEFAULT_BOOLEAN = false;
+    public final static int DEFAULT_INTEGER = 0;
 }

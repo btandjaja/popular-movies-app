@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +28,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings("ALL")
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler,
-        LoaderManager.LoaderCallbacks<String>{
+        LoaderManager.LoaderCallbacks<String> {
     /* declarations */
     private TextView mError = null;
     private ProgressBar mProgressBar = null;
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mRecyclerView = findViewById(R.id.recycler_view);
         sortType = null;
         singleMovie = false;
-        if(mMoviesToQuery == null) mMoviesToQuery = Constants.NOW_PLAYING;
+        if (mMoviesToQuery == null) mMoviesToQuery = Constants.NOW_PLAYING;
     }
 
     /**
@@ -102,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * or if API_KEY is not provided.
      */
     private void getDataFromNetwork() {
-        if(TextUtils.isEmpty(mMoviesToQuery) || TextUtils.isEmpty(BuildConfig.API_KEY)) {
+        if (TextUtils.isEmpty(mMoviesToQuery) || TextUtils.isEmpty(BuildConfig.API_KEY)) {
             showErrorMessage();
             return;
         }
@@ -118,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         Bundle movieBundle = new Bundle();
         movieBundle.putString(Constants.MOVIE_QUERY_STRING, mURL.toString());
         LoaderManager loaderManager = getSupportLoaderManager();
-        if(loaderManager.getLoader(Constants.MOVIE_QUERY_LOADER) == null
+        if (loaderManager.getLoader(Constants.MOVIE_QUERY_LOADER) == null
                 ) {
             loaderManager.initLoader(Constants.MOVIE_QUERY_LOADER, movieBundle, this);
         } else {
@@ -152,41 +151,28 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             @Override
             protected void onStartLoading() {
                 super.onStartLoading();
-                if(args == null) return;
+                if (args == null) return;
                 mProgressBar.setVisibility(View.VISIBLE);
                 forceLoad();
-                //TODO remove
-                Log.v("****in startloading", "****");
             }
 
             @Override
             public String loadInBackground() {
-                //TODO remove
-                Log.v("****in background", "****");
-                String jsonResult = MovieUtils.getMovieListJsonString(args.getString(Constants.MOVIE_QUERY_STRING));
-                Log.v("*****jsonResult ", jsonResult);
-                return jsonResult;
-//                return MovieUtils.getMovieListJsonString(args.getString(Constants.MOVIE_QUERY_STRING));
+                return MovieUtils.getMovieListJsonString(args.getString(Constants.MOVIE_QUERY_STRING));
             }
         };
     }
 
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String jsonString) {
-        //TODO remove
-        Log.v("****in loadfinished", jsonString);
         mProgressBar.setVisibility(View.INVISIBLE);
-        if (jsonString == null || TextUtils.isEmpty(jsonString))  {
+        if (jsonString == null || TextUtils.isEmpty(jsonString)) {
             showErrorMessage();
             return;
         }
-        if(singleMovie) {
-            singleMovieJson = jsonString;
-        } else {
-            showMoviesDataView();
-            fillData(jsonString);
-            setAdapter();
-        }
+        showMoviesDataView();
+        fillData(jsonString);
+        setAdapter();
     }
 
     /**
@@ -219,16 +205,17 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * This method set up the MovieAdapter
      */
     private void setAdapter() {
-        if(sortType != null) MovieUtils.sort(mMovieList, sortType);
+        if (sortType != null) MovieUtils.sort(mMovieList, sortType);
         mMovieAdapter.setMovieList(this, mMovieList);
         mRecyclerView.setAdapter(mMovieAdapter);
     }
 
     /* Menu */
+
     /**
      * This method is for creating menu
      *
-     * @param menu  menu to be inflated
+     * @param menu menu to be inflated
      * @return true
      */
     @Override
@@ -237,15 +224,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         return true;
     }
 
-    /** This method will call the MovieUtils.sort method
+    /**
+     * This method will call the MovieUtils.sort method
      *
-     * @param item  options selected from the menu
+     * @param item options selected from the menu
      * @return true if option is selected, else return super
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        singleMovie = false;
-        switch(item.getItemId()) {
+//        singleMovie = false;
+        switch (item.getItemId()) {
             case R.id.current_playing:
                 mMoviesToQuery = Constants.NOW_PLAYING;
                 sortType = null;
@@ -273,12 +261,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      */
     @Override
     public void onClick(Movie movie) {
-        singleMovie = true;
-        String oldMovieRequest = mMoviesToQuery;
-        mMoviesToQuery = movie.getMovieId();
-        restartLoader();
-        mMoviesToQuery = oldMovieRequest;
-        MovieUtils.getSingleMovie(singleMovieJson, movie);
         Intent detailIntent = new Intent(this, DetailActivity.class);
         putMovieExtra(detailIntent, movie);
         startActivity(detailIntent);
@@ -288,9 +270,5 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         detailIntent.putExtra(Constants.POSTER_PATH, movie.getPosterPath());
         detailIntent.putExtra(Constants.VOTE_AVERAGE, movie.getVoteAvg());
         detailIntent.putExtra(Constants.MOVIE_ID, movie.getMovieId());
-        detailIntent.putExtra(Constants.RELEASE_DATE, movie.getReleaseYear());
-        detailIntent.putExtra(Constants.RUNTIME, movie.getRunTime());
-        detailIntent.putStringArrayListExtra(Constants.KEY, movie.getTrailerKeys());
-        detailIntent.putStringArrayListExtra(Constants.REVIEWS, movie.getReviews());
     }
 }

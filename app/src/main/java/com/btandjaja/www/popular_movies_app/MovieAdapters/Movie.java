@@ -47,6 +47,7 @@ public class Movie {
     public ArrayList<String> getTrailerKeys() { return mTrailerKeys; }
     public ArrayList<String> getReviews() { return mReviews; }
     public String getRunTime() { return mRunTime; }
+    public boolean getFavorite() { return mFavorite; }
 
     /* setter methods */
     public void setTitle(String title) { mOriginalTitle = title; }
@@ -55,4 +56,5 @@ public class Movie {
     public void setTrailerKey(String trailerKey) { mTrailerKeys.add(trailerKey); }
     public void setReview(String review) { mReviews.add(review); }
     public void setRunTime(int runTime) { mRunTime = String.valueOf(runTime); }
+    public void setFavorit(boolean favorite) { mFavorite = favorite; }
 }

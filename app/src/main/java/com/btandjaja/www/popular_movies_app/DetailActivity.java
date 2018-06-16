@@ -9,6 +9,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -23,13 +24,12 @@ import com.squareup.picasso.Picasso;
 
 import java.net.URL;
 
-//public class DetailActivity extends AppCompatActivity implements
-//        LoaderManager.LoaderCallbacks<String>{
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<String>{
+//public class DetailActivity extends AppCompatActivity {
     /* constant */
     private static final int BEGIN = 0;
     private static final int END = 4;
-    private static final String OUT_OF = "/10";
 
     /* views from detail activity */
     private ImageView mThumbnail;
@@ -49,6 +49,9 @@ public class DetailActivity extends AppCompatActivity {
     private static String mMovieJsonString;
     private static String movieId;
     private static Movie movieObj;
+    private static boolean favorite;
+    private static String jsonMovieData;
+    private static Movie mMovie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +63,10 @@ public class DetailActivity extends AppCompatActivity {
         if (movieDetailIntent.hasExtra(Constants.MOVIE_ID)) {
             extractData(movieDetailIntent);
             getDetailLayoutId();
-            //TODO might need to change location adding data
-//            fillData();
+            fillData();
         }
-//        getLoaderManager().initLoader(Constants.MOVIE_QUERY_LOADER, null, );
+        //TODO remove
+        getSupportLoaderManager().initLoader(Constants.MOVIE_QUERY_LOADER, null, this);
     }
 
     /**
@@ -73,9 +76,12 @@ public class DetailActivity extends AppCompatActivity {
      */
     private void extractData(Intent movieDetailIntent) {
         thumbnail = movieDetailIntent.getStringExtra(Constants.POSTER_PATH);
-        rating = movieDetailIntent.getDoubleExtra(Constants.VOTE_AVERAGE, 0);
+        rating = movieDetailIntent.getDoubleExtra(Constants.VOTE_AVERAGE, Constants.DEFAULT_INTEGER);
         movieId = movieDetailIntent.getStringExtra(Constants.MOVIE_ID);
-        movieObj = new Movie(rating, thumbnail, movieId);
+        favorite = movieDetailIntent.getBooleanExtra(Constants.FAVORITE, Constants.DEFAULT_BOOLEAN);
+        jsonMovieData = movieDetailIntent.getStringExtra(Constants.MOVIE_JSON_DATA);
+        mMovie = new Movie(rating, thumbnail, movieId);
+        MovieUtils.getSingleMovie(jsonMovieData, mMovie);
     }
 
     /**
@@ -98,13 +104,28 @@ public class DetailActivity extends AppCompatActivity {
      * after the data has been extracted.
      */
     private void fillData() {
-        mTitle.setText(title);
-        mRating.setText(parseRating());
-        mOverView.setText(overView);
-        mReleaseDate.setText(parsedDate());
-        Picasso.with(this).load(thumbnail).into(mThumbnail);
+        if (!checkValidData()) {
+            showErrorMessage();
+        } else {
+            showMovieDetail();
+            mTitle.setText(title);
+            mRating.setText(parseRating());
+            mOverView.setText(overView);
+            mReleaseDate.setText(parsedDate());
+            Picasso.with(this).load(thumbnail).into(mThumbnail);
+        }
     }
 
+
+    private boolean checkValidData() {
+        if (thumbnail == null) return false;
+        if (rating == null) return false;
+        if (movieId == null) return false;
+        Log.v("****", "inside jsonMovieData: " + jsonMovieData);
+        if (jsonMovieData == null) return false;
+        Log.v("****", "not jsonMovieData");
+        return true;
+    }
     /**
      * This method takes the first four character from release date
      * @return year of release date
@@ -118,51 +139,52 @@ public class DetailActivity extends AppCompatActivity {
      * @return percentage rating
      */
     private String parseRating() {
-        return String.valueOf(rating) + OUT_OF;
+        return String.valueOf(rating) + Constants.OUT_OF;
     }
 
+    //TODO remove
     /* AsyncTaskLoader */
-//    @NonNull
-//    @Override
-//    public Loader<String> onCreateLoader(int id, @Nullable final Bundle args) {
-//        return new AsyncTaskLoader<String>(this) {
-//            @Override
-//            protected void onStartLoading() {
-//                super.onStartLoading();
-//                if(args == null) return;
-//                mLoadingInidicator.setVisibility(View.VISIBLE);
-//                forceLoad();
-//            }
-//
-//            @Nullable
-//            @Override
-//            public String loadInBackground() {
-//                return MovieUtils.getMovieJsonString(args.getString(Constants.MOVIE_QUERY_STRING));
-//            }
-//        };
-//    }
-//
-//    @Override
-//    public void onLoadFinished(@NonNull Loader<String> loader, String jsonString) {
-//        mLoadingInidicator.setVisibility(View.INVISIBLE);
-//        if(jsonString == null || TextUtils.isEmpty(jsonString)) {
-//            showErrorMessage();
-//            return;
-//        }
-//        showMovieDetail();
-//        //TODO load movie detail
-//    }
-//
-//    @Override
-//    public void onLoaderReset(@NonNull Loader<String> loader) {
-//
-//    }
-//
-//    @Override
-//    protected void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        outState.putString(Constants.MOVIE_QUERY_STRING, mURL.toString());
-//    }
+    @NonNull
+    @Override
+    public Loader<String> onCreateLoader(int id, @Nullable final Bundle args) {
+        return new AsyncTaskLoader<String>(this) {
+            @Override
+            protected void onStartLoading() {
+                super.onStartLoading();
+                if(args == null) return;
+                mLoadingInidicator.setVisibility(View.VISIBLE);
+                forceLoad();
+            }
+
+            @Nullable
+            @Override
+            public String loadInBackground() {
+                return MovieUtils.getMovieJsonString(args.getString(Constants.MOVIE_QUERY_STRING));
+            }
+        };
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<String> loader, String jsonString) {
+        mLoadingInidicator.setVisibility(View.INVISIBLE);
+        if(jsonString == null || TextUtils.isEmpty(jsonString)) {
+            showErrorMessage();
+            return;
+        }
+        showMovieDetail();
+        //TODO load movie detail
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<String> loader) {
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(Constants.MOVIE_QUERY_STRING, mURL.toString());
+    }
 
     /**
      * This method is to disable error message.
