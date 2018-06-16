@@ -1,9 +1,7 @@
 package com.btandjaja.www.popular_movies_app.utilities;
 
-import android.content.ContentProvider;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 
 import com.btandjaja.www.popular_movies_app.BuildConfig;
 import com.btandjaja.www.popular_movies_app.R;
@@ -29,17 +27,17 @@ public class NetworkUtils {
     public static URL buildUrl(Context context, String moviesQuery, boolean singleMovie) {
         Uri.Builder builder = new Uri.Builder();
         if(singleMovie) {
-            builder.scheme(Constants.SCHEME)
-                    .authority(Constants.MOVIES_AUTHORITY)
+            builder.scheme(context.getString(R.string.scheme))
+                    .authority(context.getString(R.string.movie_authority))
                     .path(moviesQuery)
-                    .appendQueryParameter(context.getString(R.string.key), BuildConfig.API_KEY)
+                    .appendQueryParameter(context.getString(R.string.api_key), BuildConfig.API_KEY)
                     .appendQueryParameter(context.getString(R.string.append_to_response),
                             context.getString(R.string.video_plus_review));
         } else {
-            builder.scheme(Constants.SCHEME)
-                    .authority(Constants.MOVIES_AUTHORITY)
+            builder.scheme(context.getString(R.string.scheme))
+                    .authority(context.getString(R.string.movie_authority))
                     .path(moviesQuery)
-                    .appendQueryParameter(Constants.API_KEY, BuildConfig.API_KEY);
+                    .appendQueryParameter(context.getString(R.string.api_key), BuildConfig.API_KEY);
         }
         URL url = null;
         try {
@@ -51,22 +49,6 @@ public class NetworkUtils {
         }
         return url;
     }
-
-    /** original copy
-     * Builds the URL used to query movie.
-     *
-     * @return The URL to use to query the movie server.
-     */
-//    public static URL buildUrl(String moviesQuery) {
-//        Uri builtUri = Uri.parse(moviesQuery).buildUpon().build();
-//        URL url = null;
-//        try {
-//            url = new URL(builtUri.toString());
-//        }catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        }
-//        return url;
-//    }
 
     /**
      * This method returns the entire result from the HTTP response.

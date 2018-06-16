@@ -22,18 +22,19 @@ public class MovieUtils {
      * @param jsonMovies    List of movies in JSON string.
      * @param movieList     List of movies to be added to.
      */
-    public static void getMovieList(String jsonMovies, ArrayList<Movie> movieList) {
+    public static void getMovieList(Context context, String jsonMovies, ArrayList<Movie> movieList) {
         try {
             JSONObject movieJsonObj = new JSONObject(jsonMovies);
-            JSONArray movieJsonArr = movieJsonObj.getJSONArray(Constants.RESULTS);
+            JSONArray movieJsonArr = movieJsonObj.getJSONArray(context.getString(R.string.result));
             for(int i = 0; i < movieJsonArr.length(); i++) {
                 JSONObject singleMovie = movieJsonArr.getJSONObject(i);
-                Double voteAvg = singleMovie.optDouble(Constants.VOTE_AVERAGE);
-                Double popularity = singleMovie.optDouble(Constants.POPULARITY);
-                String posterPath = singleMovie.optString(Constants.POSTER_PATH);
-                int movieId = singleMovie.optInt(Constants.MOVIE_ID);
+                Double voteAvg = singleMovie.optDouble(context.getString(R.string.vote_average));
+                Double popularity = singleMovie.optDouble(context.getString(R.string.popular));
+                String posterPath = singleMovie.optString(context.getString(R.string.poster_path));
+                int movieId = singleMovie.optInt(context.getString(R.string.movie_id));
                 movieList.add(new Movie(voteAvg, popularity,
-                        Constants.IMAGE_URL + posterPath, String.valueOf(movieId)));
+                        context.getString(R.string.img_url) + posterPath,
+                        String.valueOf(movieId)));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -45,11 +46,11 @@ public class MovieUtils {
      * @param movieList has list of movies.
      * @param sortType  has type of sort.
      */
-    public static void sort(ArrayList<Movie> movieList, final String sortType) {
+    public static void sort(final Context context, ArrayList<Movie> movieList, final String sortType) {
         Collections.sort(movieList, new Comparator<Movie> () {
             @Override
             public int compare(Movie o1, Movie o2) {
-                if(sortType == Constants.POPULARITY)
+                if(sortType == context.getString(R.string.popular))
                     return Double.compare(o2.getPopularity(), o1.getPopularity());
                 return Double.compare(o2.getVoteAvg(), o1.getVoteAvg());
             }
@@ -105,12 +106,12 @@ public class MovieUtils {
             movie.setReleaseDate(movieJsonObj.getString(context.getString(R.string.release_date))
                     .substring(Integer.parseInt(context.getString(R.string.begin_year)),
                             Integer.parseInt(context.getString(R.string.end_year))));
-            movie.setRunTime(movieJsonObj.getInt(context.getString(R.string.run_time)));
+            movie.setRunTime(context, movieJsonObj.getInt(context.getString(R.string.run_time)));
             movie.setTitle(movieJsonObj.getString(context.getString(R.string.original_title)));
 
             // gets youtube key(s)
             JSONObject videos = movieJsonObj.getJSONObject(context.getString(R.string.videos));
-            JSONArray videoArr = videos.getJSONArray(Constants.RESULTS);
+            JSONArray videoArr = videos.getJSONArray(context.getString(R.string.result));
             for(int i = 0; i < videoArr.length(); i++) {
                 JSONObject video = videoArr.getJSONObject(i);
                 String key = video.getString(context.getString(R.string.key));
@@ -119,8 +120,8 @@ public class MovieUtils {
 
             // TODO need to find what is needed for the reviews
             // get movie review(s)
-//            JSONObject reviews = movieJsonObj.getJSONObject(Constants.REVIEWS);
-//            JSONArray reviewArr = reviews.getJSONArray(Constants.RESULTS);
+//            JSONObject reviews = movieJsonObj.getJSONObject(context.getString(R.string.reviews));
+//            JSONArray reviewArr = reviews.getJSONArray(context.getString(R.string.results));
 //            for(int i = 0; i < reviewArr.length(); i++) {
 //                JSONObject review = reviewArr.getJSONObject(i);
 //            }

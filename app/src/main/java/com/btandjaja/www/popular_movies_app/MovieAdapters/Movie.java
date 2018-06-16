@@ -1,5 +1,9 @@
 package com.btandjaja.www.popular_movies_app.MovieAdapters;
 
+import android.content.Context;
+
+import com.btandjaja.www.popular_movies_app.R;
+
 import java.util.ArrayList;
 
 public class Movie {
@@ -52,5 +56,7 @@ public class Movie {
     public void setReleaseDate(String releaseDate) { mReleaseDate = releaseDate; }
     public void setTrailerKey(String trailerKey) { mTrailerKeys.add(trailerKey); }
     public void setReview(String review) { mReviews.add(review); }
-    public void setRunTime(int runTime) { mRunTime = String.valueOf(runTime); }
+    public void setRunTime(Context context, int runTime) {
+        mRunTime = String.valueOf(runTime) + context.getString(R.string.minute);
+    }
 }

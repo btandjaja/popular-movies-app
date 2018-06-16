@@ -9,14 +9,12 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.btandjaja.www.popular_movies_app.utilities.Constants;
 import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
 import com.btandjaja.www.popular_movies_app.utilities.NetworkUtils;
 import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
@@ -26,11 +24,6 @@ import java.net.URL;
 
 public class DetailActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<String> {
-    //public class DetailActivity extends AppCompatActivity {
-    /* constant */
-    private static final int BEGIN = 0;
-    private static final int END = 4;
-
     /* views from detail activity */
     private ImageView mThumbnail;
     private TextView mTitle, mRating, mOverView, mReleaseDate, mRunTime, mError;
@@ -38,10 +31,8 @@ public class DetailActivity extends AppCompatActivity implements
     private ScrollView mScrollView;
 
     /* extract data variables */
-    private static int runTime;
     private static URL mURL;
     private static boolean favorite;
-    private static String jsonMovieData;
     private static Movie mMovie;
     private static boolean singleMovie;
     private static boolean isFavorite;
@@ -53,12 +44,12 @@ public class DetailActivity extends AppCompatActivity implements
         /* get intent from different activity */
         Intent movieDetailIntent = getIntent();
         /* check if string exist */
-        if (movieDetailIntent.hasExtra(Constants.MOVIE_ID)) {
+        if (movieDetailIntent.hasExtra(getString(R.string.movie_id))) {
             prefillData(movieDetailIntent);
             getDetailLayoutId();
             getDataFromNetwork();
         }
-        getSupportLoaderManager().initLoader(Constants.MOVIE_QUERY_LOADER, null, this);
+        getSupportLoaderManager().initLoader(movieQueryLoader(), null, this);
     }
 
     /**
@@ -68,9 +59,10 @@ public class DetailActivity extends AppCompatActivity implements
      */
     private void prefillData(Intent movieDetailIntent) {
         singleMovie = true;
-        String thumbnail = movieDetailIntent.getStringExtra(Constants.POSTER_PATH);
-        double rating = movieDetailIntent.getDoubleExtra(Constants.VOTE_AVERAGE, Constants.DEFAULT_INTEGER);
-        String movieId = movieDetailIntent.getStringExtra(Constants.MOVIE_ID);
+        String thumbnail = movieDetailIntent.getStringExtra(getString(R.string.poster_path));
+        double rating = movieDetailIntent.getDoubleExtra(getString(R.string.vote_average),
+                Integer.parseInt(getString(R.string.begin_year)));
+        String movieId = movieDetailIntent.getStringExtra(getString(R.string.movie_id));
         mMovie = new Movie(rating, thumbnail, movieId);
     }
 
@@ -121,7 +113,8 @@ public class DetailActivity extends AppCompatActivity implements
      * @return year of release date
      */
     private String parsedDate() {
-        return mMovie.getReleaseYear().substring(BEGIN, END);
+        return mMovie.getReleaseYear().substring(Integer.parseInt(getString(R.string.begin_year)),
+                Integer.parseInt(getString(R.string.end_year)));
     }
 
     /**
@@ -140,13 +133,13 @@ public class DetailActivity extends AppCompatActivity implements
     private void restartLoader() {
         mURL = NetworkUtils.buildUrl(this, mMovie.getMovieId(), singleMovie);
         Bundle movieBundle = new Bundle();
-        movieBundle.putString(Constants.MOVIE_QUERY_STRING, mURL.toString());
+        movieBundle.putString(movieQueryString(), mURL.toString());
         LoaderManager loaderManager = getSupportLoaderManager();
-        if (loaderManager.getLoader(Constants.MOVIE_QUERY_LOADER) == null
+        if (loaderManager.getLoader(movieQueryLoader()) == null
                 ) {
-            loaderManager.initLoader(Constants.MOVIE_QUERY_LOADER, movieBundle, this);
+            loaderManager.initLoader(movieQueryLoader(), movieBundle, this);
         } else {
-            loaderManager.restartLoader(Constants.MOVIE_QUERY_LOADER, movieBundle, this);
+            loaderManager.restartLoader(movieQueryLoader(), movieBundle, this);
         }
     }
 
@@ -166,7 +159,7 @@ public class DetailActivity extends AppCompatActivity implements
             @Nullable
             @Override
             public String loadInBackground() {
-                return MovieUtils.getMovieJsonString(args.getString(Constants.MOVIE_QUERY_STRING));
+                return MovieUtils.getMovieJsonString(args.getString(movieQueryString()));
             }
         };
     }
@@ -191,7 +184,23 @@ public class DetailActivity extends AppCompatActivity implements
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(Constants.MOVIE_QUERY_STRING, mURL.toString());
+        outState.putString(movieQueryString(), mURL.toString());
+    }
+
+    /**
+     * This method returns query string
+     * @return is stored in string resource file
+     */
+    private String movieQueryString() {
+        return getString(R.string.movie_query_string);
+    }
+
+    /**
+     * This method provides a loader id
+     * @return a loader id from string resource file
+     */
+    private int movieQueryLoader() {
+        return Integer.parseInt(getString(R.string.movie_query_loader));
     }
 
     /**

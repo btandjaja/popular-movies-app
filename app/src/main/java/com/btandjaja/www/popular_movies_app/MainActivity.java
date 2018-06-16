@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
 import com.btandjaja.www.popular_movies_app.MovieAdapters.MovieAdapter;
-import com.btandjaja.www.popular_movies_app.utilities.Constants;
 import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
 import com.btandjaja.www.popular_movies_app.utilities.NetworkUtils;
 
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         /* get movie data */
         loadMoviesData();
         /* initialize loader */
-        getSupportLoaderManager().initLoader(Constants.MOVIE_QUERY_LOADER, null, this);
+        getSupportLoaderManager().initLoader(movieQueryLoader(), null, this);
     }
 
     /**
@@ -67,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mRecyclerView = findViewById(R.id.recycler_view);
         sortType = null;
         singleMovie = false;
-        if (mMoviesToQuery == null) mMoviesToQuery = Constants.NOW_PLAYING;
+        if (mMoviesToQuery == null) mMoviesToQuery = getString(R.string.now_playing);
     }
 
     /**
@@ -82,7 +81,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * and movieAdapter.
      */
     private void initializeRecyclerLayout() {
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, Constants.SPLIT_COLUMN));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this,
+                Integer.parseInt(getString(R.string.split_column))));
         mRecyclerView.setAdapter(mMovieAdapter);
     }
 
@@ -114,13 +114,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private void restartLoader() {
         mURL = NetworkUtils.buildUrl(this, mMoviesToQuery, singleMovie);
         Bundle movieBundle = new Bundle();
-        movieBundle.putString(Constants.MOVIE_QUERY_STRING, mURL.toString());
+        movieBundle.putString(movieQueryString(), mURL.toString());
         LoaderManager loaderManager = getSupportLoaderManager();
-        if (loaderManager.getLoader(Constants.MOVIE_QUERY_LOADER) == null
+        if (loaderManager.getLoader(movieQueryLoader()) == null
                 ) {
-            loaderManager.initLoader(Constants.MOVIE_QUERY_LOADER, movieBundle, this);
+            loaderManager.initLoader(movieQueryLoader(), movieBundle, this);
         } else {
-            loaderManager.restartLoader(Constants.MOVIE_QUERY_LOADER, movieBundle, this);
+            loaderManager.restartLoader(movieQueryLoader(), movieBundle, this);
         }
     }
 
@@ -157,11 +157,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
             @Override
             public String loadInBackground() {
-                return MovieUtils.getMovieListJsonString(args.getString(Constants.MOVIE_QUERY_STRING));
+                return MovieUtils.getMovieListJsonString(args.getString(movieQueryString()));
             }
         };
     }
 
+    /**
+     * This method provides the string after loader finished loading
+     * @param loader is the current loader used
+     * @param jsonString is the output from network
+     */
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String jsonString) {
         mProgressBar.setVisibility(View.INVISIBLE);
@@ -187,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(Constants.MOVIE_QUERY_STRING, mURL.toString());
+        outState.putString(movieQueryString(), mURL.toString());
     }
 
     /**
@@ -197,14 +202,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      */
     private void fillData(String jsonString) {
         mMovieList.clear();
-        MovieUtils.getMovieList(jsonString, mMovieList);
+        MovieUtils.getMovieList(this, jsonString, mMovieList);
     }
 
     /**
      * This method set up the MovieAdapter
      */
     private void setAdapter() {
-        if (sortType != null) MovieUtils.sort(mMovieList, sortType);
+        if (sortType != null) MovieUtils.sort(this, mMovieList, sortType);
         mMovieAdapter.setMovieList(this, mMovieList);
         mRecyclerView.setAdapter(mMovieAdapter);
     }
@@ -232,16 +237,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.current_playing:
-                mMoviesToQuery = Constants.NOW_PLAYING;
+                mMoviesToQuery = getString(R.string.now_playing);
                 sortType = null;
                 break;
             case R.id.sort_by_popularity:
-                mMoviesToQuery = Constants.POPULARITY;
-                sortType = Constants.POPULARITY;
+                mMoviesToQuery = getString(R.string.popular);
+                sortType = getString(R.string.popular);
                 break;
             case R.id.sort_by_rating:
-                mMoviesToQuery = Constants.TOP_RATED;
-                sortType = Constants.VOTE_AVERAGE;
+                mMoviesToQuery = getString(R.string.top_rated);
+                sortType = getString(R.string.vote_average);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -263,9 +268,30 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         startActivity(detailIntent);
     }
 
+    /**
+     * This is a helper method to putExtra strings prior intent
+     * @param detailIntent
+     * @param movie
+     */
     private void putMovieExtra(Intent detailIntent, Movie movie) {
-        detailIntent.putExtra(Constants.POSTER_PATH, movie.getPosterPath());
-        detailIntent.putExtra(Constants.VOTE_AVERAGE, movie.getVoteAvg());
-        detailIntent.putExtra(Constants.MOVIE_ID, movie.getMovieId());
+        detailIntent.putExtra(getString(R.string.poster_path), movie.getPosterPath());
+        detailIntent.putExtra(getString(R.string.vote_average), movie.getVoteAvg());
+        detailIntent.putExtra(getString(R.string.movie_id), movie.getMovieId());
+    }
+
+    /**
+     * This method provides a loader id
+     * @return a loader id from string resource file
+     */
+    private int movieQueryLoader() {
+        return Integer.parseInt(getString(R.string.movie_query_loader));
+    }
+
+    /**
+     * This method get string stored in resource file
+     * @return query string
+     */
+    private String movieQueryString() {
+        return getString(R.string.movie_query_string);
     }
 }
