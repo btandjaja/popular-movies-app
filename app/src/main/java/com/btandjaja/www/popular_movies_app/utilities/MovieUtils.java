@@ -1,5 +1,6 @@
 package com.btandjaja.www.popular_movies_app.utilities;
 
+import android.content.Context;
 import android.text.TextUtils;
 
 import org.json.JSONArray;
@@ -12,6 +13,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
+import com.btandjaja.www.popular_movies_app.R;
 
 @SuppressWarnings("ALL")
 public class MovieUtils {
@@ -95,25 +97,26 @@ public class MovieUtils {
      * @param jsonMovie has the data of the movie
      * @param movie is used to stored the data from jsonMovie
      */
-    public static void getSingleMovie(String jsonMovie, Movie movie) {
+    public static void getSingleMovie(Context context, String jsonMovie, Movie movie) {
         try {
             JSONObject movieJsonObj = new JSONObject(jsonMovie);
             // get basic movie details
-            movie.setOverView(movieJsonObj.getString(Constants.OVERVIEW));
-            movie.setReleaseDate(movieJsonObj.getString(Constants.RELEASE_DATE).substring(Constants.YEAR));
-            movie.setRunTime(movieJsonObj.getInt(Constants.RUNTIME));
-            movie.setTitle(movieJsonObj.getString(Constants.ORIGINAL_TITLE));
+            movie.setOverView(movieJsonObj.getString(context.getString(R.string.over_view)));
+            movie.setReleaseDate(movieJsonObj.getString(context.getString(R.string.release_date))
+                    .substring(Integer.parseInt(context.getString(R.string.begin_year)),
+                            Integer.parseInt(context.getString(R.string.end_year))));
+            movie.setRunTime(movieJsonObj.getInt(context.getString(R.string.run_time)));
+            movie.setTitle(movieJsonObj.getString(context.getString(R.string.original_title)));
 
             // gets youtube key(s)
-            JSONObject videos = movieJsonObj.getJSONObject(Constants.VIDEOS);
+            JSONObject videos = movieJsonObj.getJSONObject(context.getString(R.string.videos));
             JSONArray videoArr = videos.getJSONArray(Constants.RESULTS);
             for(int i = 0; i < videoArr.length(); i++) {
                 JSONObject video = videoArr.getJSONObject(i);
-                String key = video.getString(Constants.KEY);
+                String key = video.getString(context.getString(R.string.key));
                 movie.setTrailerKey(key);
             }
 
-            int i = 0;
             // TODO need to find what is needed for the reviews
             // get movie review(s)
 //            JSONObject reviews = movieJsonObj.getJSONObject(Constants.REVIEWS);

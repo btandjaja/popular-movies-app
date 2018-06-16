@@ -109,10 +109,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     /**
      * This method check for AsyncTaskLoader.
-     * Creates or restart Loader if it already exist.
+     * Creates or restart Loader.
      */
     private void restartLoader() {
-        mURL = NetworkUtils.buildUrl(mMoviesToQuery, singleMovie);
+        mURL = NetworkUtils.buildUrl(this, mMoviesToQuery, singleMovie);
         Bundle movieBundle = new Bundle();
         movieBundle.putString(Constants.MOVIE_QUERY_STRING, mURL.toString());
         LoaderManager loaderManager = getSupportLoaderManager();

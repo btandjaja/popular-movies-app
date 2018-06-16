@@ -10,24 +10,28 @@
         android:id="@+id/pb_detail_view"
         android:layout_width="42dp"
         android:layout_height="42dp"
-        android:visibility="invisible"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/tv_detail_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
         android:layout_centerInParent="true"
+        android:gravity="center"
         android:text="@string/error"
         android:textSize="22sp"
-        android:gravity="center"
+        android:visibility="invisible"
         tools:text="@string/error" />
 
     <ScrollView
         android:id="@+id/sv_movie_detail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -51,7 +55,6 @@
 
                 <TextView
                     android:id="@+id/tv_title"
-                    style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -65,6 +68,7 @@
 
             <TextView
                 android:id="@+id/tv_release_date"
+                style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="48dp"
@@ -77,9 +81,11 @@
 
             <TextView
                 android:id="@+id/tv_run_time"
+                style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
+                android:textStyle="italic"
                 app:layout_constraintStart_toStartOf="@+id/tv_release_date"
                 app:layout_constraintTop_toBottomOf="@+id/tv_release_date"
                 tools:text="@string/run_time" />
@@ -88,7 +94,7 @@
                 android:id="@+id/tv_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="@+id/tv_run_time"
                 app:layout_constraintTop_toBottomOf="@+id/tv_run_time"
                 tools:text="@string/vote_average" />

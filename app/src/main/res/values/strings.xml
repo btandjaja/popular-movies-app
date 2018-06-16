@@ -13,10 +13,19 @@
         \nconnection and try again!</string>
 
     <!-- Constant Strings to retrieve data -->
-    <string name="original_title">Original Title</string>
+    <string name="original_title">original_title</string>
     <string name="image_thumbnail">Image Thumnail</string>
-    <string name="over_view">Overview</string>
+    <string name="over_view">overview</string>
     <string name="vote_average">Rating</string>
-    <string name="release_date">Release Date</string>
-    <string name="run_time">Run Time</string>
+    <string name="release_date">release_date</string>
+    <string name="run_time">runtime</string>
+    <string name="begin_year">0</string>
+    <string name="end_year">4</string>
+    <string name="videos">videos</string>
+    <string name="out_of">/10</string>
+    <string name="video_plus_review">videos,reviews</string>
+    <string name="append_to_response">append_to_response</string>
+    <string name="key">key</string>
+    <string name="scheme">https</string>
+
 </resources>

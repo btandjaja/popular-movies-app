@@ -25,8 +25,8 @@ import com.squareup.picasso.Picasso;
 import java.net.URL;
 
 public class DetailActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<String>{
-//public class DetailActivity extends AppCompatActivity {
+        LoaderManager.LoaderCallbacks<String> {
+    //public class DetailActivity extends AppCompatActivity {
     /* constant */
     private static final int BEGIN = 0;
     private static final int END = 4;
@@ -38,20 +38,13 @@ public class DetailActivity extends AppCompatActivity implements
     private ScrollView mScrollView;
 
     /* extract data variables */
-    private static String title;
-    private static String thumbnail;
-    private static String overView;
-    private static Double rating;
-    private static String release_date;
-    private static String trailerStringUrl;
     private static int runTime;
     private static URL mURL;
-    private static String mMovieJsonString;
-    private static String movieId;
-    private static Movie movieObj;
     private static boolean favorite;
     private static String jsonMovieData;
     private static Movie mMovie;
+    private static boolean singleMovie;
+    private static boolean isFavorite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +54,9 @@ public class DetailActivity extends AppCompatActivity implements
         Intent movieDetailIntent = getIntent();
         /* check if string exist */
         if (movieDetailIntent.hasExtra(Constants.MOVIE_ID)) {
-            extractData(movieDetailIntent);
+            prefillData(movieDetailIntent);
             getDetailLayoutId();
+            getDataFromNetwork();
         }
         getSupportLoaderManager().initLoader(Constants.MOVIE_QUERY_LOADER, null, this);
     }
@@ -72,14 +66,12 @@ public class DetailActivity extends AppCompatActivity implements
      *
      * @param movieDetailIntent has data to be extracted from previous activity
      */
-    private void extractData(Intent movieDetailIntent) {
-        thumbnail = movieDetailIntent.getStringExtra(Constants.POSTER_PATH);
-        rating = movieDetailIntent.getDoubleExtra(Constants.VOTE_AVERAGE, Constants.DEFAULT_INTEGER);
-        movieId = movieDetailIntent.getStringExtra(Constants.MOVIE_ID);
-        favorite = movieDetailIntent.getBooleanExtra(Constants.FAVORITE, Constants.DEFAULT_BOOLEAN);
-        jsonMovieData = movieDetailIntent.getStringExtra(Constants.MOVIE_JSON_DATA);
+    private void prefillData(Intent movieDetailIntent) {
+        singleMovie = true;
+        String thumbnail = movieDetailIntent.getStringExtra(Constants.POSTER_PATH);
+        double rating = movieDetailIntent.getDoubleExtra(Constants.VOTE_AVERAGE, Constants.DEFAULT_INTEGER);
+        String movieId = movieDetailIntent.getStringExtra(Constants.MOVIE_ID);
         mMovie = new Movie(rating, thumbnail, movieId);
-        MovieUtils.getSingleMovie(jsonMovieData, mMovie);
     }
 
     /**
@@ -98,49 +90,66 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     /**
+     * This method check if there is a valid movie ID to query
+     */
+    private void getDataFromNetwork() {
+        if (mMovie.getMovieId() == null || TextUtils.isEmpty(mMovie.getMovieId())) {
+            showErrorMessage();
+            return;
+        }
+        restartLoader();
+    }
+
+    /**
      * This method fills in data to detail activity layout
      * after the data has been extracted.
      */
     private void fillData() {
-        if (!checkValidData()) {
-            showErrorMessage();
-        } else {
-            showMovieDetail();
-            mTitle.setText(title);
-            mRating.setText(parseRating());
-            mOverView.setText(overView);
-            mReleaseDate.setText(parsedDate());
-            Picasso.with(this).load(thumbnail).into(mThumbnail);
-        }
+        //TODO find favorite from data base
+        isFavorite = false;
+        mTitle.setText(mMovie.getTitle());
+        mRating.setText(parseRating());
+        mOverView.setText(mMovie.getOverView());
+        mRunTime.setText(mMovie.getRunTime());
+        mReleaseDate.setText(parsedDate());
+        Picasso.with(this).load(mMovie.getPosterPath()).into(mThumbnail);
     }
 
-
-    private boolean checkValidData() {
-        if (thumbnail == null) return false;
-        if (rating == null) return false;
-        if (movieId == null) return false;
-        Log.v("****", "inside jsonMovieData: " + jsonMovieData);
-        if (jsonMovieData == null) return false;
-        Log.v("****", "not jsonMovieData");
-        return true;
-    }
     /**
      * This method takes the first four character from release date
+     *
      * @return year of release date
      */
     private String parsedDate() {
-        return release_date.substring(BEGIN, END);
+        return mMovie.getReleaseYear().substring(BEGIN, END);
     }
 
     /**
      * This method set a ratio to current rating
+     *
      * @return percentage rating
      */
     private String parseRating() {
-        return String.valueOf(rating) + Constants.OUT_OF;
+        return String.valueOf(mMovie.getVoteAvg()) + getString(R.string.out_of);
     }
 
-    //TODO remove
+    /**
+     * This method check for AsyncTaskLoader.
+     * Creates or restart Loader.
+     */
+    private void restartLoader() {
+        mURL = NetworkUtils.buildUrl(this, mMovie.getMovieId(), singleMovie);
+        Bundle movieBundle = new Bundle();
+        movieBundle.putString(Constants.MOVIE_QUERY_STRING, mURL.toString());
+        LoaderManager loaderManager = getSupportLoaderManager();
+        if (loaderManager.getLoader(Constants.MOVIE_QUERY_LOADER) == null
+                ) {
+            loaderManager.initLoader(Constants.MOVIE_QUERY_LOADER, movieBundle, this);
+        } else {
+            loaderManager.restartLoader(Constants.MOVIE_QUERY_LOADER, movieBundle, this);
+        }
+    }
+
     /* AsyncTaskLoader */
     @NonNull
     @Override
@@ -149,7 +158,7 @@ public class DetailActivity extends AppCompatActivity implements
             @Override
             protected void onStartLoading() {
                 super.onStartLoading();
-                if(args == null) return;
+                if (args == null) return;
                 mLoadingInidicator.setVisibility(View.VISIBLE);
                 forceLoad();
             }
@@ -165,12 +174,13 @@ public class DetailActivity extends AppCompatActivity implements
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String jsonString) {
         mLoadingInidicator.setVisibility(View.INVISIBLE);
-        if(jsonString == null || TextUtils.isEmpty(jsonString)) {
+        if (jsonString == null || TextUtils.isEmpty(jsonString)) {
             showErrorMessage();
             return;
         }
         showMovieDetail();
-        //TODO load movie detail
+        MovieUtils.getSingleMovie(this, jsonString, mMovie);
+        fillData();
     }
 
     @Override

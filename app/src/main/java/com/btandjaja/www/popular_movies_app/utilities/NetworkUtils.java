@@ -1,10 +1,12 @@
 package com.btandjaja.www.popular_movies_app.utilities;
 
 import android.content.ContentProvider;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 
 import com.btandjaja.www.popular_movies_app.BuildConfig;
+import com.btandjaja.www.popular_movies_app.R;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,14 +26,15 @@ public class NetworkUtils {
      *
      * @return The URL to use to query the movie server.
      */
-    public static URL buildUrl(String moviesQuery, boolean singleMovie) {
+    public static URL buildUrl(Context context, String moviesQuery, boolean singleMovie) {
         Uri.Builder builder = new Uri.Builder();
         if(singleMovie) {
             builder.scheme(Constants.SCHEME)
                     .authority(Constants.MOVIES_AUTHORITY)
                     .path(moviesQuery)
-                    .appendQueryParameter(Constants.API_KEY, BuildConfig.API_KEY)
-                    .appendQueryParameter(Constants.APPEND_TO_RESPONSE, Constants.VIDEO_PLUS_REVIEW);
+                    .appendQueryParameter(context.getString(R.string.key), BuildConfig.API_KEY)
+                    .appendQueryParameter(context.getString(R.string.append_to_response),
+                            context.getString(R.string.video_plus_review));
         } else {
             builder.scheme(Constants.SCHEME)
                     .authority(Constants.MOVIES_AUTHORITY)

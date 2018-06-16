@@ -10,8 +10,6 @@ public class Constants {
     public final static String NOW_PLAYING = "now_playing";
     public final static String MOVIE_ID = "id";
     public final static String API_KEY = "api_key";
-    //TODO remove
-    public final static String TRAILER = "/videos?api_key=";
     public static final int SPLIT_COLUMN = 2;
     public static final int MOVIE_QUERY_LOADER = 2001;
     public static final String MOVIE_QUERY_STRING = "query";
@@ -19,11 +17,11 @@ public class Constants {
     public final static String RESULTS = "results";
     public final static String POSTER_PATH = "poster_path";
     public final static String VOTE_AVERAGE = "vote_average";
-    public final static String MOVIE_JSON_DATA = "movie_json_data";
     public final static String FAVORITE = "favorite";
 
     /* constants needed for detailActivity not pass from Main Acitivity */
-    public final static int YEAR = 4;
+    public final static int BEGIN_YEAR = 0;
+    public final static int END_YEAR = 4;
     public final static String VIDEOS = "videos";
     public final static String REVIEWS = "reviews";
     public final static String KEY = "key";
@@ -34,9 +32,5 @@ public class Constants {
     public final static String VIDEO_PLUS_REVIEW = "videos,reviews";
     public final static String APPEND_TO_RESPONSE = "append_to_response";
     public final static String OUT_OF = "/10";
-    //TODO might not need default movie id
-    /* default Avenger Infinity movie id */
-    public final static int DEFAULT_MOVIE_ID = 299536;
-    public final static boolean DEFAULT_BOOLEAN = false;
     public final static int DEFAULT_INTEGER = 0;
 }
