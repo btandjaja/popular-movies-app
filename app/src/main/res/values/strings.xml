@@ -30,7 +30,7 @@
     <string name="scheme">https</string>
     <string name="api_key">api_key</string>
     <string name="movie_authority">api.themoviedb.org/3/movie</string>
-    <string name="minute">min</string>
+    <string name="minute">\ min</string>
     <string name="result">results</string>
     <string name="img_url">http://image.tmdb.org/t/p/w185/</string>
     <string name="movie_id">id</string>
