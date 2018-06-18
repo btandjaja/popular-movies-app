@@ -8,6 +8,8 @@
     <string name="sort_by_rating">Sort By Rating</string>
     <string name="sort_by_popularity">Sort By Popularity</string>
 
+    <!-- Detail Activity Strings -->
+    <string name="mark_as_favorite">Mark As Favorite</string>
     <!-- Fail to load -->
     <string name="error">Failed to load data!\nPlease check internet
         \nconnection and try again!</string>

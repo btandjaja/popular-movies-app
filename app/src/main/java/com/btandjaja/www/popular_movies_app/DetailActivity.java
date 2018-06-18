@@ -1,6 +1,8 @@
 package com.btandjaja.www.popular_movies_app;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
@@ -10,11 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
 import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
 import com.btandjaja.www.popular_movies_app.utilities.NetworkUtils;
 import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
@@ -29,6 +33,8 @@ public class DetailActivity extends AppCompatActivity implements
     private TextView mTitle, mRating, mOverView, mReleaseDate, mRunTime, mError;
     private ProgressBar mLoadingInidicator;
     private ScrollView mScrollView;
+    private Button mButton;
+    private ContentValues mCurrentValues;
 
     /* extract data variables */
     private static URL mURL;
@@ -46,7 +52,9 @@ public class DetailActivity extends AppCompatActivity implements
         /* check if string exist */
         if (movieDetailIntent.hasExtra(getString(R.string.movie_id))) {
             prefillData(movieDetailIntent);
+            prefillContentValues();
             getDetailLayoutId();
+            setDefaultButton();
             getDataFromNetwork();
         }
         getSupportLoaderManager().initLoader(movieQueryLoader(), null, this);
@@ -58,12 +66,22 @@ public class DetailActivity extends AppCompatActivity implements
      * @param movieDetailIntent has data to be extracted from previous activity
      */
     private void prefillData(Intent movieDetailIntent) {
+        mCurrentValues = new ContentValues();
         singleMovie = true;
         String thumbnail = movieDetailIntent.getStringExtra(getString(R.string.poster_path));
         double rating = movieDetailIntent.getDoubleExtra(getString(R.string.vote_average),
                 Integer.parseInt(getString(R.string.begin_year)));
         String movieId = movieDetailIntent.getStringExtra(getString(R.string.movie_id));
         mMovie = new Movie(rating, thumbnail, movieId);
+    }
+
+    /**
+     * This method prefill contenvalues
+     */
+    private void prefillContentValues() {
+        mCurrentValues.put(MovieEntry.COLUMN_MOVIE_POSTER, mMovie.getPosterPath());
+        mCurrentValues.put(MovieEntry.COLUMN_MOVIE_ID, mMovie.getMovieId());
+        mCurrentValues.put(MovieEntry.COLUMN_MOVIE_TITLES, mMovie.getTitle());
     }
 
     /**
@@ -79,6 +97,12 @@ public class DetailActivity extends AppCompatActivity implements
         mLoadingInidicator = findViewById(R.id.pb_detail_view);
         mError = findViewById(R.id.tv_detail_error);
         mScrollView = findViewById(R.id.sv_movie_detail);
+        mButton = findViewById(R.id.favorite_button);
+    }
+
+
+    private void setDefaultButton() {
+        mButton.setPressed(false);
     }
 
     /**
@@ -90,21 +114,6 @@ public class DetailActivity extends AppCompatActivity implements
             return;
         }
         restartLoader();
-    }
-
-    /**
-     * This method fills in data to detail activity layout
-     * after the data has been extracted.
-     */
-    private void fillData() {
-        //TODO find favorite from data base
-        isFavorite = false;
-        mTitle.setText(mMovie.getTitle());
-        mRating.setText(parseRating());
-        mOverView.setText(mMovie.getOverView());
-        mRunTime.setText(mMovie.getRunTime());
-        mReleaseDate.setText(parsedDate());
-        Picasso.with(this).load(mMovie.getPosterPath()).into(mThumbnail);
     }
 
     /**
@@ -172,6 +181,7 @@ public class DetailActivity extends AppCompatActivity implements
             return;
         }
         showMovieDetail();
+        checkDb();
         MovieUtils.getSingleMovie(this, jsonString, mMovie);
         fillData();
     }
@@ -179,6 +189,32 @@ public class DetailActivity extends AppCompatActivity implements
     @Override
     public void onLoaderReset(@NonNull Loader<String> loader) {
 
+    }
+
+    /**
+     * This method check if movie is mark as favorite
+     */
+    private void checkDb() {
+        Cursor cursor = getContentResolver().query(MovieEntry.CONTENT_URI,
+                null,
+                MovieEntry.COLUMN_MOVIE_ID + "=?",
+                new String[] {mMovie.getMovieId()},
+                null);
+        mButton.setPressed(cursor == null ? true : false);
+    }
+    /**
+     * This method fills in data to detail activity layout
+     * after the data has been extracted.
+     */
+    private void fillData() {
+        //TODO find favorite from data base
+        isFavorite = false;
+        mTitle.setText(mMovie.getTitle());
+        mRating.setText(parseRating());
+        mOverView.setText(mMovie.getOverView());
+        mRunTime.setText(mMovie.getRunTime());
+        mReleaseDate.setText(parsedDate());
+        Picasso.with(this).load(mMovie.getPosterPath()).into(mThumbnail);
     }
 
     @Override
@@ -218,5 +254,18 @@ public class DetailActivity extends AppCompatActivity implements
         mScrollView.setVisibility(View.INVISIBLE);
         mError.setText(getResources().getString(R.string.error));
         mError.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * This method triggers by pressing or unpressing favorite button
+     */
+    public void favorite_pressed(View view) {
+        boolean buttonPressed = mButton.isPressed() ? false : true;
+        //if currently pressed, clicking it have to remove from db
+        if (buttonPressed) {
+            //TODO remove from db
+        } else {
+            getContentResolver().insert(MovieEntry.CONTENT_URI, mCurrentValues);
+        }
     }
 }
