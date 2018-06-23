@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -61,15 +62,16 @@ public class DetailActivity extends AppCompatActivity implements
                 @Override
                 public void onClick(View v) {
                     boolean pressState = mButton.isSelected();
+
+                    mButton.setPressed(!pressState);
+//                    if(!pressState) {
+//                        mButton.setBackgroundColor(getResources().getColor(R.color.yellow));
+//                    } else {
+//                        mButton.setBackgroundColor(getResources().getColor(R.color.grey));
+//                    }
+//                    mButton.setActivated(pressState);
                     mButton.setSelected(!pressState);
                     Toast.makeText(v.getContext(), "" + !pressState, Toast.LENGTH_SHORT).show();
-//                    if(!isFavorite) {
-//                        isFavorite = true;
-//                        Toast.makeText(v.getContext(), "down", Toast.LENGTH_LONG).show();
-//                    } else {
-//                        isFavorite = false;
-//                        Toast.makeText(v.getContext(), "up", Toast.LENGTH_LONG).show();
-//                    }
                 }
             });
         }
@@ -116,8 +118,6 @@ public class DetailActivity extends AppCompatActivity implements
         mButton = findViewById(R.id.favorite_button);
         isFavorite = false;
         //TODO after retrieving from db, and idExist set isFavorite to true
-        //TODO find a way to set the color of the button
-//        mButton.setImageTintMode(getResources().getColor(R.color));
     }
 
 
