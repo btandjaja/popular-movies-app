@@ -63,13 +63,14 @@ public class DetailActivity extends AppCompatActivity implements
                 public void onClick(View v) {
                     boolean pressState = mButton.isSelected();
 
-                    mButton.setPressed(!pressState);
+//                    mButton.setPressed(!pressState);
 //                    if(!pressState) {
 //                        mButton.setBackgroundColor(getResources().getColor(R.color.yellow));
 //                    } else {
 //                        mButton.setBackgroundColor(getResources().getColor(R.color.grey));
 //                    }
 //                    mButton.setActivated(pressState);
+                    mButton.setFocusable(!pressState);
                     mButton.setSelected(!pressState);
                     Toast.makeText(v.getContext(), "" + !pressState, Toast.LENGTH_SHORT).show();
                 }
