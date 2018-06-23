@@ -3,6 +3,7 @@ package com.btandjaja.www.popular_movies_app;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
@@ -50,7 +51,7 @@ public class DetailActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         /* get intent from different activity */
-        Intent movieDetailIntent = getIntent();
+        final Intent movieDetailIntent = getIntent();
         /* check if string exist */
         if (movieDetailIntent.hasExtra(getString(R.string.movie_id))) {
             prefillData(movieDetailIntent);
@@ -70,6 +71,10 @@ public class DetailActivity extends AppCompatActivity implements
 //                        mButton.setBackgroundColor(getResources().getColor(R.color.grey));
 //                    }
 //                    mButton.setActivated(pressState);
+                    //TODO this is for the delete from database FOR USED DO NOT DELETE
+//                    Uri uri = MovieEntry.CONTENT_URI;
+//                    uri = uri.buildUpon().appendPath(mMovie.getMovieId()).build();
+//                    getContentResolver().delete(uri, null, null);
                     mButton.setFocusable(!pressState);
                     mButton.setSelected(!pressState);
                     Toast.makeText(v.getContext(), "" + !pressState, Toast.LENGTH_SHORT).show();

@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 
 import static com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry.COLUMN_MOVIE_ID;
 import static com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry.TABLE_NAME;
+import static com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry.COLUMN_MOVIE_ID;
 
 public class MovieContentProvider extends ContentProvider{
     public static final int MOVIES = 100;
@@ -112,7 +113,7 @@ public class MovieContentProvider extends ContentProvider{
         switch(match) {
             case MOVIE_WITH_ID:
                 String id = uri.getLastPathSegment();
-                String mSelect = "_id=?";
+                String mSelect = COLUMN_MOVIE_ID + "=?";
                 String[] mSelectArg = new String[] {id};
                 rowDeleted = db.delete(TABLE_NAME, mSelect, mSelectArg);
                 break;
