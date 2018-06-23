@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 
 import static com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry.COLUMN_MOVIE_ID;
 import static com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry.TABLE_NAME;
-import static com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry.COLUMN_MOVIE_ID;
 
 public class MovieContentProvider extends ContentProvider{
     public static final int MOVIES = 100;
@@ -75,6 +74,11 @@ public class MovieContentProvider extends ContentProvider{
         return returnCursor;
     }
 
+    /**
+     * Not in used.
+     * @param uri
+     * @return
+     */
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
@@ -126,6 +130,14 @@ public class MovieContentProvider extends ContentProvider{
         return rowDeleted;
     }
 
+    /**
+     * Not in used.
+     * @param uri
+     * @param values
+     * @param selection
+     * @param selectionArgs
+     * @return
+     */
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
         return 0;
