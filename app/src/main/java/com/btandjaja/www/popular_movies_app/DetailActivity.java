@@ -12,11 +12,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
 import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
@@ -33,7 +34,7 @@ public class DetailActivity extends AppCompatActivity implements
     private TextView mTitle, mRating, mOverView, mReleaseDate, mRunTime, mError;
     private ProgressBar mLoadingInidicator;
     private ScrollView mScrollView;
-    private Button mButton;
+    private ImageButton mButton;
     private ContentValues mCurrentValues;
 
     /* extract data variables */
@@ -56,6 +57,21 @@ public class DetailActivity extends AppCompatActivity implements
             getDetailLayoutId();
             setDefaultButton();
             getDataFromNetwork();
+            mButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    boolean pressState = mButton.isSelected();
+                    mButton.setSelected(!pressState);
+                    Toast.makeText(v.getContext(), "" + !pressState, Toast.LENGTH_SHORT).show();
+//                    if(!isFavorite) {
+//                        isFavorite = true;
+//                        Toast.makeText(v.getContext(), "down", Toast.LENGTH_LONG).show();
+//                    } else {
+//                        isFavorite = false;
+//                        Toast.makeText(v.getContext(), "up", Toast.LENGTH_LONG).show();
+//                    }
+                }
+            });
         }
         getSupportLoaderManager().initLoader(movieQueryLoader(), null, this);
     }
@@ -98,6 +114,10 @@ public class DetailActivity extends AppCompatActivity implements
         mError = findViewById(R.id.tv_detail_error);
         mScrollView = findViewById(R.id.sv_movie_detail);
         mButton = findViewById(R.id.favorite_button);
+        isFavorite = false;
+        //TODO after retrieving from db, and idExist set isFavorite to true
+        //TODO find a way to set the color of the button
+//        mButton.setImageTintMode(getResources().getColor(R.color));
     }
 
 
@@ -195,12 +215,15 @@ public class DetailActivity extends AppCompatActivity implements
      * This method check if movie is mark as favorite
      */
     private void checkDb() {
+        String selection = MovieEntry.COLUMN_MOVIE_ID + "=?";
+        String[] selectionArgs = new String[] {mMovie.getMovieId()};
         Cursor cursor = getContentResolver().query(MovieEntry.CONTENT_URI,
                 null,
-                MovieEntry.COLUMN_MOVIE_ID + "=?",
-                new String[] {mMovie.getMovieId()},
+                selection,
+                selectionArgs,
                 null);
-        mButton.setPressed(cursor == null ? true : false);
+        //TODO change the color if it's already in database, else set it to defaul color
+//        mButton.setPressed(cursor == null ? true : false);
     }
     /**
      * This method fills in data to detail activity layout
@@ -259,13 +282,20 @@ public class DetailActivity extends AppCompatActivity implements
     /**
      * This method triggers by pressing or unpressing favorite button
      */
-    public void favorite_pressed(View view) {
-        boolean buttonPressed = mButton.isPressed() ? false : true;
+//    public void favorite(View view) {
+//        mButton.setPressed(true);
+//        if(mButton.press) {
+//            mButton.setPressed(true);
+//            Toast.makeText(this, "button is down", Toast.LENGTH_LONG).show();
+//        } else {
+//            mButton.setPressed(false);
+//            Toast.makeText(this, "button is up", Toast.LENGTH_LONG).show();
+//        }
         //if currently pressed, clicking it have to remove from db
-        if (buttonPressed) {
-            //TODO remove from db
-        } else {
-            getContentResolver().insert(MovieEntry.CONTENT_URI, mCurrentValues);
-        }
-    }
+//        if (buttonPressed) {
+//            //TODO remove from db
+//        } else {
+//            getContentResolver().insert(MovieEntry.CONTENT_URI, mCurrentValues);
+//        }
+//    }
 }

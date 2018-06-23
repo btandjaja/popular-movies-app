@@ -1,4 +1,4 @@
-Please provide API_KEY in NetworkUtils under TODO.
+Please provide API_KEY in gradle.properties file.
 
 Picasso License
 Copyright 2013 Square, Inc.

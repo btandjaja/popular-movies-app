@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import static com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry.COLUMN_MOVIE_ID;
 import static com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry.TABLE_NAME;
 
 public class MovieContentProvider extends ContentProvider{
@@ -55,8 +56,8 @@ public class MovieContentProvider extends ContentProvider{
                 break;
              // to find movie on database
             case MOVIE_WITH_ID:
-                String id = uri.getPathSegments().get(1);
-                String mSelection = "_id=?";
+                String id = uri.getLastPathSegment();
+                String mSelection = COLUMN_MOVIE_ID + "=?";
                 String [] mSelectionArgs = new String [] {id};
                 returnCursor = db.query(TABLE_NAME,
                         projection,
