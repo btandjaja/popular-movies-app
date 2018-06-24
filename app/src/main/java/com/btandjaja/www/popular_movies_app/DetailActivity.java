@@ -41,7 +41,6 @@ public class DetailActivity extends AppCompatActivity implements
 
     /* extract data variables */
     private static URL mURL;
-    private static boolean favorite;
     private static Movie mMovie;
     private static boolean singleMovie;
     private static boolean isFavorite;
@@ -52,32 +51,24 @@ public class DetailActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_detail);
         /* get intent from different activity */
         final Intent movieDetailIntent = getIntent();
-        /* check if string exist */
+        /* check string existence */
         if (movieDetailIntent.hasExtra(getString(R.string.movie_id))) {
             prefillData(movieDetailIntent);
-            prefillContentValues();
             getDetailLayoutId();
-            setDefaultButton();
             getDataFromNetwork();
             mButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    boolean pressState = mButton.isSelected();
-
-//                    mButton.setPressed(!pressState);
-//                    if(!pressState) {
-//                        mButton.setBackgroundColor(getResources().getColor(R.color.yellow));
-//                    } else {
-//                        mButton.setBackgroundColor(getResources().getColor(R.color.grey));
-//                    }
-//                    mButton.setActivated(pressState);
-                    //TODO this is for the delete from database FOR USED DO NOT DELETE
-//                    Uri uri = MovieEntry.CONTENT_URI;
-//                    uri = uri.buildUpon().appendPath(mMovie.getMovieId()).build();
-//                    getContentResolver().delete(uri, null, null);
-                    mButton.setFocusable(!pressState);
-                    mButton.setSelected(!pressState);
-                    Toast.makeText(v.getContext(), "" + !pressState, Toast.LENGTH_SHORT).show();
+                    //TODO test uri onclick
+                    isFavorite = !isFavorite;
+                    Uri uri = MovieEntry.CONTENT_URI;
+                    uri = uri.buildUpon().appendPath(mMovie.getMovieId()).build();
+                    if(isFavorite) {
+                        getContentResolver().insert(uri, mCurrentValues);
+                    } else {
+                        getContentResolver().delete(uri, null, null);
+                    }
+                    markFavorite();
                 }
             });
         }
@@ -100,15 +91,6 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     /**
-     * This method prefill contenvalues
-     */
-    private void prefillContentValues() {
-        mCurrentValues.put(MovieEntry.COLUMN_MOVIE_POSTER, mMovie.getPosterPath());
-        mCurrentValues.put(MovieEntry.COLUMN_MOVIE_ID, mMovie.getMovieId());
-        mCurrentValues.put(MovieEntry.COLUMN_MOVIE_TITLES, mMovie.getTitle());
-    }
-
-    /**
      * This method finds the views from detail Activiy xml file.
      */
     private void getDetailLayoutId() {
@@ -122,13 +104,6 @@ public class DetailActivity extends AppCompatActivity implements
         mError = findViewById(R.id.tv_detail_error);
         mScrollView = findViewById(R.id.sv_movie_detail);
         mButton = findViewById(R.id.favorite_button);
-        isFavorite = false;
-        //TODO after retrieving from db, and idExist set isFavorite to true
-    }
-
-
-    private void setDefaultButton() {
-        mButton.setPressed(false);
     }
 
     /**
@@ -140,6 +115,17 @@ public class DetailActivity extends AppCompatActivity implements
             return;
         }
         restartLoader();
+    }
+
+    /**
+     * This method set like button
+     */
+    private void markFavorite() {
+        if (isFavorite) {
+            mButton.setImageDrawable(getResources().getDrawable(R.drawable.favorite_pressed));
+        } else {
+            mButton.setImageDrawable(getResources().getDrawable(R.drawable.favorite_unpressed));
+        }
     }
 
     /**
@@ -178,7 +164,7 @@ public class DetailActivity extends AppCompatActivity implements
         }
     }
 
-    /* AsyncTaskLoader */
+    /* AsyncTaskLoader start & load in background */
     @NonNull
     @Override
     public Loader<String> onCreateLoader(int id, @Nullable final Bundle args) {
@@ -199,6 +185,7 @@ public class DetailActivity extends AppCompatActivity implements
         };
     }
 
+    /* asyncTask loadFinished */
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String jsonString) {
         mLoadingInidicator.setVisibility(View.INVISIBLE);
@@ -207,11 +194,17 @@ public class DetailActivity extends AppCompatActivity implements
             return;
         }
         showMovieDetail();
-        checkDb();
+        setFavorite();
+        markFavorite();
         MovieUtils.getSingleMovie(this, jsonString, mMovie);
+        prefillContentValues();
         fillData();
     }
 
+    /**
+     * Not in used.
+     * @param loader
+     */
     @Override
     public void onLoaderReset(@NonNull Loader<String> loader) {
 
@@ -220,24 +213,15 @@ public class DetailActivity extends AppCompatActivity implements
     /**
      * This method check if movie is mark as favorite
      */
-    private void checkDb() {
-        String selection = MovieEntry.COLUMN_MOVIE_ID + "=?";
-        String[] selectionArgs = new String[] {mMovie.getMovieId()};
-        Cursor cursor = getContentResolver().query(MovieEntry.CONTENT_URI,
-                null,
-                selection,
-                selectionArgs,
-                null);
-        //TODO change the color if it's already in database, else set it to defaul color
-//        mButton.setPressed(cursor == null ? true : false);
+    private void setFavorite() {
+        isFavorite = checkDb();
     }
+
     /**
      * This method fills in data to detail activity layout
      * after the data has been extracted.
      */
     private void fillData() {
-        //TODO find favorite from data base
-        isFavorite = false;
         mTitle.setText(mMovie.getTitle());
         mRating.setText(parseRating());
         mOverView.setText(mMovie.getOverView());
@@ -246,10 +230,24 @@ public class DetailActivity extends AppCompatActivity implements
         Picasso.with(this).load(mMovie.getPosterPath()).into(mThumbnail);
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(movieQueryString(), mURL.toString());
+    private boolean checkDb() {
+        String selection = MovieEntry.COLUMN_MOVIE_ID + "=?";
+        String[] selectionArgs = new String[] {mMovie.getMovieId()};
+        Cursor cursor = getContentResolver().query(MovieEntry.CONTENT_URI,
+                null,
+                selection,
+                selectionArgs,
+                null);
+        return cursor.getCount() > 0;
+    }
+
+    /**
+     * This method prefill contenvalues
+     */
+    private void prefillContentValues() {
+        mCurrentValues.put(MovieEntry.COLUMN_MOVIE_POSTER, mMovie.getPosterPath());
+        mCurrentValues.put(MovieEntry.COLUMN_MOVIE_ID, mMovie.getMovieId());
+        mCurrentValues.put(MovieEntry.COLUMN_MOVIE_TITLES, mMovie.getTitle());
     }
 
     /**
@@ -268,6 +266,12 @@ public class DetailActivity extends AppCompatActivity implements
         return Integer.parseInt(getString(R.string.movie_query_loader));
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(movieQueryString(), mURL.toString());
+    }
+
     /**
      * This method is to disable error message.
      */
@@ -284,24 +288,4 @@ public class DetailActivity extends AppCompatActivity implements
         mError.setText(getResources().getString(R.string.error));
         mError.setVisibility(View.VISIBLE);
     }
-
-    /**
-     * This method triggers by pressing or unpressing favorite button
-     */
-//    public void favorite(View view) {
-//        mButton.setPressed(true);
-//        if(mButton.press) {
-//            mButton.setPressed(true);
-//            Toast.makeText(this, "button is down", Toast.LENGTH_LONG).show();
-//        } else {
-//            mButton.setPressed(false);
-//            Toast.makeText(this, "button is up", Toast.LENGTH_LONG).show();
-//        }
-        //if currently pressed, clicking it have to remove from db
-//        if (buttonPressed) {
-//            //TODO remove from db
-//        } else {
-//            getContentResolver().insert(MovieEntry.CONTENT_URI, mCurrentValues);
-//        }
-//    }
 }

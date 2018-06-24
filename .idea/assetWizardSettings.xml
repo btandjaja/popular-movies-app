@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_thumb_up_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_favorite_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,8 +28,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="ff9a16" />
-                            <entry key="outputName" value="like_disable" />
+                            <entry key="color" value="ff0006" />
+                            <entry key="outputName" value="favorite_pressed" />
                             <entry key="sourceFile" value="$USER_HOME$" />
                           </map>
                         </option>

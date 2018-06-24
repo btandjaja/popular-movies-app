@@ -116,10 +116,7 @@ public class MovieContentProvider extends ContentProvider{
         int rowDeleted;
         switch(match) {
             case MOVIE_WITH_ID:
-                String id = uri.getLastPathSegment();
-                String mSelect = COLUMN_MOVIE_ID + "=?";
-                String[] mSelectArg = new String[] {id};
-                rowDeleted = db.delete(TABLE_NAME, mSelect, mSelectArg);
+                rowDeleted = db.delete(TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown Uri: " + uri);
