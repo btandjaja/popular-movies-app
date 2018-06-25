@@ -118,6 +118,7 @@ public class MovieUtils {
                 movie.setTrailerKey(key);
             }
 
+            // get reviews
             JSONObject reviews = movieJsonObj.getJSONObject(context.getString(R.string.reviews));
             JSONArray reviewArr = reviews.getJSONArray(context.getString(R.string.result));
             for(int i = 0; i < reviewArr.length(); i++) {
