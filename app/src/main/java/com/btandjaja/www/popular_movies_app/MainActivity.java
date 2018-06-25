@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * This method creates the MovieAdapter.
      */
     private void createAdapter() {
-        mMovieAdapter = new MovieAdapter(MainActivity.this);
+        mMovieAdapter = new MovieAdapter(this);
     }
 
     /**

@@ -11,9 +11,10 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -21,6 +22,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.btandjaja.www.popular_movies_app.MovieAdapters.TrailerAdapter;
 import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
 import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
 import com.btandjaja.www.popular_movies_app.utilities.NetworkUtils;
@@ -29,7 +31,7 @@ import com.squareup.picasso.Picasso;
 
 import java.net.URL;
 
-public class DetailActivity extends AppCompatActivity implements
+public class DetailActivity extends AppCompatActivity implements TrailerAdapter.TrailerOnClickHandler,
         LoaderManager.LoaderCallbacks<String> {
     /* views from detail activity */
     private ImageView mThumbnail;
@@ -38,6 +40,8 @@ public class DetailActivity extends AppCompatActivity implements
     private ScrollView mScrollView;
     private ImageButton mButton;
     private ContentValues mCurrentValues;
+    private RecyclerView mRecyclerView;
+    private TrailerAdapter mTrailerAdapter;
 
     /* extract data variables */
     private static URL mURL;
@@ -104,6 +108,7 @@ public class DetailActivity extends AppCompatActivity implements
         mError = findViewById(R.id.tv_detail_error);
         mScrollView = findViewById(R.id.sv_movie_detail);
         mButton = findViewById(R.id.favorite_button);
+        mRecyclerView = findViewById(R.id.rv_trailer);
     }
 
     /**
@@ -287,5 +292,20 @@ public class DetailActivity extends AppCompatActivity implements
         mScrollView.setVisibility(View.INVISIBLE);
         mError.setText(getResources().getString(R.string.error));
         mError.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * This method set RecyclerView
+     */
+    private void trailerRecyclerView() {
+        mTrailerAdapter = new TrailerAdapter(this);
+        mTrailerAdapter.setTrailer(this, mMovie.getTrailerKeys());
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    //TODO
+    @Override
+    public void onClick() {
+
     }
 }

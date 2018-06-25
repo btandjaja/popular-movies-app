@@ -101,6 +101,7 @@
                 tools:text="@string/vote_average" />
 
             <RelativeLayout
+                android:id="@+id/rl_over_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -111,6 +112,11 @@
                 app:layout_constraintStart_toStartOf="@+id/relative_title"
                 app:layout_constraintTop_toBottomOf="@+id/thumbnail">
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
+
                 <TextView
                     android:id="@+id/tv_over_view"
                     android:layout_width="wrap_content"
@@ -118,7 +124,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:text="@string/over_view" />
             </RelativeLayout>
-
 
             <ImageButton
                 android:id="@+id/favorite_button"
@@ -128,6 +133,15 @@
                 android:background="@color/black"
                 app:layout_constraintStart_toStartOf="@+id/tv_rating"
                 app:layout_constraintTop_toBottomOf="@+id/tv_rating" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:layout_constraintLeft_toLeftOf="@id/rl_over_view"
+                app:layout_constraintTop_toBottomOf="@id/rl_over_view" />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

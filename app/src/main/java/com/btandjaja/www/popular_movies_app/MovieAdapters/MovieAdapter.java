@@ -109,8 +109,5 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
      * @return elements in SQLite table
      */
     @Override
-    public int getItemCount() {
-        if (mMovieList == null) return 0;
-        return mMovieList.size();
-    }
+    public int getItemCount() { return mMovieList == null ? 0 : mMovieList.size(); }
 }

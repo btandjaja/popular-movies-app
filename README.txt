@@ -14,3 +14,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+Retrieve movie thumbnail:
+https://stackoverflow.com/questions/23522124/android-display-a-video-thumbnail-from-a-url
+

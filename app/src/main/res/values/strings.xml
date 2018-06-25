@@ -10,6 +10,7 @@
 
     <!-- Detail Activity Strings -->
     <string name="mark_as_favorite">Mark As Favorite</string>
+
     <!-- Fail to load -->
     <string name="error">Failed to load data!\nPlease check internet
         \nconnection and try again!</string>
