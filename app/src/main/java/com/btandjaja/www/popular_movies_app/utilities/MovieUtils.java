@@ -1,6 +1,9 @@
 package com.btandjaja.www.popular_movies_app.utilities;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
+import android.os.Build;
 import android.text.TextUtils;
 
 import org.json.JSONArray;
@@ -11,6 +14,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
 import com.btandjaja.www.popular_movies_app.R;
@@ -129,6 +133,35 @@ public class MovieUtils {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * This method provides the thumbnail of the clip.
+     * @param path to youtube.
+     * @return
+     * @throws Throwable
+     */
+    public static Bitmap getThumbnail(String path) throws Throwable {
+        Bitmap bitmap = null;
+        MediaMetadataRetriever mediaMetadataRetriever = null;
+        try {
+            mediaMetadataRetriever = new MediaMetadataRetriever();
+            if(Build.VERSION.SDK_INT >= 16) {
+                mediaMetadataRetriever.setDataSource(path, new HashMap<String, String>());
+            } else {
+                mediaMetadataRetriever.setDataSource(path);
+            }
+            bitmap = mediaMetadataRetriever.getFrameAtTime(1, MediaMetadataRetriever.OPTION_CLOSEST);
+        } catch (Exception e) {
+            e.getStackTrace();
+            throw new Throwable("Failed to retrieve video, error msg: " + e.getMessage());
+        }
+        finally {
+            if(mediaMetadataRetriever != null) {
+                mediaMetadataRetriever.release();
+            }
+        }
+        return bitmap;
     }
 
     /**

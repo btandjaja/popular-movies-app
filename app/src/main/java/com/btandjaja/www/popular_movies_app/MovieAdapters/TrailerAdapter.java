@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.btandjaja.www.popular_movies_app.R;
+import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -63,7 +64,8 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
 
     @Override
     public void onBindViewHolder(@NonNull TrailerViewHolder holder, int position) {
-//        holder.mImageView.setImageBitmap();
+        String thumbNailPath = mContext.getString(R.string.youtube) + mKeys.get(position);
+        holder.mImageView.setImageBitmap(MovieUtils.getThumbnail(thumbNailPath));
     }
 
     /**
