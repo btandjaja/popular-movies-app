@@ -70,7 +70,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
 
     // Inner class for creating ViewHolders
     class ReviewViewHolder extends RecyclerView.ViewHolder {
-        private TextView mTextView;
+        private final TextView mTextView;
 
         /**
          * Constructor for the ReviewViewHolder.
