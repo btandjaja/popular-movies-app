@@ -3,8 +3,10 @@ package com.btandjaja.www.popular_movies_app.utilities;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -141,28 +143,33 @@ public class MovieUtils {
      * @return
      * @throws Throwable
      */
-    public static Bitmap getThumbnail(String path) throws Throwable {
-        Bitmap bitmap = null;
-        MediaMetadataRetriever mediaMetadataRetriever = null;
-        try {
-            mediaMetadataRetriever = new MediaMetadataRetriever();
-            if(Build.VERSION.SDK_INT >= 16) {
-                mediaMetadataRetriever.setDataSource(path, new HashMap<String, String>());
-            } else {
-                mediaMetadataRetriever.setDataSource(path);
-            }
-            bitmap = mediaMetadataRetriever.getFrameAtTime(1, MediaMetadataRetriever.OPTION_CLOSEST);
-        } catch (Exception e) {
-            e.getStackTrace();
-            throw new Throwable("Failed to retrieve video, error msg: " + e.getMessage());
-        }
-        finally {
-            if(mediaMetadataRetriever != null) {
-                mediaMetadataRetriever.release();
-            }
-        }
-        return bitmap;
-    }
+//    public static Bitmap getThumbnail(String path) {
+//        Bitmap bitmap = null;
+//        MediaMetadataRetriever mediaMetadataRetriever = null;
+//        try {
+//            mediaMetadataRetriever = new MediaMetadataRetriever();
+//            if(Build.VERSION.SDK_INT >= 16) {
+//                mediaMetadataRetriever.setDataSource(path, new HashMap<String, String>());
+//            } else {
+//                mediaMetadataRetriever.setDataSource(path);
+//            }
+//            bitmap = mediaMetadataRetriever.getFrameAtTime(1, MediaMetadataRetriever.OPTION_CLOSEST);
+//        } catch (Exception e) {
+//            e.getStackTrace();
+//            Log.e("Fail to get bitmap: ", e.getMessage());
+//        }
+//        finally {
+//            if(mediaMetadataRetriever != null) {
+//                mediaMetadataRetriever.release();
+//            }
+//        }
+//        return bitmap;
+//    }
+//    public static String getThumbnail(Context context, String key) {
+//        String link = context.getString(R.string.youtube_schmeme_authority) + key +
+//                context.getString(R.string.youtube_jpg_query);
+//        return link;
+//    }
 
     /**
      * This method is a helper method to check for empty or null url.

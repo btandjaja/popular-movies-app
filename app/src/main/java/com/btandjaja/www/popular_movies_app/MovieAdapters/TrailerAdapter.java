@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.btandjaja.www.popular_movies_app.R;
 import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
@@ -30,7 +31,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
     }
 
     public interface TrailerOnClickHandler {
-        void onClick();
+        void onClick(Uri uri);
     }
 
     public class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -46,10 +47,10 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
         public void onClick(View v) {
             String key = mKeys.get(getAdapterPosition());
             if (key == null || TextUtils.isEmpty(key)) return;
-//            Uri uri =
+            String videoLink = mContext.getResources().getString(R.string.youtube) + key;
+            mClickHandler.onClick(Uri.parse(videoLink));
         }
     }
-
 
     @NonNull
     @Override
@@ -64,8 +65,10 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
 
     @Override
     public void onBindViewHolder(@NonNull TrailerViewHolder holder, int position) {
-        String thumbNailPath = mContext.getString(R.string.youtube) + mKeys.get(position);
-        holder.mImageView.setImageBitmap(MovieUtils.getThumbnail(thumbNailPath));
+        if(mKeys.get(position) == null) return;
+        String thumbNailPath = mContext.getString(R.string.youtube_schmeme_authority) +
+                mKeys.get(position) + mContext.getString(R.string.youtube_jpg_query);
+        Picasso.with(mContext).load(thumbNailPath).into(holder.mImageView);
     }
 
     /**

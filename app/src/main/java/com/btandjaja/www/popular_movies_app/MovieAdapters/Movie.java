@@ -10,7 +10,7 @@ public class Movie {
     /* variable declarations */
     private double mVoteAvg, mPopularity;
     private String mOriginalTitle, mPosterPath, mOverView, mReleaseDate, mRunTime, mMovieId;
-    private ArrayList<String> mTrailerKeys, mReviews;
+    private static ArrayList<String> mTrailerKeys, mReviews;
 
     /* constructor */
     public Movie(double voteAvg, String posterPath, String movieId) {

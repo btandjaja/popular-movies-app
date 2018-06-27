@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      */
     private void initializedDisplayVariables() {
         mMovieList = new ArrayList<>();
-        mError = findViewById(R.id.tv_error);
+        mError = findViewById(R.id.tv_error_main_activity);
         mProgressBar = findViewById(R.id.pb_view);
         mRecyclerView = findViewById(R.id.recycler_view);
         sortType = null;

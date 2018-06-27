@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.btandjaja.www.popular_movies_app.MovieAdapters.TrailerAdapter;
 import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
@@ -35,12 +34,12 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         LoaderManager.LoaderCallbacks<String> {
     /* views from detail activity */
     private ImageView mThumbnail;
-    private TextView mTitle, mRating, mOverView, mReleaseDate, mRunTime, mError;
+    private TextView mTitle, mRating, mOverView, mReleaseDate, mRunTime, mError, mEmptryTrailer;
     private ProgressBar mLoadingInidicator;
     private ScrollView mScrollView;
     private ImageButton mButton;
     private ContentValues mCurrentValues;
-    private RecyclerView mRecyclerView;
+    private RecyclerView mTrailerRecyclerView;
     private TrailerAdapter mTrailerAdapter;
 
     /* extract data variables */
@@ -60,6 +59,8 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
             prefillData(movieDetailIntent);
             getDetailLayoutId();
             getDataFromNetwork();
+            createAdapter();
+            setRecyclerViewLayout();
             mButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -108,7 +109,8 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         mError = findViewById(R.id.tv_detail_error);
         mScrollView = findViewById(R.id.sv_movie_detail);
         mButton = findViewById(R.id.favorite_button);
-        mRecyclerView = findViewById(R.id.rv_trailer);
+        mTrailerRecyclerView = findViewById(R.id.rv_trailer);
+        mEmptryTrailer = findViewById(R.id.tv_no_trailer);
     }
 
     /**
@@ -120,6 +122,14 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
             return;
         }
         restartLoader();
+    }
+
+    private void createAdapter() {
+        mTrailerAdapter = new TrailerAdapter(this);
+    }
+
+    private void setRecyclerViewLayout() {
+        mTrailerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     /**
@@ -204,6 +214,12 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         MovieUtils.getSingleMovie(this, jsonString, mMovie);
         prefillContentValues();
         fillData();
+        if(mMovie.getTrailerKeys().size() > 0) {
+            showRecyclerView();
+            setAdapter();
+        } else {
+            hideRecyclerView();
+        }
     }
 
     /**
@@ -297,15 +313,29 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
     /**
      * This method set RecyclerView
      */
-    private void trailerRecyclerView() {
-        mTrailerAdapter = new TrailerAdapter(this);
-        mTrailerAdapter.setTrailer(this, mMovie.getTrailerKeys());
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    private void showRecyclerView() {
+            mEmptryTrailer.setVisibility(View.INVISIBLE);
+            mTrailerRecyclerView.setVisibility(View.VISIBLE);
     }
 
-    //TODO
-    @Override
-    public void onClick() {
+    private void hideRecyclerView() {
+        mTrailerRecyclerView.setVisibility(View.INVISIBLE);
+        mEmptryTrailer.setVisibility(View.VISIBLE);
+    }
 
+    private void setAdapter() {
+        mTrailerAdapter.setTrailer(this, mMovie.getTrailerKeys());
+        mTrailerRecyclerView.setAdapter(mTrailerAdapter);
+    }
+
+    /**
+     * This method starts activity when clicked
+     * @param uri
+     */
+    @Override
+    public void onClick(Uri uri) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(uri);
+        startActivity(intent);
     }
 }

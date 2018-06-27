@@ -10,6 +10,7 @@
 
     <!-- Detail Activity Strings -->
     <string name="mark_as_favorite">Mark As Favorite</string>
+    <string name="empty_trailer">No trailer available!</string>
 
     <!-- Fail to load -->
     <string name="error">Failed to load data!\nPlease check internet
@@ -46,4 +47,9 @@
     <string name="movie_query_loader">2001</string>
     <string name="content">content</string>
     <string name="youtube">https://www.youtube.com/watch?v=</string>
+
+    <!-- Movie Utils -->
+    <string name="youtube_schmeme_authority">https://img.youtube.com/vi/</string>
+    <string name="youtube_jpg_query">/maxresdefault.jpg</string>
+
 </resources>

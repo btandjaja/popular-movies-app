@@ -135,13 +135,30 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_rating" />
 
             <View
+                android:id="@+id/line_after_plot"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:background="@android:color/darker_gray"
                 app:layout_constraintLeft_toLeftOf="@id/rl_over_view"
                 app:layout_constraintTop_toBottomOf="@id/rl_over_view" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/line_after_plot">
+
+                <include layout="@layout/trailer" />
+
+                <include layout="@layout/no_trailer" />
+            </FrameLayout>
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
