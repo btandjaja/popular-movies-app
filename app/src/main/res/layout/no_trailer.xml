@@ -7,8 +7,8 @@
     <TextView
         android:id="@+id/tv_no_trailer"
         style="@style/textview"
+        android:layout_gravity="center_vertical"
         android:text="@string/empty_trailer"
-        tools:text="@string/empty_trailer"
-        android:layout_gravity="center_vertical"/>
+        tools:text="@string/empty_trailer" />
 
 </FrameLayout>
