@@ -143,6 +143,7 @@
                 app:layout_constraintTop_toBottomOf="@id/rl_over_view" />
 
             <FrameLayout
+                android:id="@+id/clip"
                 style="@style/wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
@@ -160,6 +161,23 @@
                     android:id="@+id/no_trailer_layout"
                     layout="@layout/no_trailer" />
             </FrameLayout>
+
+            <include
+                android:id="@+id/review_trailer_seperator"
+                layout="@layout/line_seperator_horizontal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/clip" />
+
+            <FrameLayout
+                style="@style/wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/review_trailer_seperator">
+
+                <include layout="@layout/review_layout" />
+            </FrameLayout>
+
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
