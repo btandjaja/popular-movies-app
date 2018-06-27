@@ -93,8 +93,7 @@
 
             <TextView
                 android:id="@+id/tv_rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/wrap_content"
                 android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="@+id/tv_run_time"
                 app:layout_constraintTop_toBottomOf="@+id/tv_run_time"
@@ -119,8 +118,7 @@
 
                 <TextView
                     android:id="@+id/tv_over_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:text="@string/over_view" />
             </RelativeLayout>
@@ -145,8 +143,7 @@
                 app:layout_constraintTop_toBottomOf="@id/rl_over_view" />
 
             <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
@@ -155,9 +152,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/line_after_plot">
 
-                <include layout="@layout/trailer" />
+                <include
+                    android:id="@+id/trailer_layout"
+                    layout="@layout/trailer" />
 
-                <include layout="@layout/no_trailer" />
+                <include
+                    android:id="@+id/no_trailer_layout"
+                    layout="@layout/no_trailer" />
             </FrameLayout>
 
         </android.support.constraint.ConstraintLayout>

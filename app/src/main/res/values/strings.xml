@@ -52,4 +52,7 @@
     <string name="youtube_schmeme_authority">https://img.youtube.com/vi/</string>
     <string name="youtube_jpg_query">/maxresdefault.jpg</string>
 
+    <!-- Review layout strings -->
+    <string name="review">review</string>
+    <string name="empty_review">No Review Available!</string>
 </resources>

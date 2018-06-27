@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.btandjaja.www.popular_movies_app.MovieAdapters.ReviewAdapter;
 import com.btandjaja.www.popular_movies_app.MovieAdapters.TrailerAdapter;
 import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
 import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
@@ -34,13 +35,14 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         LoaderManager.LoaderCallbacks<String> {
     /* views from detail activity */
     private ImageView mThumbnail;
-    private TextView mTitle, mRating, mOverView, mReleaseDate, mRunTime, mError, mEmptryTrailer;
+    private TextView mTitle, mRating, mOverView, mReleaseDate, mRunTime, mError, mEmptyTrailer;
     private ProgressBar mLoadingInidicator;
     private ScrollView mScrollView;
     private ImageButton mButton;
     private ContentValues mCurrentValues;
-    private RecyclerView mTrailerRecyclerView;
+    private RecyclerView mTrailerRecyclerView, mReviewRecyclerView;
     private TrailerAdapter mTrailerAdapter;
+    private ReviewAdapter mReviewAdapter;
 
     /* extract data variables */
     private static URL mURL;
@@ -64,11 +66,10 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
             mButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO test uri onclick
                     isFavorite = !isFavorite;
                     Uri uri = MovieEntry.CONTENT_URI;
                     uri = uri.buildUpon().appendPath(mMovie.getMovieId()).build();
-                    if(isFavorite) {
+                    if (isFavorite) {
                         getContentResolver().insert(uri, mCurrentValues);
                     } else {
                         getContentResolver().delete(uri, null, null);
@@ -110,7 +111,8 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         mScrollView = findViewById(R.id.sv_movie_detail);
         mButton = findViewById(R.id.favorite_button);
         mTrailerRecyclerView = findViewById(R.id.rv_trailer);
-        mEmptryTrailer = findViewById(R.id.tv_no_trailer);
+        mEmptyTrailer = findViewById(R.id.tv_no_trailer);
+        mReviewRecyclerView = findViewById(R.id.rv_review);
     }
 
     /**
@@ -126,40 +128,12 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
 
     private void createAdapter() {
         mTrailerAdapter = new TrailerAdapter(this);
+        mReviewAdapter = new ReviewAdapter(this);
     }
 
     private void setRecyclerViewLayout() {
         mTrailerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }
-
-    /**
-     * This method set like button
-     */
-    private void markFavorite() {
-        if (isFavorite) {
-            mButton.setImageDrawable(getResources().getDrawable(R.drawable.favorite_pressed));
-        } else {
-            mButton.setImageDrawable(getResources().getDrawable(R.drawable.favorite_unpressed));
-        }
-    }
-
-    /**
-     * This method takes the first four character from release date
-     *
-     * @return year of release date
-     */
-    private String parsedDate() {
-        return mMovie.getReleaseYear().substring(Integer.parseInt(getString(R.string.begin_year)),
-                Integer.parseInt(getString(R.string.end_year)));
-    }
-
-    /**
-     * This method set a ratio to current rating
-     *
-     * @return percentage rating
-     */
-    private String parseRating() {
-        return String.valueOf(mMovie.getVoteAvg()) + getString(R.string.out_of);
+        mReviewRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     /**
@@ -214,16 +188,19 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         MovieUtils.getSingleMovie(this, jsonString, mMovie);
         prefillContentValues();
         fillData();
-        if(mMovie.getTrailerKeys().size() > 0) {
-            showRecyclerView();
-            setAdapter();
-        } else {
-            hideRecyclerView();
-        }
+        displayClip();
+        displayReview();
+//        if (mMovie.getTrailerKeys().size() > 0) {
+//            showTrailerRecyclerView();
+//            setTrailerAdapter();
+//        } else {
+//            hideTrailerRecyclerView();
+//        }
     }
 
     /**
      * Not in used.
+     *
      * @param loader
      */
     @Override
@@ -251,9 +228,31 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         Picasso.with(this).load(mMovie.getPosterPath()).into(mThumbnail);
     }
 
+    /**
+     * Check if there is trailer to be displayed.
+     */
+    private void displayClip() {
+        if (mMovie.getTrailerKeys().size() > 0) {
+            showTrailerRecyclerView();
+            setTrailerAdapter();
+        } else {
+            hideTrailerRecyclerView();
+        }
+    }
+
+    private void displayReview() {
+        showReviewRecyclerView();
+        setReviewAdapter();
+    }
+
+    /**
+     * Check if movie is marked as favorite.
+     *
+     * @return true if it's in database, else it returns false.
+     */
     private boolean checkDb() {
         String selection = MovieEntry.COLUMN_MOVIE_ID + "=?";
-        String[] selectionArgs = new String[] {mMovie.getMovieId()};
+        String[] selectionArgs = new String[]{mMovie.getMovieId()};
         Cursor cursor = getContentResolver().query(MovieEntry.CONTENT_URI,
                 null,
                 selection,
@@ -273,6 +272,7 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
 
     /**
      * This method returns query string
+     *
      * @return is stored in string resource file
      */
     private String movieQueryString() {
@@ -281,6 +281,7 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
 
     /**
      * This method provides a loader id
+     *
      * @return a loader id from string resource file
      */
     private int movieQueryLoader() {
@@ -313,23 +314,63 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
     /**
      * This method set RecyclerView
      */
-    private void showRecyclerView() {
-            mEmptryTrailer.setVisibility(View.INVISIBLE);
-            mTrailerRecyclerView.setVisibility(View.VISIBLE);
+    private void showTrailerRecyclerView() {
+        mEmptyTrailer.setVisibility(View.INVISIBLE);
+        mTrailerRecyclerView.setVisibility(View.VISIBLE);
     }
 
-    private void hideRecyclerView() {
+    private void hideTrailerRecyclerView() {
         mTrailerRecyclerView.setVisibility(View.INVISIBLE);
-        mEmptryTrailer.setVisibility(View.VISIBLE);
+        mEmptyTrailer.setVisibility(View.VISIBLE);
     }
 
-    private void setAdapter() {
+    private void showReviewRecyclerView() {
+        mReviewRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    private void setTrailerAdapter() {
         mTrailerAdapter.setTrailer(this, mMovie.getTrailerKeys());
         mTrailerRecyclerView.setAdapter(mTrailerAdapter);
     }
 
+    private void setReviewAdapter() {
+        mReviewAdapter.setReview(mMovie.getReviews());
+        mReviewRecyclerView.setAdapter(mReviewAdapter);
+    }
+
+    /**
+     * This method set like button
+     */
+    private void markFavorite() {
+        if (isFavorite) {
+            mButton.setImageDrawable(getResources().getDrawable(R.drawable.favorite_pressed));
+        } else {
+            mButton.setImageDrawable(getResources().getDrawable(R.drawable.favorite_unpressed));
+        }
+    }
+
+    /**
+     * This method takes the first four character from release date
+     *
+     * @return year of release date
+     */
+    private String parsedDate() {
+        return mMovie.getReleaseYear().substring(Integer.parseInt(getString(R.string.begin_year)),
+                Integer.parseInt(getString(R.string.end_year)));
+    }
+
+    /**
+     * This method set a ratio to current rating
+     *
+     * @return percentage rating
+     */
+    private String parseRating() {
+        return String.valueOf(mMovie.getVoteAvg()) + getString(R.string.out_of);
+    }
+
     /**
      * This method starts activity when clicked
+     *
      * @param uri
      */
     @Override
