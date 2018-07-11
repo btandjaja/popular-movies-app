@@ -3,7 +3,6 @@ package com.btandjaja.www.popular_movies_app.MovieAdapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +40,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     @Override
     public ReviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // inflate review_layout to a view
-        View view = LayoutInflater.from(mContext).inflate(R.layout.review_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.review_item, parent, false);
         return new ReviewViewHolder(view);
     }
 
@@ -53,11 +52,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
      */
     @Override
     public void onBindViewHolder(@NonNull ReviewViewHolder holder, int position) {
-        String currentReview = mReview.get(position);
-        if (currentReview == null || TextUtils.isEmpty(currentReview)) {
-            currentReview = mContext.getString(R.string.empty_review);
-        }
-        holder.mTextView.setText(currentReview);
+        if (mReview.get(position) == null) return;
+        holder.mTextView.setText(mReview.get(position));
     }
 
     /**

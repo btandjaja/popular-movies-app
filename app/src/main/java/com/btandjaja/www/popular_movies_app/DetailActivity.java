@@ -35,7 +35,8 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         LoaderManager.LoaderCallbacks<String> {
     /* views from detail activity */
     private ImageView mThumbnail;
-    private TextView mTitle, mRating, mOverView, mReleaseDate, mRunTime, mError, mEmptyTrailer;
+    private TextView mTitle, mRating, mOverView, mReleaseDate, mRunTime, mError, mEmptyTrailer,
+            mEmptyReview;
     private ProgressBar mLoadingInidicator;
     private ScrollView mScrollView;
     private ImageButton mButton;
@@ -63,6 +64,7 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
             getDataFromNetwork();
             createAdapter();
             setRecyclerViewLayout();
+            presetAdapter();
             mButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -113,6 +115,7 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         mTrailerRecyclerView = findViewById(R.id.rv_trailer);
         mEmptyTrailer = findViewById(R.id.tv_no_trailer);
         mReviewRecyclerView = findViewById(R.id.rv_review);
+        mEmptyReview = findViewById(R.id.tv_empty_review);
     }
 
     /**
@@ -188,6 +191,7 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         MovieUtils.getSingleMovie(this, jsonString, mMovie);
         prefillContentValues();
         fillData();
+        resetAdapter();
         displayClip();
         displayReview();
 //        if (mMovie.getTrailerKeys().size() > 0) {
@@ -234,15 +238,19 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
     private void displayClip() {
         if (mMovie.getTrailerKeys().size() > 0) {
             showTrailerRecyclerView();
-            setTrailerAdapter();
+//            setTrailerAdapter();
         } else {
             hideTrailerRecyclerView();
         }
     }
 
     private void displayReview() {
-        showReviewRecyclerView();
-        setReviewAdapter();
+        if (mMovie.getReviews().size() > 0) {
+            showReviewRecyclerView();
+//            setReviewAdapter();
+        } else {
+            hideReviewRecyclerView();
+        }
     }
 
     /**
@@ -325,9 +333,24 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
     }
 
     private void showReviewRecyclerView() {
+        mEmptyReview.setVisibility(View.INVISIBLE);
         mReviewRecyclerView.setVisibility(View.VISIBLE);
     }
 
+    private void hideReviewRecyclerView() {
+        mReviewRecyclerView.setVisibility(View.INVISIBLE);
+        mEmptyReview.setVisibility(View.VISIBLE);
+    }
+
+    private void presetAdapter() {
+        mTrailerRecyclerView.setAdapter(mTrailerAdapter);
+        mReviewRecyclerView.setAdapter(mReviewAdapter);
+    }
+
+    private void resetAdapter() {
+        mTrailerAdapter.setTrailer(this, mMovie.getTrailerKeys());
+        mReviewAdapter.setReview(mMovie.getReviews());
+    }
     private void setTrailerAdapter() {
         mTrailerAdapter.setTrailer(this, mMovie.getTrailerKeys());
         mTrailerRecyclerView.setAdapter(mTrailerAdapter);

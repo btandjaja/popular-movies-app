@@ -9,14 +9,14 @@
     </style>
 
     <!-- Wrap Content -->
-    <style name="wrap_content">
+    <style name="wrap_content" parent="@style/TextAppearance.AppCompat.Title">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
     <!-- TextView base style -->
     <style name="textview" parent="wrap_content">
-        <item name="android:visibility">invisible</item>
+        <!--<item name="android:visibility">invisible</item>-->
         <item name="android:layout_centerInParent">true</item>
         <item name="android:textSize">22sp</item>
         <item name="android:gravity">center</item>

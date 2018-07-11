@@ -121,6 +121,12 @@
                     style="@style/wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:text="@string/over_view" />
+
+                <View
+                    android:id="@+id/line_after_plot"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
             </RelativeLayout>
 
             <ImageButton
@@ -132,42 +138,19 @@
                 app:layout_constraintStart_toStartOf="@+id/tv_rating"
                 app:layout_constraintTop_toBottomOf="@+id/tv_rating" />
 
-            <View
-                android:id="@+id/line_after_plot"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@android:color/darker_gray"
-                app:layout_constraintLeft_toLeftOf="@id/rl_over_view"
-                app:layout_constraintTop_toBottomOf="@id/rl_over_view" />
-
-            <FrameLayout
-                android:id="@+id/clip"
-                style="@style/wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
+            <include
+                android:id="@+id/trailer_layout"
+                layout="@layout/trailer"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/line_after_plot">
-
-                <include
-                    android:id="@+id/trailer_layout"
-                    layout="@layout/trailer" />
-
-                <include
-                    android:id="@+id/no_trailer_layout"
-                    layout="@layout/no_trailer" />
-            </FrameLayout>
+                app:layout_constraintTop_toBottomOf="@id/rl_over_view" />
 
             <include
                 android:id="@+id/review_trailer_seperator"
                 layout="@layout/line_seperator_horizontal"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/clip" />
+                app:layout_constraintTop_toBottomOf="@id/trailer_layout" />
 
             <FrameLayout
                 style="@style/wrap_content"

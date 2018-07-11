@@ -56,7 +56,5 @@ public class Movie {
     public void setReleaseDate(String releaseDate) { mReleaseDate = releaseDate; }
     public void setTrailerKey(String trailerKey) { mTrailerKeys.add(trailerKey); }
     public void setReview(String review) { mReviews.add(review); }
-    public void setRunTime(Context context, int runTime) {
-        mRunTime = String.valueOf(runTime) + context.getString(R.string.minute);
-    }
+    public void setRunTime(Context context, int runTime) { mRunTime = String.valueOf(runTime) + context.getString(R.string.minute); }
 }
