@@ -242,11 +242,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 break;
             case R.id.sort_by_popularity:
                 mMoviesToQuery = getString(R.string.popular);
-                sortType = getString(R.string.popular);
+                sortType = mMoviesToQuery;
                 break;
             case R.id.sort_by_rating:
                 mMoviesToQuery = getString(R.string.top_rated);
                 sortType = getString(R.string.vote_average);
+                break;
+            case R.id.sort_by_favorite:
+                //todo from database
+                mMoviesToQuery = getString(R.string.sort_by_favorite);
+                sortType = mMoviesToQuery;
                 break;
             default:
                 return super.onOptionsItemSelected(item);

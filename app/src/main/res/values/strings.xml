@@ -7,6 +7,7 @@
     <string name="current_playing">Current Playing</string>
     <string name="sort_by_rating">Sort By Rating</string>
     <string name="sort_by_popularity">Sort By Popularity</string>
+    <string name="sort_by_favorite">Sort By Favorite</string>
 
     <!-- Detail Activity Strings -->
     <string name="mark_as_favorite">Mark As Favorite</string>
@@ -47,6 +48,8 @@
     <string name="movie_query_loader">2001</string>
     <string name="content">content</string>
     <string name="youtube">https://www.youtube.com/watch?v=</string>
+    <string name="favorite">favorite</string>
+
 
     <!-- Movie Utils -->
     <string name="youtube_schmeme_authority">https://img.youtube.com/vi/</string>

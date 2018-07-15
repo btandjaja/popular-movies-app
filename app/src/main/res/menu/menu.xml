@@ -16,4 +16,9 @@
         android:orderInCategory="3"
         android:title="@string/sort_by_rating"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/sort_by_favorite"
+        android:orderInCategory="4"
+        android:title="@string/sort_by_favorite"
+        app:showAsAction="never" />
 </menu>

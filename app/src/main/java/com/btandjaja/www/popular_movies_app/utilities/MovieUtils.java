@@ -138,40 +138,6 @@ public class MovieUtils {
     }
 
     /**
-     * This method provides the thumbnail of the clip.
-     * @param path to youtube.
-     * @return
-     * @throws Throwable
-     */
-//    public static Bitmap getThumbnail(String path) {
-//        Bitmap bitmap = null;
-//        MediaMetadataRetriever mediaMetadataRetriever = null;
-//        try {
-//            mediaMetadataRetriever = new MediaMetadataRetriever();
-//            if(Build.VERSION.SDK_INT >= 16) {
-//                mediaMetadataRetriever.setDataSource(path, new HashMap<String, String>());
-//            } else {
-//                mediaMetadataRetriever.setDataSource(path);
-//            }
-//            bitmap = mediaMetadataRetriever.getFrameAtTime(1, MediaMetadataRetriever.OPTION_CLOSEST);
-//        } catch (Exception e) {
-//            e.getStackTrace();
-//            Log.e("Fail to get bitmap: ", e.getMessage());
-//        }
-//        finally {
-//            if(mediaMetadataRetriever != null) {
-//                mediaMetadataRetriever.release();
-//            }
-//        }
-//        return bitmap;
-//    }
-//    public static String getThumbnail(Context context, String key) {
-//        String link = context.getString(R.string.youtube_schmeme_authority) + key +
-//                context.getString(R.string.youtube_jpg_query);
-//        return link;
-//    }
-
-    /**
      * This method is a helper method to check for empty or null url.
      * @param movieUrlString is the url.
      * @return true if string is not empty, else false.
