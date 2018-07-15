@@ -8,5 +8,8 @@
         android:layout_height="1dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@android:color/darker_gray" />
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:background="@color/line" />
+
 </FrameLayout>

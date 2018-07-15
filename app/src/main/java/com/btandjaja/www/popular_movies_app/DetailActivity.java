@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -37,13 +38,13 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
     private ImageView mThumbnail;
     private TextView mTitle, mRating, mOverView, mReleaseDate, mRunTime, mError, mEmptyTrailer,
             mEmptyReview;
-    private ProgressBar mLoadingInidicator;
-    private ScrollView mScrollView;
+    private ProgressBar mLoadingIndicator;
     private ImageButton mButton;
     private ContentValues mCurrentValues;
     private RecyclerView mTrailerRecyclerView, mReviewRecyclerView;
     private TrailerAdapter mTrailerAdapter;
     private ReviewAdapter mReviewAdapter;
+    private LinearLayout mLinearLayout;
 
     /* extract data variables */
     private static URL mURL;
@@ -108,9 +109,9 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         mOverView = findViewById(R.id.tv_over_view);
         mReleaseDate = findViewById(R.id.tv_release_date);
         mRunTime = findViewById(R.id.tv_run_time);
-        mLoadingInidicator = findViewById(R.id.pb_detail_view);
+        mLoadingIndicator = findViewById(R.id.pb_detail_view);
         mError = findViewById(R.id.tv_detail_error);
-        mScrollView = findViewById(R.id.sv_movie_detail);
+        mLinearLayout = findViewById(R.id.mainLayout_linearLayout);
         mButton = findViewById(R.id.favorite_button);
         mTrailerRecyclerView = findViewById(R.id.rv_trailer);
         mEmptyTrailer = findViewById(R.id.tv_no_trailer);
@@ -165,7 +166,8 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
             protected void onStartLoading() {
                 super.onStartLoading();
                 if (args == null) return;
-                mLoadingInidicator.setVisibility(View.VISIBLE);
+                mLinearLayout.setVisibility(View.INVISIBLE);
+                mLoadingIndicator.setVisibility(View.VISIBLE);
                 forceLoad();
             }
 
@@ -180,7 +182,8 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
     /* asyncTask loadFinished */
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String jsonString) {
-        mLoadingInidicator.setVisibility(View.INVISIBLE);
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        mLinearLayout.setVisibility(View.VISIBLE);
         if (jsonString == null || TextUtils.isEmpty(jsonString)) {
             showErrorMessage();
             return;
@@ -194,12 +197,6 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         resetAdapter();
         displayClip();
         displayReview();
-//        if (mMovie.getTrailerKeys().size() > 0) {
-//            showTrailerRecyclerView();
-//            setTrailerAdapter();
-//        } else {
-//            hideTrailerRecyclerView();
-//        }
     }
 
     /**
@@ -238,16 +235,17 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
     private void displayClip() {
         if (mMovie.getTrailerKeys().size() > 0) {
             showTrailerRecyclerView();
-//            setTrailerAdapter();
         } else {
             hideTrailerRecyclerView();
         }
     }
 
+    /**
+     * This method checks if there exist a review to be displayed.
+     */
     private void displayReview() {
         if (mMovie.getReviews().size() > 0) {
             showReviewRecyclerView();
-//            setReviewAdapter();
         } else {
             hideReviewRecyclerView();
         }
@@ -307,58 +305,65 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
      */
     private void showMovieDetail() {
         mError.setVisibility(View.INVISIBLE);
-        mScrollView.setVisibility(View.VISIBLE);
+        mLinearLayout.setVisibility(View.VISIBLE);
     }
 
     /**
      * This method is to enable error message.
      */
     private void showErrorMessage() {
-        mScrollView.setVisibility(View.INVISIBLE);
+        mLinearLayout.setVisibility(View.INVISIBLE);
         mError.setText(getResources().getString(R.string.error));
         mError.setVisibility(View.VISIBLE);
     }
 
     /**
-     * This method set RecyclerView
+     * This method shows the trailers.
      */
     private void showTrailerRecyclerView() {
         mEmptyTrailer.setVisibility(View.INVISIBLE);
         mTrailerRecyclerView.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * This method shows the empty trailer message.
+     */
     private void hideTrailerRecyclerView() {
         mTrailerRecyclerView.setVisibility(View.INVISIBLE);
         mEmptyTrailer.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * This method shows the ReviewRecyclerView.
+     */
     private void showReviewRecyclerView() {
         mEmptyReview.setVisibility(View.INVISIBLE);
         mReviewRecyclerView.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * This method hides the ReviewRecyclerView.
+     */
     private void hideReviewRecyclerView() {
         mReviewRecyclerView.setVisibility(View.INVISIBLE);
         mEmptyReview.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * This method preset TrailerRecyclerView and ReviewRecyclerView
+     * with empty adapter.
+     */
     private void presetAdapter() {
         mTrailerRecyclerView.setAdapter(mTrailerAdapter);
         mReviewRecyclerView.setAdapter(mReviewAdapter);
     }
 
+    /**
+     * This method reset TrailerAdapter and ReviewAdapter.
+     */
     private void resetAdapter() {
         mTrailerAdapter.setTrailer(this, mMovie.getTrailerKeys());
         mReviewAdapter.setReview(mMovie.getReviews());
-    }
-    private void setTrailerAdapter() {
-        mTrailerAdapter.setTrailer(this, mMovie.getTrailerKeys());
-        mTrailerRecyclerView.setAdapter(mTrailerAdapter);
-    }
-
-    private void setReviewAdapter() {
-        mReviewAdapter.setReview(mMovie.getReviews());
-        mReviewRecyclerView.setAdapter(mReviewAdapter);
     }
 
     /**

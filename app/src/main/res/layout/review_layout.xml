@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/matchParent"
+    android:layout_gravity="center">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_review"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center" />
+        style="@style/matchParent"/>
 
     <TextView
         android:id="@+id/tv_empty_review"
-        style="@style/textview"
-        tools:text="@string/review"
-        android:text="@string/empty_review"/>
-</android.support.constraint.ConstraintLayout>
+        style="@style/marginTopBottom"
+        android:text="@string/empty_review"
+        tools:text="@string/review" />
+</FrameLayout>
