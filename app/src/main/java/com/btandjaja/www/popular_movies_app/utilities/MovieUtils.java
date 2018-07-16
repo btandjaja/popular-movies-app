@@ -152,7 +152,6 @@ public class MovieUtils {
             String movieId = cursor.getString(cursor.getColumnIndex(MovieEntry.COLUMN_MOVIE_ID));
             Movie movie = new Movie(voteAvg, posterPath, movieId);
             movieList.add(movie);
-//            cursor.moveToNext();
         }
         cursor.close();
     }

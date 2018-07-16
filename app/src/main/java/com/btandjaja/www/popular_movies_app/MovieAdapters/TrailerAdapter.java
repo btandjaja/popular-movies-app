@@ -75,6 +75,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
         String thumbNailPath = mContext.getString(R.string.youtube_schmeme_authority) +
                 mKeys.get(position) + mContext.getString(R.string.youtube_jpg_query);
         Picasso.with(mContext).load(thumbNailPath).into(holder.mImageView);
+        holder.mImageView.setForeground(mContext.getDrawable(R.drawable.play_arrow_black_24dp));
     }
 
     /**
