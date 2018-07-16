@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/matchParent">
+    style="@style/wrapContent"
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/tv_single_review"
