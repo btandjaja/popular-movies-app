@@ -12,14 +12,14 @@ public class Movie {
     private String mOriginalTitle, mPosterPath, mOverView, mReleaseDate, mRunTime, mMovieId;
     private static ArrayList<String> mTrailerKeys, mReviews;
 
-    /* constructor */
+    /* constructor when posterPath not provided */
     public Movie(double voteAvg, String posterPath, String movieId) {
         mVoteAvg = voteAvg; mPopularity = 0;
         mPosterPath = posterPath; mMovieId = movieId;
         initializedNull();
     }
 
-    /* constructor */
+    /* constructor when posterPath is provided */
     public Movie(double voteAvg, double popularity, String posterPath, String movieId) {
         mVoteAvg = voteAvg; mPopularity = popularity;
         mPosterPath = posterPath; mMovieId = movieId;

@@ -1,5 +1,6 @@
 package com.btandjaja.www.popular_movies_app;
 
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
@@ -15,10 +16,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
 import com.btandjaja.www.popular_movies_app.MovieAdapters.MovieAdapter;
+import com.btandjaja.www.popular_movies_app.data.MovieContract;
 import com.btandjaja.www.popular_movies_app.utilities.MovieUtils;
 import com.btandjaja.www.popular_movies_app.utilities.NetworkUtils;
 
@@ -41,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private static String sortType;
     private static boolean singleMovie;
     private static String singleMovieJson;
+    private static Cursor mCursor;
+    private static RelativeLayout mMainLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * This methods find appropriate views and set the variables.
      */
     private void initializedDisplayVariables() {
+        mMainLayout = findViewById(R.id.mainLayout);
         mMovieList = new ArrayList<>();
         mError = findViewById(R.id.tv_error_main_activity);
         mProgressBar = findViewById(R.id.pb_view);
@@ -141,6 +147,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mError.setVisibility(View.VISIBLE);
     }
 
+    private void showIndicator() {
+        mMainLayout.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideIndicator() {
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mMainLayout.setVisibility(View.VISIBLE);
+    }
+
     /* asyncTaskLoader */
     @NonNull
     @Override
@@ -151,12 +167,25 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             protected void onStartLoading() {
                 super.onStartLoading();
                 if (args == null) return;
-                mProgressBar.setVisibility(View.VISIBLE);
+                showIndicator();
                 forceLoad();
             }
 
             @Override
             public String loadInBackground() {
+                if (mMoviesToQuery.equals(getString(R.string.sort_by_favorite))) {
+                    try {
+                        mCursor = getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI,
+                                null,
+                                null,
+                                null,
+                                null);
+                        return getString(R.string.sort_by_favorite);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }
                 return MovieUtils.getMovieListJsonString(args.getString(movieQueryString()));
             }
         };
@@ -169,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      */
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String jsonString) {
-        mProgressBar.setVisibility(View.INVISIBLE);
+        hideIndicator();
         if (jsonString == null || TextUtils.isEmpty(jsonString)) {
             showErrorMessage();
             return;
@@ -202,6 +231,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      */
     private void fillData(String jsonString) {
         mMovieList.clear();
+        if (jsonString.equals(getString(R.string.sort_by_favorite))) {
+            MovieUtils.getFavoriteList(this, mCursor, mMovieList);
+            return;
+        }
         MovieUtils.getMovieList(this, jsonString, mMovieList);
     }
 
@@ -235,10 +268,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        sortType = null;
         switch (item.getItemId()) {
             case R.id.current_playing:
                 mMoviesToQuery = getString(R.string.now_playing);
-                sortType = null;
                 break;
             case R.id.sort_by_popularity:
                 mMoviesToQuery = getString(R.string.popular);
@@ -249,9 +282,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 sortType = getString(R.string.vote_average);
                 break;
             case R.id.sort_by_favorite:
-                //todo from database
                 mMoviesToQuery = getString(R.string.sort_by_favorite);
-                sortType = mMoviesToQuery;
                 break;
             default:
                 return super.onOptionsItemSelected(item);

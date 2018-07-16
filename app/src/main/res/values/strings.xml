@@ -48,6 +48,8 @@
     <string name="movie_query_loader">2001</string>
     <string name="content">content</string>
     <string name="youtube">https://www.youtube.com/watch?v=</string>
+    <string name="youtube_authority">youtube/watch</string>
+
     <string name="favorite">favorite</string>
 
 

@@ -23,9 +23,9 @@ public class MovieContentProvider extends ContentProvider{
 
     public static UriMatcher buildUriMatcher() {
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        // directory
+        /* directory */
         uriMatcher.addURI(MovieContract.AUTHORITY, MovieContract.PATH_FAVORITE, MOVIES);
-        // single item
+        /* single item */
         uriMatcher.addURI(MovieContract.AUTHORITY, MovieContract.PATH_FAVORITE + "/#", MOVIE_WITH_ID);
         return uriMatcher;
     }
@@ -44,7 +44,7 @@ public class MovieContentProvider extends ContentProvider{
         int match = sUriMatcher.match(uri);
         Cursor returnCursor;
         switch(match) {
-            // to show favorite movies
+            /* to show favorite movies */
             case MOVIES:
                 returnCursor = db.query(TABLE_NAME,
                         projection,
@@ -54,7 +54,7 @@ public class MovieContentProvider extends ContentProvider{
                         null,
                         sortOrder);
                 break;
-             // to find movie on database
+             /* to find movie on database */
             case MOVIE_WITH_ID:
                 String id = uri.getLastPathSegment();
                 String mSelection = COLUMN_MOVIE_ID + "=?";

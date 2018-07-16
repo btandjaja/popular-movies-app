@@ -1,12 +1,8 @@
 package com.btandjaja.www.popular_movies_app.utilities;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.media.MediaMetadataRetriever;
-import android.net.Uri;
-import android.os.Build;
+import android.database.Cursor;
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,10 +12,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 
 import com.btandjaja.www.popular_movies_app.MovieAdapters.Movie;
 import com.btandjaja.www.popular_movies_app.R;
+import com.btandjaja.www.popular_movies_app.data.MovieContract.MovieEntry;
 
 @SuppressWarnings("ALL")
 public class MovieUtils {
@@ -107,7 +103,7 @@ public class MovieUtils {
     public static void getSingleMovie(Context context, String jsonMovie, Movie movie) {
         try {
             JSONObject movieJsonObj = new JSONObject(jsonMovie);
-            // get basic movie details
+            /* get basic movie details */
             movie.setOverView(movieJsonObj.getString(context.getString(R.string.over_view)));
             movie.setReleaseDate(movieJsonObj.getString(context.getString(R.string.release_date))
                     .substring(Integer.parseInt(context.getString(R.string.begin_year)),
@@ -115,7 +111,7 @@ public class MovieUtils {
             movie.setRunTime(context, movieJsonObj.getInt(context.getString(R.string.run_time)));
             movie.setTitle(movieJsonObj.getString(context.getString(R.string.original_title)));
 
-            // gets youtube key(s)
+            /* gets youtube key(s) */
             JSONObject videos = movieJsonObj.getJSONObject(context.getString(R.string.videos));
             JSONArray videoArr = videos.getJSONArray(context.getString(R.string.result));
             for(int i = 0; i < videoArr.length(); i++) {
@@ -124,7 +120,7 @@ public class MovieUtils {
                 movie.setTrailerKey(key);
             }
 
-            // get reviews
+            /* get reviews */
             JSONObject reviews = movieJsonObj.getJSONObject(context.getString(R.string.reviews));
             JSONArray reviewArr = reviews.getJSONArray(context.getString(R.string.result));
             for(int i = 0; i < reviewArr.length(); i++) {
@@ -145,5 +141,19 @@ public class MovieUtils {
     private static boolean checkEmptyString(String movieUrlString) {
         if (movieUrlString == null || TextUtils.isEmpty(movieUrlString)) return false;
         return true;
+    }
+
+    public static void getFavoriteList(Context context, Cursor cursor, ArrayList<Movie> movieList) {
+        if(cursor.getCount() == 0) return;
+        while(cursor.moveToNext()) {
+            double voteAvg = Double.parseDouble(cursor
+                    .getString(cursor.getColumnIndex(MovieEntry.COLUMN_MOVIE_VOTE_AVG)));
+            String posterPath = cursor.getString(cursor.getColumnIndex(MovieEntry.COLUMN_MOVIE_POSTER));
+            String movieId = cursor.getString(cursor.getColumnIndex(MovieEntry.COLUMN_MOVIE_ID));
+            Movie movie = new Movie(voteAvg, posterPath, movieId);
+            movieList.add(movie);
+//            cursor.moveToNext();
+        }
+        cursor.close();
     }
 }

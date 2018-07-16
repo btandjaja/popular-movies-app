@@ -47,6 +47,12 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
         public void onClick(View v) {
             String key = mKeys.get(getAdapterPosition());
             if (key == null || TextUtils.isEmpty(key)) return;
+            //TODO use uri.builder
+//            Uri.Builder builder = new Uri.Builder();
+//            builder.scheme(v.getResources().getString(R.string.scheme))
+//                    .authority(v.getResources().getString(R.string.youtube_authority))
+//                    .appendQueryParameter(v.getResources().getString(R.string.youtube_append_key), key)
+//                    .build();
             String videoLink = mContext.getResources().getString(R.string.youtube) + key;
             mClickHandler.onClick(Uri.parse(videoLink));
         }

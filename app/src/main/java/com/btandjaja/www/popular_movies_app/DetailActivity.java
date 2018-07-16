@@ -19,7 +19,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.btandjaja.www.popular_movies_app.MovieAdapters.ReviewAdapter;
@@ -274,6 +273,7 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         mCurrentValues.put(MovieEntry.COLUMN_MOVIE_POSTER, mMovie.getPosterPath());
         mCurrentValues.put(MovieEntry.COLUMN_MOVIE_ID, mMovie.getMovieId());
         mCurrentValues.put(MovieEntry.COLUMN_MOVIE_TITLES, mMovie.getTitle());
+        mCurrentValues.put(MovieEntry.COLUMN_MOVIE_VOTE_AVG, mMovie.getVoteAvg());
     }
 
     /**
