@@ -1,66 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/matchParent"
-    android:background="@color/detailBackground"
-    tools:context=".DetailActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ProgressBar
-        android:id="@+id/pb_detail_view"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:layout_centerInParent="true"
-        android:visibility="invisible" />
+    <ScrollView style="@style/matchParent">
 
-    <TextView
-        android:id="@+id/tv_detail_error"
-        style="@style/wrapContent"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:text="@string/error"
-        android:textSize="22sp"
-        android:visibility="invisible"
-        tools:text="@string/error" />
-
-    <ScrollView
-        style="@style/matchParent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
-
-        <LinearLayout
-            android:id="@+id/mainLayout_linearLayout"
+        <android.support.constraint.ConstraintLayout
             style="@style/matchParent"
             android:orientation="vertical">
 
+            <ProgressBar
+                android:id="@+id/pb_detail_view"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_centerInParent="true"
+                android:visibility="invisible" />
+
             <TextView
-                android:id="@+id/tv_title"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_centerVertical="true"
-                android:background="@color/titleColor"
+                android:id="@+id/tv_detail_error"
+                style="@style/wrapContent"
+                android:layout_centerInParent="true"
                 android:gravity="center"
-                android:textColor="@color/white"
-                tools:text="@string/original_title" />
+                android:text="@string/error"
+                android:textSize="22sp"
+                android:visibility="invisible"
+                tools:text="@string/error" />
 
-            <include layout="@layout/movie_detail" />
+            <LinearLayout
+                android:id="@+id/mainLayout_linearLayout"
+                style="@style/matchParent"
+                android:orientation="vertical">
 
-            <include layout="@layout/line_seperator_horizontal" />
+                <android.support.constraint.ConstraintLayout style="@style/matchParent">
 
-            <TextView
-                android:id="@+id/tv_over_view"
-                style="@style/leftRightPadding"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp"
-                tools:text="@string/over_view" />
+                    <TextView
+                        android:id="@+id/tv_title"
+                        style="@style/TextAppearance.AppCompat.Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_centerVertical="true"
+                        android:background="@color/titleColor"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="@string/original_title" />
 
-            <include layout="@layout/line_seperator_horizontal" />
+                    <include
+                        android:id="@+id/detail"
+                        style="@style/wrapContent"
+                        layout="@layout/movie_detail"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/tv_over_view"
+                        app:layout_constraintStart_toStartOf="@+id/tv_title"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
-            <include layout="@layout/trailer" />
+                    <TextView
+                        android:id="@+id/tv_over_view"
+                        style="@style/wrapContent"
+                        android:layout_width="267dp"
+                        android:layout_height="207dp"
+                        app:layout_constraintLeft_toRightOf="@id/detail"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_title"
+                        tools:text="@string/over_view" />
 
-            <include layout="@layout/review_layout" />
+                    <include
+                        android:id="@+id/seperator_detail_trailer"
+                        layout="@layout/line_seperator_horizontal"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_over_view"
+                        app:layout_constraintBottom_toTopOf="@id/trailer"/>
 
-        </LinearLayout>
+                    <include
+                        android:id="@+id/trailer"
+                        layout="@layout/trailer"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/seperator_detail_trailer" />
+
+                    <include
+                        layout="@layout/review_layout"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/trailer" />
+
+                </android.support.constraint.ConstraintLayout>
+            </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
     </ScrollView>
-</RelativeLayout>
+</layout>
