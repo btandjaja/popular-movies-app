@@ -1,19 +1,4 @@
-Please provide API_KEY in gradle.properties file.
-
-Picasso License
-Copyright 2013 Square, Inc.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-   http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+In this app, we learn how to display an image with third-party library, Picasso. Additionally, we learn how to extra data from the online server. Then, JSON file is parsed through a RecyclerView adapter for the user to see. We also implemented a local database to display only the user's favorite movies. 
 
 Retrieve movie thumbnail:
 https://stackoverflow.com/questions/23522124/android-display-a-video-thumbnail-from-a-url
